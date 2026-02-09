@@ -295,6 +295,68 @@ def salvar_localizacao():
         print(f"[ERRO] Salvar localização: {str(e)}")
         return jsonify({'sucesso': False}), 500
 
+# ============================ ANÁLISE DE VÍDEO ============================
+
+@app.route('/analyze-video', methods=['POST'])
+def analyze_video():
+    """Analisa vídeo enviado pelo usuário"""
+    try:
+        if 'video' not in request.files:
+            return jsonify({'erro': 'Nenhum vídeo enviado'}), 400
+        
+        video = request.files['video']
+        modulo = request.form.get('modulo', '')
+        
+        if video.filename == '':
+            return jsonify({'erro': 'Arquivo vazio'}), 400
+        
+        # Salvar vídeo temporariamente
+        temp_dir = os.path.join(BASE_DIR, 'temp')
+        os.makedirs(temp_dir, exist_ok=True)
+        
+        video_path = os.path.join(temp_dir, f"video_{datetime.now().timestamp()}.mp4")
+        video.save(video_path)
+        
+        print(f"[VIDEO] Analisando vídeo para módulo: {modulo}")
+        
+        # Tentar usar o assistente com vídeo
+        try:
+            with open(video_path, 'rb') as f:
+                video_bytes = f.read()
+            
+            resposta = responder_cliente(
+                pergunta="Analise este vídeo e identifique o problema.",
+                modulo=modulo,
+                video_bytes=video_bytes,
+                video_path=video_path
+            )
+        except Exception as e:
+            print(f"[ERRO] Análise de vídeo: {e}")
+            resposta = (
+                "⚠️ Não foi possível analisar o vídeo automaticamente.\n\n"
+                "Por favor, descreva o problema que está aparecendo:\n"
+                "- Erro no display?\n"
+                "- Problema de selagem?\n"
+                "- Travamento?\n\n"
+                "Ou ligue: (11) 5677-4699"
+            )
+        
+        # Remover vídeo temporário
+        try:
+            os.remove(video_path)
+        except:
+            pass
+        
+        return jsonify({'resposta': resposta})
+        
+    except Exception as e:
+        print(f"[ERRO] Endpoint analyze-video: {str(e)}")
+        traceback.print_exc()
+        return jsonify({
+            'erro': 'Erro ao processar vídeo',
+            'resposta': 'Erro ao analisar vídeo. Por favor, descreva o problema por texto.'
+        }), 500
+
 # ============================ FEEDBACK ============================
 
 @app.route('/feedback', methods=['POST'])
