@@ -1,0 +1,8 @@
+Flask==3.0.0
+flask-cors==4.0.0
+gunicorn
+openai==1.54.0
+python-dotenv==1.0.0
+google-generativeai
+pillow
+Werkzeug==3.0.1

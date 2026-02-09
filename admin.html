@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storopack - Admin</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',sans-serif;background:#f5f7fa;color:#333}
+        .header{background:#0056a3;color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+        .header h1{font-size:1.1em}
+        .header a{color:#fff;text-decoration:none;opacity:.9;font-size:.9em;transition:opacity .2s}
+        .header a:hover{opacity:1}
+        .ct{max-width:1400px;margin:0 auto;padding:20px}
+        
+        /* LOGIN */
+        .login{max-width:380px;margin:80px auto;background:#fff;padding:28px;border-radius:14px;box-shadow:0 4px 20px rgba(0,0,0,.1);text-align:center}
+        .login h2{color:#0056a3;margin-bottom:18px}
+        .login input{width:100%;padding:11px;border:2px solid #dde3ea;border-radius:8px;font-size:1em;margin-bottom:12px}
+        .login button{background:#0056a3;color:#fff;border:none;padding:11px 28px;border-radius:8px;cursor:pointer;font-size:1em;width:100%;transition:background .2s}
+        .login button:hover{background:#003f7a}
+        .login .err{color:#dc3545;font-size:.88em;margin-top:6px;display:none}
+        
+        /* DASHBOARD */
+        .dash{display:none}
+        .tabs{display:flex;gap:8px;margin-bottom:20px;border-bottom:2px solid #e0e7ef}
+        .tab{padding:10px 20px;background:transparent;border:none;color:#666;cursor:pointer;font-size:.95em;font-weight:500;border-bottom:3px solid transparent;transition:all .2s}
+        .tab.active{color:#0056a3;border-bottom-color:#0056a3}
+        .tab:hover{color:#0056a3}
+        
+        /* STATS GRID */
+        .sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:22px}
+        .sc{background:#fff;border-radius:12px;padding:20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);transition:transform .2s}
+        .sc:hover{transform:translateY(-2px)}
+        .sc .n{font-size:2em;font-weight:700;color:#0056a3;margin-bottom:4px}
+        .sc .l{font-size:.85em;color:#888}
+        
+        /* SECTION */
+        .sec{background:#fff;border-radius:12px;padding:20px;margin-bottom:18px;box-shadow:0 2px 8px rgba(0,0,0,.05);display:none}
+        .sec.active{display:block}
+        .sec h3{color:#0056a3;margin-bottom:14px;font-size:1.1em;display:flex;align-items:center;justify-content:space-between}
+        .sec h3 button{background:#e9f2fb;border:none;color:#0056a3;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:.85em;transition:background .2s}
+        .sec h3 button:hover{background:#d0e4f5}
+        
+        /* TABLE */
+        table{width:100%;border-collapse:collapse}
+        th,td{padding:11px 12px;text-align:left;border-bottom:1px solid #eee;font-size:.88em}
+        th{background:#f5f7fa;color:#666;font-weight:600;position:sticky;top:0}
+        tr{transition:background .2s}
+        tr:hover{background:#f8fafc}
+        .bg{padding:4px 10px;border-radius:12px;font-size:.78em;font-weight:600;display:inline-block}
+        .bg-g{background:#d4edda;color:#155724}
+        .bg-r{background:#f8d7da;color:#721c24}
+        .bg-y{background:#fff3cd;color:#856404}
+        .bg-b{background:#d1ecf1;color:#0c5460}
+        .bg-p{background:#e2d9f3;color:#563d7c}
+        
+        /* ACTIONS */
+        .actions{display:flex;gap:6px}
+        .btn-sm{padding:5px 10px;border-radius:6px;border:none;cursor:pointer;font-size:.8em;transition:all .2s}
+        .btn-view{background:#0056a3;color:#fff}
+        .btn-view:hover{background:#003f7a}
+        .btn-edit{background:#ffc107;color:#333}
+        .btn-edit:hover{background:#e0a800}
+        .btn-del{background:#dc3545;color:#fff}
+        .btn-del:hover{background:#bd2130}
+        
+        /* MODAL */
+        .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+        .modal-overlay.active{display:flex}
+        .modal{background:#fff;border-radius:14px;max-width:800px;width:90%;max-height:85vh;overflow:hidden;box-shadow:0 12px 48px rgba(0,0,0,.3)}
+        .modal-header{background:#0056a3;color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+        .modal-header h3{font-size:1.1em;margin:0}
+        .modal-close{background:rgba(255,255,255,.2);border:none;color:#fff;width:32px;height:32px;border-radius:6px;cursor:pointer;font-size:1.2em;transition:background .2s}
+        .modal-close:hover{background:rgba(255,255,255,.35)}
+        .modal-body{padding:24px;overflow-y:auto;max-height:calc(85vh - 140px)}
+        .modal-footer{padding:16px 20px;border-top:1px solid #e0e7ef;display:flex;gap:10px;justify-content:flex-end}
+        
+        /* CHAT LOG */
+        .chat-log{background:#f8fafc;border-radius:10px;padding:16px;max-height:400px;overflow-y:auto;margin-bottom:16px}
+        .chat-msg{background:#fff;border-radius:10px;padding:12px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+        .chat-msg.user{background:#e9f2fb;border-left:4px solid #0056a3}
+        .chat-msg.bot{background:#fff;border-left:4px solid #28a745}
+        .chat-msg .time{font-size:.75em;color:#999;margin-bottom:4px}
+        .chat-msg .content{font-size:.9em;line-height:1.5}
+        
+        /* INFO GRID */
+        .info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px}
+        .info-item label{display:block;font-size:.85em;color:#666;margin-bottom:4px;font-weight:500}
+        .info-item .value{font-size:.95em;color:#333;padding:8px 12px;background:#f8fafc;border-radius:6px}
+        
+        /* LOCATION */
+        .location-box{background:#e9f2fb;border-radius:10px;padding:16px;margin-top:16px}
+        .location-box h4{color:#0056a3;margin-bottom:10px;font-size:1em}
+        .location-box .dist{font-size:1.3em;font-weight:700;color:#0056a3;margin:8px 0}
+        .location-box .addr{font-size:.9em;color:#666;margin-top:8px}
+        
+        /* FILTER */
+        .filter-bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+        .filter-bar select,.filter-bar input{padding:8px 12px;border:2px solid #e0e7ef;border-radius:8px;font-size:.9em}
+        .filter-bar button{padding:8px 16px;background:#0056a3;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+        .filter-bar button:hover{background:#003f7a}
+        
+        /* EMPTY STATE */
+        .empty{text-align:center;padding:40px 20px;color:#999}
+        .empty .icon{font-size:3em;margin-bottom:10px;opacity:.5}
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>📊 Storopack - Painel Administrativo</h1>
+    <a href="/">&#8592; Voltar ao Chat</a>
+</div>
+
+<div class="ct">
+    <!-- LOGIN -->
+    <div class="login" id="loginBox">
+        <h2>🔐 Acesso Admin</h2>
+        <input type="password" id="senhaIn" placeholder="Digite a senha" onkeydown="if(event.key==='Enter')login()">
+        <button onclick="login()">Entrar</button>
+        <p class="err" id="loginErr">❌ Senha incorreta</p>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="dash" id="dash">
+        
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab active" onclick="abrirTab('overview')">📈 Visão Geral</button>
+            <button class="tab" onclick="abrirTab('chamados')">📋 Todos Chamados</button>
+            <button class="tab" onclick="abrirTab('pendentes')">⏳ Pendentes</button>
+            <button class="tab" onclick="abrirTab('localizacao')">📍 Localização</button>
+        </div>
+        
+        <!-- STATS -->
+        <div class="sg" id="sg"></div>
+        
+        <!-- OVERVIEW -->
+        <div class="sec active" id="sec-overview">
+            <h3>📊 Resumo de Hoje</h3>
+            <table>
+                <thead><tr><th>ID</th><th>Cliente</th><th>Módulo</th><th>Status</th><th>Distância</th><th>Criado</th><th>Ações</th></tr></thead>
+                <tbody id="tbOverview"></tbody>
+            </table>
+        </div>
+        
+        <!-- TODOS CHAMADOS -->
+        <div class="sec" id="sec-chamados">
+            <h3>📋 Todos os Chamados <button onclick="atualizarChamados()">🔄 Atualizar</button></h3>
+            <div class="filter-bar">
+                <select id="filtroStatus">
+                    <option value="">Todos status</option>
+                    <option value="aberto">Aberto</option>
+                    <option value="em_atendimento">Em Atendimento</option>
+                    <option value="pendente_tecnico">Pendente Técnico</option>
+                    <option value="resolvido">Resolvido</option>
+                    <option value="nao_resolvido">Não Resolvido</option>
+                </select>
+                <select id="filtroModulo">
+                    <option value="">Todos módulos</option>
+                    <option value="airplus">AIRplus</option>
+                    <option value="airmove">AIRmoves</option>
+                    <option value="foamplus">FOAMplus</option>
+                    <option value="paperplus">PAPERplus</option>
+                </select>
+                <input type="date" id="filtroData" placeholder="Data">
+                <button onclick="aplicarFiltros()">Filtrar</button>
+                <button onclick="limparFiltros()" style="background:#6c757d">Limpar</button>
+            </div>
+            <table>
+                <thead><tr><th>ID</th><th>Cliente</th><th>Telefone</th><th>Módulo</th><th>Msgs</th><th>Status</th><th>Distância</th><th>Criado</th><th>Ações</th></tr></thead>
+                <tbody id="tbChamados"></tbody>
+            </table>
+        </div>
+        
+        <!-- PENDENTES -->
+        <div class="sec" id="sec-pendentes">
+            <h3>⏳ Chamados Pendentes para Técnico <button onclick="atualizarPendentes()">🔄 Atualizar</button></h3>
+            <table>
+                <thead><tr><th>ID</th><th>Cliente</th><th>Telefone</th><th>Módulo</th><th>Msgs</th><th>Distância</th><th>Última Atualização</th><th>Ações</th></tr></thead>
+                <tbody id="tbPendentes"></tbody>
+            </table>
+        </div>
+        
+        <!-- LOCALIZAÇÃO -->
+        <div class="sec" id="sec-localizacao">
+            <h3>📍 Localização dos Clientes</h3>
+            <p style="font-size:.9em;color:#666;margin-bottom:16px">🏢 Endereço Storopack: R. Agostino Togneri, 457 - Jurubatuba, São Paulo - SP, 04690-090</p>
+            <table>
+                <thead><tr><th>Cliente</th><th>Telefone</th><th>Módulo</th><th>Distância da Storopack</th><th>Coordenadas</th><th>Data</th></tr></thead>
+                <tbody id="tbLocalizacao"></tbody>
+            </table>
+        </div>
+        
+    </div>
+</div>
+
+<!-- MODAL DE DETALHES DO CHAMADO -->
+<div id="modalChamado" class="modal-overlay">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>📋 Detalhes do Chamado #<span id="modalChamadoId"></span></h3>
+            <button class="modal-close" onclick="fecharModal()">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>Cliente</label>
+                    <div class="value" id="modalCliente"></div>
+                </div>
+                <div class="info-item">
+                    <label>Telefone</label>
+                    <div class="value" id="modalTelefone"></div>
+                </div>
+                <div class="info-item">
+                    <label>Módulo</label>
+                    <div class="value" id="modalModulo"></div>
+                </div>
+                <div class="info-item">
+                    <label>Status</label>
+                    <div class="value" id="modalStatus"></div>
+                </div>
+                <div class="info-item">
+                    <label>Total de Mensagens</label>
+                    <div class="value" id="modalMsgs"></div>
+                </div>
+                <div class="info-item">
+                    <label>Criado em</label>
+                    <div class="value" id="modalCriado"></div>
+                </div>
+            </div>
+            
+            <div class="location-box" id="modalLocation" style="display:none">
+                <h4>📍 Localização do Cliente</h4>
+                <div class="dist"><span id="modalDist"></span> km da Storopack</div>
+                <div class="addr">Coordenadas: <span id="modalCoords"></span></div>
+            </div>
+            
+            <h4 style="color:#0056a3;margin:20px 0 10px">💬 Histórico da Conversa</h4>
+            <div class="chat-log" id="modalChatLog"></div>
+            
+            <h4 style="color:#0056a3;margin:20px 0 10px">⚙️ Alterar Status</h4>
+            <div class="filter-bar">
+                <select id="novoStatus">
+                    <option value="aberto">Aberto</option>
+                    <option value="em_atendimento">Em Atendimento</option>
+                    <option value="pendente_tecnico">Pendente Técnico</option>
+                    <option value="resolvido">Resolvido</option>
+                    <option value="nao_resolvido">Não Resolvido</option>
+                </select>
+                <button onclick="alterarStatus()">Salvar Status</button>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-sm btn-del" onclick="excluirChamado()">🗑️ Excluir Chamado</button>
+            <button class="btn-sm" onclick="fecharModal()" style="background:#6c757d;color:#fff">Fechar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+var chamadoAtualId=null;
+
+// LOGIN
+function login(){
+    var s=document.getElementById('senhaIn').value;
+    fetch('/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({senha:s})})
+    .then(r=>r.json())
+    .then(d=>{
+        if(d.sucesso){
+            document.getElementById('loginBox').style.display='none';
+            document.getElementById('dash').style.display='block';
+            carregarDados();
+        }else{
+            document.getElementById('loginErr').style.display='block';
+        }
+    });
+}
+
+// TABS
+function abrirTab(tab){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    event.target.classList.add('active');
+    document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+    document.getElementById('sec-'+tab).classList.add('active');
+    
+    if(tab==='chamados')atualizarChamados();
+    if(tab==='pendentes')atualizarPendentes();
+    if(tab==='localizacao')atualizarLocalizacao();
+}
+
+// CARREGAR DADOS
+function carregarDados(){
+    Promise.all([
+        fetch('/admin/stats').then(r=>r.json()),
+        fetch('/admin/chamados?per_page=10').then(r=>r.json()),
+        fetch('/admin/pendentes-tecnico').then(r=>r.json())
+    ]).then(([stats,chamados,pendentes])=>{
+        renderStats(stats);
+        renderOverview(chamados.chamados||[]);
+    });
+}
+
+// RENDER STATS
+function renderStats(s){
+    var dist=s.distancia_media_km?s.distancia_media_km.toFixed(1):'-';
+    document.getElementById('sg').innerHTML=`
+        <div class="sc"><div class="n">${s.total_chamados||0}</div><div class="l">Total de Chamados</div></div>
+        <div class="sc"><div class="n">${s.chamados_hoje||0}</div><div class="l">Hoje</div></div>
+        <div class="sc"><div class="n">${s.taxa_resolucao_bot||0}%</div><div class="l">Resolvidos pela IA</div></div>
+        <div class="sc"><div class="n">${s.pendentes_tecnico||0}</div><div class="l">Pendentes</div></div>
+        <div class="sc"><div class="n">${dist} km</div><div class="l">Distância Média</div></div>
+    `;
+}
+
+// RENDER OVERVIEW
+function renderOverview(chamados){
+    var html=chamados.map(c=>{
+        var bg=getStatusBadge(c.status);
+        var dist=c.distancia_km?c.distancia_km.toFixed(1)+' km':'-';
+        return '<tr><td>'+c.id+'</td><td>'+(c.nome_cliente||'-')+'</td><td>'+(c.modulo||'-')+'</td><td><span class="bg '+bg+'">'+(c.status||'aberto')+'</span></td><td>'+dist+'</td><td>'+formatarData(c.criado_em)+'</td><td><div class="actions"><button class="btn-sm btn-view" onclick="verChamado('+c.id+')">Ver</button></div></td></tr>';
+    }).join('');
+    document.getElementById('tbOverview').innerHTML=html||'<tr><td colspan="7" class="empty"><div class="icon">📭</div>Nenhum chamado hoje</td></tr>';
+}
+
+// ATUALIZAR CHAMADOS
+function atualizarChamados(){
+    fetch('/admin/chamados?per_page=100')
+    .then(r=>r.json())
+    .then(d=>{
+        var html=(d.chamados||[]).map(c=>{
+            var bg=getStatusBadge(c.status);
+            var dist=c.distancia_km?c.distancia_km.toFixed(1)+' km':'-';
+            return '<tr><td>'+c.id+'</td><td>'+(c.nome_cliente||'-')+'</td><td>'+(c.telefone_cliente||'-')+'</td><td>'+(c.modulo||'-')+'</td><td>'+(c.total_msgs||0)+'</td><td><span class="bg '+bg+'">'+(c.status||'aberto')+'</span></td><td>'+dist+'</td><td>'+formatarData(c.criado_em)+'</td><td><div class="actions"><button class="btn-sm btn-view" onclick="verChamado('+c.id+')">Ver</button><button class="btn-sm btn-edit" onclick="editarStatus('+c.id+')">Status</button><button class="btn-sm btn-del" onclick="confirmarExclusao('+c.id+')">Del</button></div></td></tr>';
+        }).join('');
+        document.getElementById('tbChamados').innerHTML=html||'<tr><td colspan="9" class="empty"><div class="icon">📭</div>Nenhum chamado encontrado</td></tr>';
+    });
+}
+
+// ATUALIZAR PENDENTES
+function atualizarPendentes(){
+    fetch('/admin/pendentes-tecnico')
+    .then(r=>r.json())
+    .then(d=>{
+        var html=(d||[]).map(c=>{
+            var dist=c.distancia_km?c.distancia_km.toFixed(1)+' km':'-';
+            return '<tr><td>'+c.id+'</td><td>'+(c.nome_cliente||'-')+'</td><td>'+(c.telefone_cliente||'-')+'</td><td>'+(c.modulo||'-')+'</td><td>'+(c.total_msgs||0)+'</td><td>'+dist+'</td><td>'+formatarData(c.atualizado_em||c.criado_em)+'</td><td><div class="actions"><button class="btn-sm btn-view" onclick="verChamado('+c.id+')">Ver</button><button class="btn-sm btn-edit" onclick="editarStatus('+c.id+')">Finalizar</button></div></td></tr>';
+        }).join('');
+        document.getElementById('tbPendentes').innerHTML=html||'<tr><td colspan="8" class="empty"><div class="icon">✅</div>Nenhum chamado pendente</td></tr>';
+    });
+}
+
+// ATUALIZAR LOCALIZAÇÃO
+function atualizarLocalizacao(){
+    fetch('/admin/chamados?per_page=100')
+    .then(r=>r.json())
+    .then(d=>{
+        var comLoc=(d.chamados||[]).filter(c=>c.latitude&&c.longitude);
+        var html=comLoc.map(c=>{
+            var dist=c.distancia_km?c.distancia_km.toFixed(2)+' km':'Calculando...';
+            var coords=c.latitude.toFixed(4)+', '+c.longitude.toFixed(4);
+            return '<tr><td>'+(c.nome_cliente||'-')+'</td><td>'+(c.telefone_cliente||'-')+'</td><td>'+(c.modulo||'-')+'</td><td><strong>'+dist+'</strong></td><td>'+coords+'</td><td>'+formatarData(c.criado_em)+'</td></tr>';
+        }).join('');
+        document.getElementById('tbLocalizacao').innerHTML=html||'<tr><td colspan="6" class="empty"><div class="icon">📍</div>Nenhuma localização registrada</td></tr>';
+    });
+}
+
+// VER CHAMADO
+function verChamado(id){
+    chamadoAtualId=id;
+    fetch(`/admin/chamado/${id}`)
+    .then(r=>r.json())
+    .then(c=>{
+        document.getElementById('modalChamadoId').textContent=c.id;
+        document.getElementById('modalCliente').textContent=c.nome_cliente||'Não informado';
+        document.getElementById('modalTelefone').textContent=c.telefone_cliente||'Não informado';
+        document.getElementById('modalModulo').textContent=c.modulo||'-';
+        document.getElementById('modalStatus').innerHTML=`<span class="bg ${getStatusBadge(c.status)}">${c.status||'aberto'}</span>`;
+        document.getElementById('modalMsgs').textContent=c.total_msgs||0;
+        document.getElementById('modalCriado').textContent=formatarData(c.criado_em);
+        document.getElementById('novoStatus').value=c.status||'aberto';
+        
+        // Localização
+        if(c.latitude&&c.longitude){
+            document.getElementById('modalLocation').style.display='block';
+            document.getElementById('modalDist').textContent=c.distancia_km?c.distancia_km.toFixed(2):'-';
+            document.getElementById('modalCoords').textContent=`${c.latitude.toFixed(4)}, ${c.longitude.toFixed(4)}`;
+        }else{
+            document.getElementById('modalLocation').style.display='none';
+        }
+        
+        // Chat log
+        var chatHtml='';
+        if(c.mensagens&&c.mensagens.length>0){
+            chatHtml=c.mensagens.map(m=>`
+                <div class="chat-msg ${m.tipo}">
+                    <div class="time">${formatarDataHora(m.criado_em)} - ${m.tipo==='user'?'Cliente':'Assistente'}</div>
+                    <div class="content">${m.conteudo}</div>
+                </div>
+            `).join('');
+        }else{
+            chatHtml='<div class="empty">Nenhuma mensagem registrada</div>';
+        }
+        document.getElementById('modalChatLog').innerHTML=chatHtml;
+        
+        document.getElementById('modalChamado').classList.add('active');
+    });
+}
+
+// FECHAR MODAL
+function fecharModal(){
+    document.getElementById('modalChamado').classList.remove('active');
+    chamadoAtualId=null;
+}
+
+// ALTERAR STATUS
+function alterarStatus(){
+    if(!chamadoAtualId)return;
+    var novoStatus=document.getElementById('novoStatus').value;
+    fetch(`/admin/chamado/${chamadoAtualId}/status`,{
+        method:'PUT',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({status:novoStatus})
+    })
+    .then(r=>r.json())
+    .then(d=>{
+        alert('✅ Status alterado com sucesso!');
+        fecharModal();
+        carregarDados();
+        atualizarChamados();
+    })
+    .catch(e=>alert('❌ Erro ao alterar status'));
+}
+
+// EXCLUIR CHAMADO
+function excluirChamado(){
+    if(!chamadoAtualId)return;
+    if(!confirm('⚠️ Tem certeza que deseja excluir este chamado?'))return;
+    fetch(`/admin/chamado/${chamadoAtualId}`,{method:'DELETE'})
+    .then(r=>r.json())
+    .then(d=>{
+        alert('✅ Chamado excluído com sucesso!');
+        fecharModal();
+        carregarDados();
+        atualizarChamados();
+    })
+    .catch(e=>alert('❌ Erro ao excluir chamado'));
+}
+
+function confirmarExclusao(id){
+    if(confirm('⚠️ Tem certeza que deseja excluir o chamado #'+id+'?')){
+        fetch(`/admin/chamado/${id}`,{method:'DELETE'})
+        .then(r=>r.json())
+        .then(d=>{
+            alert('✅ Chamado excluído!');
+            atualizarChamados();
+        });
+    }
+}
+
+function editarStatus(id){
+    chamadoAtualId=id;
+    var novoStatus=prompt('Novo status:\n- aberto\n- em_atendimento\n- pendente_tecnico\n- resolvido\n- nao_resolvido');
+    if(novoStatus){
+        fetch(`/admin/chamado/${id}/status`,{
+            method:'PUT',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({status:novoStatus})
+        })
+        .then(r=>r.json())
+        .then(d=>{
+            alert('✅ Status alterado!');
+            atualizarChamados();
+        });
+    }
+}
+
+// FILTROS
+function aplicarFiltros(){
+    var status=document.getElementById('filtroStatus').value;
+    var modulo=document.getElementById('filtroModulo').value;
+    var data=document.getElementById('filtroData').value;
+    var params=new URLSearchParams();
+    if(status)params.append('status',status);
+    if(modulo)params.append('modulo',modulo);
+    if(data)params.append('data',data);
+    fetch('/admin/chamados?'+params.toString()+'&per_page=100')
+    .then(r=>r.json())
+    .then(d=>{
+        var html=(d.chamados||[]).map(c=>{
+            var bg=getStatusBadge(c.status);
+            var dist=c.distancia_km?c.distancia_km.toFixed(1)+' km':'-';
+            return '<tr><td>'+c.id+'</td><td>'+(c.nome_cliente||'-')+'</td><td>'+(c.telefone_cliente||'-')+'</td><td>'+(c.modulo||'-')+'</td><td>'+(c.total_msgs||0)+'</td><td><span class="bg '+bg+'">'+(c.status||'aberto')+'</span></td><td>'+dist+'</td><td>'+formatarData(c.criado_em)+'</td><td><div class="actions"><button class="btn-sm btn-view" onclick="verChamado('+c.id+')">Ver</button><button class="btn-sm btn-edit" onclick="editarStatus('+c.id+')">Status</button><button class="btn-sm btn-del" onclick="confirmarExclusao('+c.id+')">Del</button></div></td></tr>';
+        }).join('');
+        document.getElementById('tbChamados').innerHTML=html||'<tr><td colspan="9" class="empty">Nenhum resultado</td></tr>';
+    });
+}
+
+function limparFiltros(){
+    document.getElementById('filtroStatus').value='';
+    document.getElementById('filtroModulo').value='';
+    document.getElementById('filtroData').value='';
+    atualizarChamados();
+}
+
+// HELPERS
+function getStatusBadge(status){
+    var map={
+        'resolvido':'bg-g',
+        'nao_resolvido':'bg-r',
+        'pendente_tecnico':'bg-y',
+        'em_atendimento':'bg-b',
+        'aberto':'bg-p'
+    };
+    return map[status]||'bg-b';
+}
+
+function formatarData(dt){
+    if(!dt)return'-';
+    var d=new Date(dt);
+    return d.toLocaleDateString('pt-BR');
+}
+
+function formatarDataHora(dt){
+    if(!dt)return'-';
+    var d=new Date(dt);
+    return d.toLocaleString('pt-BR');
+}
+</script>
+
+</body>
+</html>
