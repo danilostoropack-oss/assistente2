@@ -12,11 +12,11 @@ import traceback
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__, static_folder='static', template_folder='.')
-app.secret_key = 'storopack_secret_key_2025'
+app.secret_key = os.environ.get('SECRET_KEY', 'storopack_secret_key_2025')
 CORS(app)
 
 # Configurações
-ADMIN_PASSWORD = "826541"
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', '826541')
 DB_PATH = os.path.join(BASE_DIR, "data", "storopack.db")
 STOROPACK_LAT = -23.67376
 STOROPACK_LNG = -46.69436
@@ -37,7 +37,7 @@ except Exception as e:
         return (
             "⚠️ O assistente está temporariamente indisponível.\n\n"
             "Possíveis causas:\n"
-            "• API Key da OpenAI não configurada no .env\n"
+            "• API Key da OpenAI não configurada\n"
             "• Dependências não instaladas\n"
             "• Erro de conexão com a API\n\n"
             "Entre em contato: (11) 5677-4699"
@@ -227,19 +227,17 @@ def chat():
             print(f"[ERRO] API do assistente: {api_err}")
             traceback.print_exc()
             resposta = (
-                "⚠️ Erro temporário ao processar sua mensagem.\n\n"
-                "Tente novamente em alguns segundos.\n"
-                "Se persistir, ligue: (11) 5677-4699"
+                "Desculpe, ocorreu um erro ao processar sua mensagem.\n\n"
+                "Por favor, tente novamente ou entre em contato:\n"
+                "(11) 5677-4699"
             )
         
-        # Salvar resposta do bot
+        # Salvar resposta
         c.execute('''INSERT INTO mensagens (chamado_id, tipo, conteudo)
-                     VALUES (?, ?, ?)''', (chamado_id, 'bot', resposta))
-        
-        # Atualizar timestamp do chamado
-        c.execute('''UPDATE chamados SET atualizado_em = CURRENT_TIMESTAMP
+                     VALUES (?, ?, ?)''', (chamado_id, 'assistant', resposta))
+        c.execute('''UPDATE chamados 
+                     SET atualizado_em = CURRENT_TIMESTAMP
                      WHERE id = ?''', (chamado_id,))
-        
         conn.commit()
         conn.close()
         
@@ -252,91 +250,66 @@ def chat():
         print(f"[ERRO] Chat: {str(e)}")
         traceback.print_exc()
         return jsonify({
-            'resposta': f'⚠️ Erro ao processar. Ligue: (11) 5677-4699',
-            'chamado_id': chamado_id if 'chamado_id' in dir() else None
+            'resposta': "Erro ao processar mensagem. Tente novamente.",
+            'erro': str(e)
         }), 500
 
-# ============================ ANÁLISE DE VÍDEO ============================
+# ============================ LOCALIZAÇÃO ============================
 
-@app.route('/analyze-video', methods=['POST'])
-def analyze_video():
-    """Recebe e analisa vídeo do cliente"""
+@app.route('/salvar-localizacao', methods=['POST'])
+def salvar_localizacao():
+    """Salva localização do cliente"""
     try:
-        video = request.files.get('video')
-        modulo = request.form.get('modulo')
-        chamado_id = request.form.get('chamado_id')
-        session_id = request.form.get('session_id')
-        nome_cliente = request.form.get('nome_cliente')
-        telefone_cliente = request.form.get('telefone_cliente')
+        data = request.json
+        chamado_id = data.get('chamado_id')
+        latitude = data.get('latitude')
+        longitude = data.get('longitude')
         
-        if not video:
-            return jsonify({'resposta': 'Nenhum vídeo recebido'}), 400
-        
-        # Salvar vídeo temporariamente
-        temp_dir = os.path.join(BASE_DIR, 'temp')
-        os.makedirs(temp_dir, exist_ok=True)
-        video_path = os.path.join(temp_dir, f'video_{session_id}.mp4')
-        video.save(video_path)
-        
-        # Analisar vídeo
-        try:
-            resposta = responder_cliente(
-                pergunta="Análise de vídeo",
-                modulo=modulo,
-                video_path=video_path,
-                nome_cliente=nome_cliente,
-                telefone_cliente=telefone_cliente
+        if chamado_id and latitude and longitude:
+            distancia_km = calcular_distancia(
+                float(latitude), float(longitude),
+                STOROPACK_LAT, STOROPACK_LNG
             )
-        except Exception as e:
-            print(f"[ERRO] Análise de vídeo API: {e}")
-            resposta = "⚠️ Erro ao analisar vídeo. Descreva o problema por texto."
+            
+            conn = sqlite3.connect(DB_PATH)
+            c = conn.cursor()
+            c.execute('''UPDATE chamados 
+                         SET latitude = ?, longitude = ?, distancia_km = ?
+                         WHERE id = ?''',
+                     (latitude, longitude, distancia_km, chamado_id))
+            conn.commit()
+            conn.close()
         
-        # Salvar no banco se houver chamado_id
-        if chamado_id:
-            try:
-                conn = sqlite3.connect(DB_PATH)
-                c = conn.cursor()
-                c.execute('''INSERT INTO mensagens (chamado_id, tipo, conteudo)
-                            VALUES (?, ?, ?)''', (chamado_id, 'user', '[Vídeo enviado]'))
-                c.execute('''INSERT INTO mensagens (chamado_id, tipo, conteudo)
-                            VALUES (?, ?, ?)''', (chamado_id, 'bot', resposta))
-                conn.commit()
-                conn.close()
-            except Exception as db_err:
-                print(f"[ERRO] Salvar vídeo no DB: {db_err}")
-        
-        # Remover vídeo temporário
-        try:
-            if os.path.exists(video_path):
-                os.remove(video_path)
-        except:
-            pass
-        
-        return jsonify({'resposta': resposta, 'chamado_id': chamado_id})
-        
+        return jsonify({'sucesso': True})
     except Exception as e:
-        print(f"[ERRO] Análise de vídeo: {str(e)}")
-        traceback.print_exc()
-        return jsonify({'resposta': '⚠️ Erro ao analisar vídeo. Descreva o problema por texto.'}), 500
+        print(f"[ERRO] Salvar localização: {str(e)}")
+        return jsonify({'sucesso': False}), 500
 
 # ============================ FEEDBACK ============================
 
 @app.route('/feedback', methods=['POST'])
 def feedback():
-    """Recebe feedback do cliente"""
+    """Registra feedback do cliente"""
     try:
         data = request.json
         chamado_id = data.get('chamado_id')
         resolvido = data.get('resolvido')
+        comentario = data.get('comentario', '')
         
-        if not chamado_id:
-            return jsonify({'sucesso': False}), 400
+        status = 'resolvido' if resolvido else 'nao_resolvido'
         
         conn = sqlite3.connect(DB_PATH)
         c = conn.cursor()
-        status = 'resolvido' if resolvido else 'pendente_tecnico'
-        c.execute('''UPDATE chamados SET status = ?, atualizado_em = CURRENT_TIMESTAMP
-                     WHERE id = ?''', (status, chamado_id))
+        c.execute('''UPDATE chamados 
+                     SET status = ?, atualizado_em = CURRENT_TIMESTAMP
+                     WHERE id = ?''',
+                 (status, chamado_id))
+        
+        if comentario:
+            c.execute('''INSERT INTO mensagens (chamado_id, tipo, conteudo)
+                         VALUES (?, ?, ?)''',
+                     (chamado_id, 'feedback', comentario))
+        
         conn.commit()
         conn.close()
         
@@ -534,6 +507,16 @@ def reiniciar():
     """Endpoint para reiniciar"""
     return jsonify({'sucesso': True})
 
+# ============================ HEALTH CHECK ============================
+
+@app.route('/health')
+def health():
+    """Endpoint de health check para o Render"""
+    return jsonify({
+        'status': 'ok',
+        'assistente': 'ok' if ASSISTENTE_OK else 'offline'
+    })
+
 # ============================ INICIALIZAÇÃO ============================
 
 if __name__ == '__main__':
@@ -557,10 +540,15 @@ if __name__ == '__main__':
     for pasta in ['static', 'static/erros', 'temp', 'logs', 'uploads', 'uploads/pdfs', 'uploads/videos']:
         os.makedirs(os.path.join(BASE_DIR, pasta), exist_ok=True)
     
-    print(f"\n  Chat:  http://localhost:5000")
-    print(f"  Admin: http://localhost:5000/admin")
+    # Configuração para Render (usa PORT da variável de ambiente)
+    port = int(os.environ.get('PORT', 5000))
+    
+    print(f"\n  Chat:  http://localhost:{port}")
+    print(f"  Admin: http://localhost:{port}/admin")
     print(f"  Senha: {ADMIN_PASSWORD}")
     print("\n" + "="*60 + "\n")
     
     # Iniciar servidor
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Em produção (Render), gunicorn vai rodar o app
+    # Em desenvolvimento local, usa o servidor Flask
+    app.run(debug=False, host='0.0.0.0', port=port)
