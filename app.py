@@ -47,7 +47,17 @@ except Exception as e:
 
 def init_db():
     """Inicializa o banco de dados"""
-    os.makedirs(os.path.join(BASE_DIR, "data"), exist_ok=True)
+    # Criar diretório data se não existir
+    data_dir = os.path.join(BASE_DIR, "data")
+    os.makedirs(data_dir, exist_ok=True)
+    
+    # Verificar se consegue escrever na pasta
+    if not os.access(data_dir, os.W_OK):
+        print(f"[AVISO] Sem permissão de escrita em {data_dir}")
+        # Usar /tmp como fallback
+        global DB_PATH
+        DB_PATH = "/tmp/storopack.db"
+        print(f"[INFO] Usando banco de dados temporário: {DB_PATH}")
     
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
