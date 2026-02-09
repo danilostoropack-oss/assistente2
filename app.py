@@ -527,6 +527,24 @@ def health():
         'assistente': 'ok' if ASSISTENTE_OK else 'offline'
     })
 
+# ============================ INICIALIZAÇÃO AUTOMÁTICA ============================
+
+# Inicializar banco de dados automaticamente quando o módulo é carregado
+# (Funciona tanto com Flask dev server quanto com Gunicorn)
+try:
+    init_db()
+    print("[OK] Banco de dados inicializado automaticamente")
+except Exception as e:
+    print(f"[ERRO] Falha ao inicializar banco: {e}")
+    traceback.print_exc()
+
+# Criar pastas necessárias
+try:
+    for pasta in ['static', 'static/erros', 'temp', 'logs', 'uploads', 'uploads/pdfs', 'uploads/videos']:
+        os.makedirs(os.path.join(BASE_DIR, pasta), exist_ok=True)
+except Exception as e:
+    print(f"[AVISO] Não foi possível criar todas as pastas: {e}")
+
 # ============================ INICIALIZAÇÃO ============================
 
 if __name__ == '__main__':
@@ -542,13 +560,6 @@ if __name__ == '__main__':
     print(f"\n  index.html: {'OK' if index_exists else 'NAO ENCONTRADO'}")
     print(f"  admin.html: {'OK' if admin_exists else 'NAO ENCONTRADO'}")
     print(f"  Assistente: {'OK' if ASSISTENTE_OK else 'OFFLINE (modo fallback)'}")
-    
-    # Inicializar banco de dados
-    init_db()
-    
-    # Criar pastas necessárias
-    for pasta in ['static', 'static/erros', 'temp', 'logs', 'uploads', 'uploads/pdfs', 'uploads/videos']:
-        os.makedirs(os.path.join(BASE_DIR, pasta), exist_ok=True)
     
     # Configuração para Render (usa PORT da variável de ambiente)
     port = int(os.environ.get('PORT', 5000))
