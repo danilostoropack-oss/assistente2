@@ -8,9 +8,9 @@
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#f5f7fa 0%,#e8edf2 100%);color:#333;min-height:100vh}
 
-        /* HEADER */
-        .header{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.08);position:sticky;top:0;z-index:100;border-bottom:3px solid #0056a3}
-        .header img{height:250px;object-fit:contain}
+        /* HEADER - RESPONSIVO */
+        .header{background:#fff;padding:16px 20px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.08);position:sticky;top:0;z-index:100;border-bottom:3px solid #0056a3}
+        .header img{height:120px;object-fit:contain;max-width:80%}
         .hdr-btn-reset{position:fixed;top:12px;right:12px;z-index:110;background:#f0f4f8;border:none;color:#0056a3;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:.9em;font-weight:500}
         .hdr-btn-reset:hover{background:#e1e8f0}
 
@@ -38,14 +38,10 @@
         .sub-hdr h3{font-size:1.15em;color:#0056a3;font-weight:600}
         .btn-voltar{background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff;border:none;padding:10px 20px;border-radius:10px;cursor:pointer;font-size:.9em;font-weight:600;transition:all .2s;display:flex;align-items:center;gap:6px}
         .btn-voltar:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,86,163,.3)}
-
-        /* IMAGEM DO EQUIPAMENTO (sem botão) */
         .equip-display{background:#fff;border-radius:14px;padding:20px;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,.06);margin-bottom:16px}
         .equip-display img{max-height:160px;object-fit:contain;margin-bottom:8px}
         .equip-display h4{font-size:1em;color:#333;font-weight:600}
         .equip-display p{font-size:.78em;color:#aaa}
-
-        /* GRID DE PRODUTOS (filmes) */
         .prod-section{margin-top:4px}
         .prod-section h4{font-size:.95em;color:#0056a3;margin-bottom:10px;font-weight:600;padding-left:4px}
         .prod-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px}
@@ -53,8 +49,6 @@
         .prod-item:hover{border-color:#0056a3;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,86,163,.12)}
         .prod-item img{width:100%;height:85px;object-fit:cover;background:#f8fafc}
         .prod-item span{display:block;padding:10px 4px;font-size:.85em;font-weight:600;color:#333}
-
-        /* SUB-GRID para máquinas dentro de AIRmoves */
         .sub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:16px}
         .sub-card{background:#fff;border-radius:14px;padding:18px 14px;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,.06);cursor:pointer;transition:all .3s;border:2px solid transparent}
         .sub-card:hover{transform:translateY(-3px);border-color:#0056a3;box-shadow:0 6px 16px rgba(0,86,163,.12)}
@@ -62,33 +56,39 @@
         .sub-card h4{font-size:.95em;color:#333;font-weight:600;margin-bottom:4px}
         .sub-card p{font-size:.75em;color:#aaa}
 
-        /* CHAT */
-        .chat-box{display:none;flex-direction:column;height:calc(100vh - 80px);max-height:calc(100vh - 80px)}
+        /* ============ CHAT BONITO ============ */
+        .chat-box{display:none;flex-direction:column;background:#fff;border-radius:16px;border:2px solid #e0e7ef;box-shadow:0 4px 20px rgba(0,0,0,.1);overflow:hidden;height:calc(100vh - 200px);max-height:700px}
         .chat-box.active{display:flex}
-        .chat-hdr{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#0056a3,#0078d4);border-radius:12px;padding:12px 16px;margin-bottom:12px;color:#fff}
-        .chat-hdr h3{font-size:.95em;font-weight:500}
-        .chat-hdr .btn-voltar-chat{background:rgba(255,255,255,.2);color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.85em;font-weight:600}
+        .chat-hdr{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#0056a3,#0078d4);padding:14px 18px;color:#fff;border-bottom:2px solid #004a8f}
+        .chat-hdr h3{font-size:1em;font-weight:600}
+        .chat-hdr .btn-voltar-chat{background:rgba(255,255,255,.2);color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.85em;font-weight:600;transition:background .2s}
         .chat-hdr .btn-voltar-chat:hover{background:rgba(255,255,255,.35)}
-        .chat-msgs{flex:1;overflow-y:auto;padding:12px 0;display:flex;flex-direction:column;gap:12px}
-        .msg{max-width:82%;padding:12px 16px;border-radius:16px;font-size:.92em;line-height:1.6;word-wrap:break-word;white-space:pre-wrap;animation:slideIn .3s;box-shadow:0 2px 6px rgba(0,0,0,.06)}
-        .msg.bot{align-self:flex-start;background:#fff;border:1px solid #e8edf2;border-bottom-left-radius:4px;color:#333}
-        .msg.user{align-self:flex-end;background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff;border-bottom-right-radius:4px}
-        .msg .tm{font-size:.7em;opacity:.6;margin-top:6px;display:block}
-        .typing{display:none;align-self:flex-start;padding:12px 18px;background:#fff;border-radius:16px;border:1px solid #e8edf2;color:#999;font-size:.88em}
+        .chat-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:#f0f4f8}
+        .msg{max-width:80%;padding:12px 16px;border-radius:18px;font-size:.92em;line-height:1.6;word-wrap:break-word;white-space:pre-wrap;animation:slideIn .3s}
+        .msg.bot{align-self:flex-start;background:#fff;border:1px solid #dde3ea;border-bottom-left-radius:4px;color:#333;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+        .msg.user{align-self:flex-end;background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff;border-bottom-right-radius:4px;box-shadow:0 2px 8px rgba(0,86,163,.2)}
+        .msg .tm{font-size:.7em;opacity:.5;margin-top:6px;display:block}
+        .typing{display:none;align-self:flex-start;padding:10px 16px;background:#fff;border-radius:18px;border:1px solid #dde3ea;color:#999;font-size:.85em;box-shadow:0 1px 4px rgba(0,0,0,.06)}
         .typing.active{display:block}
         .typing::after{content:'...';animation:dots 1.5s infinite}
-        .chat-input{display:flex;gap:8px;border-top:2px solid #e8edf2;align-items:flex-end;background:#fff;border-radius:12px 12px 0 0;padding:12px}
-        .chat-input textarea{flex:1;padding:12px 14px;border:2px solid #e8edf2;border-radius:12px;font-size:.93em;resize:none;min-height:44px;max-height:100px;font-family:inherit;outline:none}
-        .chat-input textarea:focus{border-color:#0056a3}
-        .chat-input button{border:none;border-radius:12px;padding:12px 18px;cursor:pointer;font-size:.95em;min-height:44px;transition:all .2s;font-weight:500}
-        .btn-send{background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff}
-        .btn-send:disabled{background:#a0bdd9;cursor:not-allowed}
-        .btn-att{background:#f0f4f8;color:#0056a3}
-        .fb-bar{display:none;background:#fff8e6;border:2px solid #ffc107;border-radius:12px;padding:14px;margin-top:10px;text-align:center}
-        .fb-bar.active{display:block}
-        .fb-bar p{font-size:.9em;color:#666;margin-bottom:10px}
-        .fb-bar .btns{display:flex;gap:10px;justify-content:center}
-        .fb-bar .b{padding:9px 20px;border-radius:10px;border:none;cursor:pointer;font-size:.9em;font-weight:600;color:#fff}
+        .chat-input{display:flex;gap:8px;padding:12px 14px;border-top:2px solid #e0e7ef;background:#fff;align-items:flex-end}
+        .chat-input textarea{flex:1;padding:10px 14px;border:2px solid #e0e7ef;border-radius:12px;font-size:.93em;resize:none;min-height:42px;max-height:100px;font-family:inherit;outline:none;transition:border-color .2s}
+        .chat-input textarea:focus{border-color:#0056a3;box-shadow:0 0 0 3px rgba(0,86,163,.1)}
+        .chat-input button{border:none;border-radius:12px;padding:10px 16px;cursor:pointer;font-size:.9em;min-height:42px;transition:all .2s;font-weight:600}
+        .btn-send{background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff;box-shadow:0 2px 6px rgba(0,86,163,.2)}
+        .btn-send:hover{box-shadow:0 4px 12px rgba(0,86,163,.3)}
+        .btn-send:disabled{background:#a0bdd9;cursor:not-allowed;box-shadow:none}
+        .btn-att{background:#f0f4f8;color:#0056a3;border:2px solid #e0e7ef}
+        .btn-att:hover{background:#e1e8f0}
+
+        /* FEEDBACK MODAL */
+        .fb-bar{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:250;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+        .fb-bar.active{display:flex}
+        .fb-bar .fb-inner{background:#fff;border-radius:20px;padding:36px 28px;max-width:420px;width:90%;text-align:center;box-shadow:0 12px 48px rgba(0,0,0,.3);animation:modalSlide .3s}
+        .fb-bar p{font-size:1.15em;color:#333;margin-bottom:20px;font-weight:600}
+        .fb-bar .btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+        .fb-bar .b{padding:14px 28px;border-radius:12px;border:none;cursor:pointer;font-size:1em;font-weight:600;color:#fff;transition:transform .2s}
+        .fb-bar .b:hover{transform:scale(1.05)}
         .b-ok{background:#28a745}
         .b-no{background:#dc3545}
 
@@ -137,39 +137,64 @@
         @keyframes slideUp{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
         @keyframes dots{0%,20%{content:''}40%{content:'.'}60%{content:'..'}80%,100%{content:'...'}}
 
-        /* MOBILE */
+        /* ============ MOBILE ============ */
         @media(max-width:600px){
             body{font-size:14px}
             .container{padding:10px 10px 90px}
             .header{padding:10px 14px}
-            .header img{height:44px}
+            .header img{height:60px}
             .welcome{padding:14px 12px;margin-bottom:12px}.welcome h2{font-size:1.15em}
             .categories{grid-template-columns:repeat(2,1fr);gap:10px}
             .cat-card img{height:110px;padding:6px}
             .cat-card-body{padding:10px 8px}.cat-card-body h3{font-size:.88em}.cat-card-body p{font-size:.72em}
-            .sub-hdr{padding:10px 12px;flex-wrap:wrap;gap:8px}.sub-hdr h3{font-size:.98em}
+            .sub-hdr{padding:10px 12px;flex-wrap:wrap;gap:8px}.sub-hdr h3{font-size:.95em}
             .btn-voltar{padding:8px 14px;font-size:.82em}
-            .equip-display{padding:14px}.equip-display img{max-height:120px}
+            .equip-display{padding:14px}.equip-display img{max-height:100px}
             .sub-grid{grid-template-columns:repeat(2,1fr);gap:10px}
             .sub-card{padding:12px 8px}.sub-card img{height:70px}.sub-card h4{font-size:.84em}
             .prod-row{grid-template-columns:repeat(2,1fr);gap:8px}
             .prod-item img{height:65px}.prod-item span{font-size:.78em;padding:8px 3px}
-            .chat-box{position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;background:#f5f7fa;height:100vh;max-height:100vh}
-            .chat-input{padding:9px;gap:6px}
-            .chat-input textarea{font-size:16px!important;min-height:40px}
-            .chat-input button{padding:9px 13px;min-height:40px}
-            .pecas-info{padding:20px 14px}.pecas-info img{height:170px}
+            /* CHAT FULLSCREEN NO MOBILE */
+            .chat-box{position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;height:100vh;max-height:100vh;border-radius:0;border:none;box-shadow:none}
+            .chat-hdr{border-radius:0;padding:12px 14px}
+            .chat-hdr h3{font-size:.9em}
+            .chat-msgs{padding:12px 10px;gap:8px}
+            .msg{max-width:85%;padding:10px 14px;font-size:.9em;border-radius:16px}
+            .chat-input{padding:10px;gap:6px;border-radius:0}
+            .chat-input textarea{font-size:16px!important;min-height:40px;padding:10px 12px;border-radius:10px}
+            .chat-input button{padding:10px 14px;min-height:40px;border-radius:10px;font-size:.88em}
+            .pecas-info{padding:20px 14px;margin-top:14px}.pecas-info img{height:170px}
             .registro-content{padding:22px 16px;width:92%}
             .registro-content input{font-size:16px!important}
             .modal{padding:24px 18px;width:92%}
             .toast{bottom:70px}
             .cat-card:hover{transform:none}
+            .sub-card:hover{transform:none}
             input[type="text"],input[type="tel"],textarea{font-size:16px!important}
         }
-        @media(max-width:360px){body{font-size:13px}.header img{height:38px}.cat-card img{height:95px}}
-        @media(min-width:601px) and (max-width:900px){.categories{grid-template-columns:repeat(2,1fr)}.prod-row{grid-template-columns:repeat(4,1fr)}}
-        @media(min-width:901px){.categories{grid-template-columns:repeat(4,1fr)}.prod-row{grid-template-columns:repeat(4,1fr)}}
-        @supports(padding:max(0px)){@media(max-width:600px){.chat-input{padding-bottom:max(9px,env(safe-area-inset-bottom))}}}
+        @media(max-width:360px){
+            body{font-size:13px}
+            .header img{height:50px}
+            .cat-card img{height:95px}
+            .msg{max-width:88%;font-size:.87em}
+        }
+        /* TABLET */
+        @media(min-width:601px) and (max-width:900px){
+            .header img{height:90px}
+            .categories{grid-template-columns:repeat(2,1fr)}
+            .prod-row{grid-template-columns:repeat(4,1fr)}
+            .chat-box{height:calc(100vh - 180px);max-height:650px}
+        }
+        /* DESKTOP */
+        @media(min-width:901px){
+            .header img{height:120px}
+            .categories{grid-template-columns:repeat(4,1fr)}
+            .prod-row{grid-template-columns:repeat(4,1fr)}
+            .chat-box{height:calc(100vh - 200px);max-height:700px}
+        }
+        @supports(padding:max(0px)){@media(max-width:600px){
+            .chat-input{padding-bottom:max(10px,env(safe-area-inset-bottom))}
+        }}
     </style>
 </head>
 <body>
@@ -360,10 +385,12 @@
             <button id="btnSend" class="btn-send" onclick="enviar()">Enviar</button>
         </div>
         <div id="fbBar" class="fb-bar">
-            <p>✅ Conseguimos resolver seu problema?</p>
-            <div class="btns">
-                <button class="b b-ok" onclick="enviarFb(true)">Sim, resolvido!</button>
-                <button class="b b-no" onclick="enviarFb(false)">Não, preciso de ajuda</button>
+            <div class="fb-inner">
+                <p>✅ Conseguimos resolver seu problema?</p>
+                <div class="btns">
+                    <button class="b b-ok" onclick="enviarFb(true)">Sim, resolvido!</button>
+                    <button class="b b-no" onclick="enviarFb(false)">Não, preciso de ajuda</button>
+                </div>
             </div>
         </div>
     </div>
@@ -406,9 +433,50 @@ function salvarRegistro(){var n=document.getElementById('nomeCliente').value.tri
 document.getElementById('telefoneCliente').addEventListener('input',function(e){var v=e.target.value.replace(/\D/g,'');if(v.length<=11){v=v.replace(/^(\d{2})(\d)/g,'($1) $2');v=v.replace(/(\d)(\d{4})$/,'$1-$2');e.target.value=v}});
 
 // GPS IMEDIATO
-(function(){if(localStorage.getItem('gps_ok')==='true'){document.getElementById('gpsOverlay').classList.remove('active');if(navigator.geolocation)navigator.geolocation.getCurrentPosition(function(p){lat=p.coords.latitude;lng=p.coords.longitude},function(){},{timeout:5000})}})();
-function permitirGPS(){document.getElementById('gpsBtns').style.display='none';document.getElementById('gpsLoading').style.display='block';if(navigator.geolocation){navigator.geolocation.getCurrentPosition(function(p){lat=p.coords.latitude;lng=p.coords.longitude;localStorage.setItem('gps_ok','true');document.getElementById('gpsOverlay').classList.remove('active');showToast('✅ Localização obtida!')},function(){localStorage.setItem('gps_ok','true');document.getElementById('gpsOverlay').classList.remove('active');showToast('⚠️ Não foi possível obter localização')},{timeout:10000,enableHighAccuracy:false})}else{document.getElementById('gpsOverlay').classList.remove('active');showToast('⚠️ GPS não suportado')}}
-function negarGPS(){localStorage.setItem('gps_ok','true');document.getElementById('gpsOverlay').classList.remove('active');showToast('ℹ️ Localização pode ser ativada depois')}
+// GPS IMEDIATO - sempre pedir se não tem coordenadas salvas
+(function(){
+    var latSalvo=localStorage.getItem('gps_lat');
+    var lngSalvo=localStorage.getItem('gps_lng');
+    if(latSalvo&&lngSalvo){
+        lat=parseFloat(latSalvo);lng=parseFloat(lngSalvo);
+        document.getElementById('gpsOverlay').classList.remove('active');
+        // Atualizar silenciosamente
+        if(navigator.geolocation)navigator.geolocation.getCurrentPosition(function(p){
+            lat=p.coords.latitude;lng=p.coords.longitude;
+            localStorage.setItem('gps_lat',lat);localStorage.setItem('gps_lng',lng);
+            enviarLocalizacao();
+        },function(){},{timeout:5000});
+    }
+})();
+function permitirGPS(){
+    document.getElementById('gpsBtns').style.display='none';
+    document.getElementById('gpsLoading').style.display='block';
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function(p){
+            lat=p.coords.latitude;lng=p.coords.longitude;
+            localStorage.setItem('gps_lat',lat);localStorage.setItem('gps_lng',lng);
+            document.getElementById('gpsOverlay').classList.remove('active');
+            showToast('✅ Localização obtida!');
+            enviarLocalizacao();
+        },function(){
+            document.getElementById('gpsOverlay').classList.remove('active');
+            showToast('⚠️ Não foi possível obter localização');
+        },{timeout:10000,enableHighAccuracy:true});
+    }else{
+        document.getElementById('gpsOverlay').classList.remove('active');
+        showToast('⚠️ GPS não suportado');
+    }
+}
+function negarGPS(){
+    document.getElementById('gpsOverlay').classList.remove('active');
+    showToast('⚠️ Sem localização, não poderemos enviar técnico');
+}
+function enviarLocalizacao(){
+    fetch('/salvar-localizacao',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({session_id:sid,latitude:lat,longitude:lng,nome_cliente:clienteNome,telefone_cliente:clienteTelefone})
+    }).catch(function(){});
+}
 function showToast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('active');setTimeout(function(){t.classList.remove('active')},3000)}
 function criarBotoesVideo(t){return t.replace(/\[SIM_VIDEO_E(\d+)\]/gi,function(m,n){return '<div style="margin-top:10px"><button onclick="abrirVideo(\'E'+n+'\')" style="background:#0056a3;color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;margin-right:8px">📹 Ver vídeo</button><button onclick="event.target.parentElement.style.display=\'none\'" style="background:#6c757d;color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer">Não</button></div>'})}
 function abrirVideo(c){var v=videosErros[c];if(!v)return;document.getElementById('videoTitle').textContent=v.titulo;document.getElementById('videoSource').src=v.arquivo;var p=document.getElementById('videoPlayer');p.load();document.getElementById('videoModal').classList.add('active');document.getElementById('videoError').style.display='none';p.play().catch(function(){});p.onerror=function(){document.getElementById('videoError').style.display='block'}}
