@@ -136,35 +136,15 @@ def limpar_formatacao(texto: str) -> str:
 
 
 def processar_videos(texto: str) -> str:
-    """Processa marcadores [VIDEO_X] e converte em links"""
+    """Passa marcadores [SIM_VIDEO_EX] direto para o frontend processar"""
     if not texto:
         return ""
-    
-    marcadores = {
-        r'\[VIDEO_E1\]': ('Erro E1', '/static/erros/e1/'),
-        r'\[VIDEO_E2\]': ('Erro E2', '/static/erros/e2/'),
-        r'\[VIDEO_E3\]': ('Erro E3', '/static/erros/e3/'),
-        r'\[VIDEO_E4\]': ('Erro E4', '/static/erros/e4/'),
-        r'\[VIDEO_E5\]': ('Erro E5', '/static/erros/e5/'),
-        r'\[VIDEO_E6\]': ('Erro E6', '/static/erros/e6/'),
-        r'\[VIDEO_E7\]': ('Erro E7', '/static/erros/e7/'),
-        r'\[VIDEO_E8\]': ('Erro E8', '/static/erros/e8/'),
-        r'\[VIDEO_E9\]': ('Erro E9', '/static/erros/e9/'),
-        r'\[VIDEO_E10\]': ('Erro E10', '/static/erros/e10/'),
-        r'\[VIDEO_E11\]': ('Erro E11', '/static/erros/e11/'),
-        r'\[VIDEO_CALIBRACAO\]': ('Calibração', '/static/videos/calibracao/'),
-        r'\[VIDEO_SELAGEM\]': ('Selagem', '/static/videos/selagem/'),
-    }
-    
-    for marcador, (titulo, caminho) in marcadores.items():
-        if re.search(marcador, texto):
-            if not texto.endswith('\n\n'):
-                texto = re.sub(marcador, f'\n\n📹 Ver vídeo: {titulo}\n{caminho}', texto, count=1)
-            else:
-                texto = re.sub(marcador, f'📹 Ver vídeo: {titulo}\n{caminho}', texto, count=1)
-            texto = re.sub(marcador, '', texto)
-    
+    # Remove marcadores antigos [VIDEO_X] convertendo para [SIM_VIDEO_EX]
+    texto = re.sub(r'\[VIDEO_E(\d+)\]', r'[SIM_VIDEO_E\1]', texto)
+    texto = re.sub(r'\[VIDEO_CALIBRACAO\]', '', texto)
+    texto = re.sub(r'\[VIDEO_SELAGEM\]', '', texto)
     return texto.strip()
+
 
 
 def get_equipamento_config(modulo: str) -> dict:
@@ -175,10 +155,30 @@ def get_equipamento_config(modulo: str) -> dict:
     if modulo_lower in EQUIPAMENTOS:
         return EQUIPAMENTOS[modulo_lower]
     
-    # Fallback: tentar encontrar por parte do nome
-    for key, config in EQUIPAMENTOS.items():
-        if modulo_lower.startswith(key[:6]):
-            return config
+    # Mapeamento por prefixo do frontend
+    # airplus_void, airplus_cushion, airplus_bubble, airplus_wrap → airplus
+    if modulo_lower.startswith("airplus"):
+        return EQUIPAMENTOS.get("airplus")
+    
+    # airmove1_void, airmove1_cushion → airmove (usa mesmo assistant)
+    # airmove2_void, airmove2_cushion, airmove2_bubble, airmove2_wrap → airmove_2
+    if modulo_lower.startswith("airmove2") or modulo_lower.startswith("airmove_2"):
+        return EQUIPAMENTOS.get("airmove_2")
+    if modulo_lower.startswith("airmove1") or modulo_lower.startswith("airmove_1"):
+        return EQUIPAMENTOS.get("airmove_2")  # mesmo assistant por enquanto
+    if modulo_lower.startswith("airmove"):
+        return EQUIPAMENTOS.get("airmove_2")
+    
+    # foamplus_bagpacker, foam_bagpacker, foam_handpacker → foamplus
+    if modulo_lower.startswith("foam"):
+        return EQUIPAMENTOS.get("foamplus")
+    
+    # paper_shooter, paper_papillon, paper_classic, paper_cx, paper_track, paper_chevron → paperplus
+    if modulo_lower.startswith("paper"):
+        # Tentar match específico
+        if "track" in modulo_lower:
+            return EQUIPAMENTOS.get("paperplus_track")
+        return EQUIPAMENTOS.get("paperplus_classic")  # fallback para classic
     
     return None
 
@@ -237,12 +237,19 @@ def responder_com_assistants_api(pergunta: str, modulo: str) -> str:
 # ============================ RESPOSTA OFFLINE (FALLBACK) ============================
 
 RESPOSTAS_OFFLINE = {
-    "e1": "Erro E1 - Sensor de Temperatura\n\nSolução:\n1. Desligue a máquina\n2. Verifique a conexão do sensor NTC\n3. Limpe os contatos\n4. Religue e teste\n\n[VIDEO_E1]",
-    "e2": "Erro E2 - Resistência de Selagem\n\nSolução:\n1. Verifique a resistência NTC e fios de selagem\n2. Cheque todas as conexões\n3. Substitua se danificada\n4. Se persistir, pode ser curto-circuito ou fio rompido\n\n[VIDEO_E2]",
-    "e3": "Erro E3 - Sensor de Filme\n\nSolução:\n1. Verifique se o filme acabou\n2. Libere filme preso\n3. Limpe o sensor\n4. Reposicione o filme\n\n[VIDEO_E3]",
-    "e9": "Erro E9 - Calibração Fora do Limite\n\nSolução:\n1. Rode a calibração (faixa ideal: 2800-5200)\n2. Verifique estabilidade das conexões\n3. Valor alto pode indicar desgaste dos fios de selagem\n4. Reteste após calibração\n\n[VIDEO_E9]\n[VIDEO_CALIBRACAO]",
-    "calibracao": "Como Calibrar:\n\n1. A calibração ajusta o sistema de selagem considerando a resistência dos fios\n2. Durante a calibração, os botões não têm efeito\n3. Apenas parar ou desligar interrompe o processo\n4. Após calibrar, valide visualmente a selagem (uniforme e resistente)\n5. Ajuste temperatura, ar e velocidade se necessário\n\n[VIDEO_CALIBRACAO]",
-    "selagem": "Problemas de Selagem:\n\n1. Verifique temperatura (125-135°C para maioria dos materiais)\n2. Confira pressão do ar e velocidade\n3. Inspecione fios de selagem (desgaste/oxidação)\n4. Se selagem irregular, recalibre o sistema\n\n[VIDEO_SELAGEM]\n[VIDEO_CALIBRACAO]",
+    "e1": "⚠️ Erro E1 - Sensor de Temperatura\n\nPossíveis causas:\n• Sensor NTC desconectado ou com mau contato\n• Fio do sensor rompido\n• Sensor com defeito\n\nSolução:\n1. Desligue a máquina\n2. Verifique a conexão do sensor NTC\n3. Limpe os contatos\n4. Religue e teste\n\n[SIM_VIDEO_E1]",
+    "e2": "⚠️ Erro E2 - Resistência de Selagem\n\nPossíveis causas:\n• Resistência NTC com defeito\n• Fios de selagem danificados ou rompidos\n• Curto-circuito nas conexões\n\nSolução:\n1. Verifique a resistência NTC e fios de selagem\n2. Cheque todas as conexões\n3. Substitua se danificada\n\n[SIM_VIDEO_E2]",
+    "e3": "⚠️ Erro E3 - Sensor de Filme\n\nPossíveis causas:\n• Filme acabou ou está preso\n• Sensor de filme sujo ou desalinhado\n• Filme mal posicionado no caminho\n\nSolução:\n1. Verifique se o filme acabou\n2. Libere filme preso\n3. Limpe o sensor com pano seco\n4. Reposicione o filme corretamente\n\n[SIM_VIDEO_E3]",
+    "e4": "⚠️ Erro E4 - Posicionamento Inicial\n\nPossíveis causas:\n• Sensor de posição com problema\n• Mecanismo travado\n• Motor com defeito\n\nSolução:\n1. Desligue e religue a máquina\n2. Verifique se há obstrução mecânica\n3. Cheque o sensor de posição\n\n[SIM_VIDEO_E4]",
+    "e5": "⚠️ Erro E5 - Motor de Passo\n\nPossíveis causas:\n• Motor de passo com falha\n• Conexão do motor solta\n• Placa controladora com problema\n\nSolução:\n1. Desligue a máquina\n2. Verifique conexões do motor\n3. Reinicie o sistema\n\n[SIM_VIDEO_E5]",
+    "e6": "⚠️ Erro E6 - Termopar\n\nPossíveis causas:\n• Termopar desconectado\n• Termopar com defeito\n• Problema na leitura de temperatura\n\nSolução:\n1. Verifique conexão do termopar\n2. Teste continuidade do sensor\n3. Substitua se necessário\n\n[SIM_VIDEO_E6]",
+    "e7": "⚠️ Erro E7 - Termopar\n\nPossíveis causas:\n• Segundo termopar com falha\n• Conexão intermitente\n• Oxidação nos contatos\n\nSolução:\n1. Cheque conexão do termopar\n2. Limpe contatos oxidados\n3. Substitua se com defeito\n\n[SIM_VIDEO_E7]",
+    "e8": "⚠️ Erro E8 - Termopar\n\nPossíveis causas:\n• Termopar fora da faixa de operação\n• Problema no circuito de medição\n\nSolução:\n1. Verifique todos os termopares\n2. Cheque temperatura ambiente\n3. Reinicie o equipamento\n\n[SIM_VIDEO_E8]",
+    "e9": "⚠️ Erro E9 - Calibração Fora do Limite\n\nPossíveis causas:\n• Fios de selagem desgastados\n• Resistência fora da faixa (ideal: 2800-5200)\n• Conexões soltas no sistema de selagem\n\nSolução:\n1. Rode a calibração novamente\n2. Verifique estabilidade das conexões\n3. Valor alto indica desgaste dos fios\n4. Substitua os fios se necessário\n\n[SIM_VIDEO_E9]",
+    "e10": "⚠️ Erro E10 - Parâmetro Extremo\n\nPossíveis causas:\n• Configuração fora dos limites seguros\n• Parâmetro corrompido na memória\n\nSolução:\n1. Restaure configurações de fábrica\n2. Reconfigure os parâmetros\n3. Rode calibração\n\n[SIM_VIDEO_E10]",
+    "e11": "⚠️ Erro E11 - Instabilidade na Selagem\n\nPossíveis causas:\n• Flutuação de temperatura durante selagem\n• Fios de selagem irregulares\n• Problema na fonte de alimentação\n\nSolução:\n1. Verifique estabilidade da rede elétrica\n2. Inspecione fios de selagem\n3. Recalibre o sistema\n\n[SIM_VIDEO_E11]",
+    "calibracao": "Como Calibrar:\n\n1. A calibração ajusta o sistema de selagem considerando a resistência dos fios\n2. Durante a calibração, os botões não têm efeito\n3. Apenas parar ou desligar interrompe o processo\n4. Após calibrar, valide visualmente a selagem\n5. Ajuste temperatura, ar e velocidade se necessário",
+    "selagem": "Problemas de Selagem:\n\n1. Verifique temperatura (125-135°C para maioria dos materiais)\n2. Confira pressão do ar e velocidade\n3. Inspecione fios de selagem (desgaste/oxidação)\n4. Se selagem irregular, recalibre o sistema",
 }
 
 def resposta_offline(pergunta: str, modulo: str) -> str:
@@ -319,7 +326,18 @@ def responder_cliente(pergunta: str, modulo: str = None, video_bytes=None, video
             return processar_videos(resposta)
         
         # Processar marcadores de vídeo
-        return processar_videos(texto)
+        texto = processar_videos(texto)
+        
+        # Injetar marcador de vídeo se a resposta da API fala sobre erro E1-E11 mas não tem o marcador
+        if '[SIM_VIDEO_E' not in texto:
+            texto_lower = texto.lower()
+            for i in range(11, 0, -1):
+                if f'erro e{i}' in texto_lower or f'e{i} ' in texto_lower or f'e{i}-' in texto_lower or f'e{i}:' in texto_lower:
+                    texto += f'\n\n[SIM_VIDEO_E{i}]'
+                    print(f"[INFO] Marcador [SIM_VIDEO_E{i}] injetado na resposta da API")
+                    break
+        
+        return texto
     
     except RateLimitError:
         return "Muitas requisições. Tente novamente em alguns segundos."

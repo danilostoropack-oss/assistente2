@@ -56,6 +56,28 @@
         .sub-card h4{font-size:.95em;color:#333;font-weight:600;margin-bottom:4px}
         .sub-card p{font-size:.75em;color:#aaa}
 
+        /* ACTION CARDS (Troca peças, Calibração, Ajuste) */
+        .action-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
+        .action-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.08);cursor:pointer;transition:all .3s;border:2px solid #e0e7ef;text-align:center;padding:0}
+        .action-card:hover{border-color:#0056a3;transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,86,163,.15)}
+        .action-card img{width:100%;height:100%;object-fit:cover;display:block}
+        .action-card h5{display:none}
+        .action-card p{display:none}
+
+        /* MODAL SELEÇÃO DE VÍDEO */
+        .video-select-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:280;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+        .video-select-modal.active{display:flex}
+        .video-select-content{background:#fff;border-radius:20px;padding:28px 24px;max-width:440px;width:90%;text-align:center;box-shadow:0 12px 48px rgba(0,0,0,.3);animation:modalSlide .3s}
+        .video-select-content h3{color:#0056a3;font-size:1.2em;margin-bottom:6px;font-weight:700}
+        .video-select-content p{color:#666;font-size:.88em;margin-bottom:18px}
+        .video-select-content .video-opts{display:flex;flex-direction:column;gap:10px}
+        .video-opt-btn{background:linear-gradient(135deg,#f0f7ff,#e6f0fa);border:2px solid #c5d9ed;border-radius:12px;padding:16px;cursor:pointer;transition:all .3s;display:flex;align-items:center;gap:12px;text-align:left}
+        .video-opt-btn:hover{border-color:#0056a3;background:linear-gradient(135deg,#e6f0fa,#d1e4f5);transform:translateY(-1px)}
+        .video-opt-btn .icon{font-size:1.5em;width:40px;text-align:center;flex-shrink:0}
+        .video-opt-btn .info h4{font-size:.95em;color:#0056a3;font-weight:600;margin-bottom:2px}
+        .video-opt-btn .info p{font-size:.78em;color:#888;margin:0}
+        .video-select-close{margin-top:14px;background:#e9ecef;border:none;color:#666;padding:10px 24px;border-radius:10px;cursor:pointer;font-size:.9em;font-weight:600}
+
         /* ============ CHAT BONITO ============ */
         .chat-box{display:none;flex-direction:column;background:#fff;border-radius:16px;border:2px solid #e0e7ef;box-shadow:0 4px 20px rgba(0,0,0,.1);overflow:hidden;height:calc(100vh - 200px);max-height:700px}
         .chat-box.active{display:flex}
@@ -154,6 +176,8 @@
             .sub-card{padding:12px 8px}.sub-card img{height:70px}.sub-card h4{font-size:.84em}
             .prod-row{grid-template-columns:repeat(2,1fr);gap:8px}
             .prod-item img{height:65px}.prod-item span{font-size:.78em;padding:8px 3px}
+            .action-row{grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}
+            .action-card img{width:100%;height:100%}
             /* CHAT FULLSCREEN NO MOBILE */
             .chat-box{position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;height:100dvh;max-height:100dvh;border-radius:0;border:none;box-shadow:none}
             .chat-hdr{border-radius:0;padding:12px 14px;padding-top:max(12px,env(safe-area-inset-top))}
@@ -215,6 +239,7 @@
         <input type="tel" id="telefoneCliente" placeholder="(11) 99999-9999">
         <div class="hint" id="telHint"></div>
         <button onclick="salvarRegistro()">Continuar</button>
+        <button onclick="cancelarRegistro()" style="background:#e9ecef;color:#666;margin-top:8px">Cancelar</button>
         <p class="erro" id="registroErro">Por favor, preencha todos os campos</p>
     </div>
 </div>
@@ -277,6 +302,18 @@
                 <div class="prod-item" onclick="abrirChat('airplus_bubble','AIRplus Bubble')"><img src="https://img.directindustry.com/images_di/photo-g/34409-12098185.webp" alt="Bubble"><span>Bubble</span></div>
                 <div class="prod-item" onclick="abrirChat('airplus_wrap','AIRplus Wrap 140d')"><img src="https://img.directindustry.com/images_di/photo-g/34409-12098203.jpg" alt="Wrap"><span>Wrap 140d</span></div>
             </div>
+            <div class="action-row">
+                <div class="action-card" onclick="abrirTrocaPecas()">
+                    <img src="/static/logo/pecas.png" alt="Troca de peças">
+                    <h5>Troca de Peças</h5>
+                    <p>Troque as peças de reposição do seu equipamento</p>
+                </div>
+                <div class="action-card" onclick="abrirVideoDirecto('/static/videos/calibracao/calibracao.mp4','Calibração AIRplus')">
+                    <img src="/static/logo/calibracao.png" alt="Calibração">
+                    <h5>Calibração</h5>
+                    <p>Calibre seu equipamento</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -332,6 +369,13 @@
                 <div class="prod-item" onclick="abrirChat('airmove2_cushion','AIRmove 2 Cushion')"><img src="https://networkpack.co.uk/wp-content/uploads/2018/04/Storopack-AirPlus-Cushion.jpg" alt="Cushion"><span>Cushion</span></div>
                 <div class="prod-item" onclick="abrirChat('airmove2_bubble','AIRmove 2 Bubble')"><img src="https://img.directindustry.com/images_di/photo-g/34409-12098185.webp" alt="Bubble"><span>Bubble</span></div>
                 <div class="prod-item" onclick="abrirChat('airmove2_wrap','AIRmove 2 Wrap 140d')"><img src="https://img.directindustry.com/images_di/photo-g/34409-12098203.jpg" alt="Wrap"><span>Wrap 140d</span></div>
+            </div>
+            <div class="action-row">
+                <div class="action-card" onclick="abrirVideoDirecto('/static/videos/manutencao/iniciar.mp4','Ajuste Inicial - AIRmove 2')">
+                    <img src="/static/logo/iniciar.png" alt="Ajuste inicial">
+                    <h5>Ajuste Inicial</h5>
+                    <p>Como iniciar seu equipamento</p>
+                </div>
             </div>
         </div>
     </div>
@@ -396,6 +440,31 @@
     </div>
 </div>
 
+<!-- MODAL TROCA DE PEÇAS -->
+<div id="trocaPecasModal" class="video-select-modal">
+    <div class="video-select-content">
+        <h3>🔧 Troca de Peças</h3>
+        <p>Verifique as iniciais do número de série na etiqueta atrás do equipamento para identificar o modelo.</p>
+        <div class="video-opts">
+            <div class="video-opt-btn" onclick="abrirVideoDirecto('/static/videos/manutencao/manutencaomv.mp4','Troca de Peças - AIRplus Mini MV');fecharTrocaPecas()">
+                <div class="icon">🎬</div>
+                <div class="info">
+                    <h4>AIRplus Mini - Modelo MV</h4>
+                    <p>Série inicia com MV</p>
+                </div>
+            </div>
+            <div class="video-opt-btn" onclick="abrirVideoDirecto('/static/videos/manutencao/manutencaomc.mp4','Troca de Peças - AIRplus Mini MC');fecharTrocaPecas()">
+                <div class="icon">🎬</div>
+                <div class="info">
+                    <h4>AIRplus Mini - Modelo MC</h4>
+                    <p>Série inicia com MC</p>
+                </div>
+            </div>
+        </div>
+        <button class="video-select-close" onclick="fecharTrocaPecas()">Cancelar</button>
+    </div>
+</div>
+
 <!-- GPS -->
 <div id="gpsOverlay" class="overlay active">
     <div class="modal">
@@ -425,11 +494,11 @@
 <script>
 var sid='sess_'+Math.random().toString(36).substr(2,9),modAtual='',nomeAtual='',chamadoId=null,tela='menu';
 var lat=null,lng=null,clienteNome='',clienteTelefone='',registroCompleto=false;
-var videosErros={'E1':{titulo:'E1 - Sensor Temp',arquivo:'/static/erros/e1.mp4'},'E2':{titulo:'E2 - Resistência',arquivo:'/static/erros/e2.mp4'},'E3':{titulo:'E3 - Sensor Filme',arquivo:'/static/erros/e3.mp4'},'E4':{titulo:'E4 - Posicionamento',arquivo:'/static/erros/e4.mp4'},'E5':{titulo:'E5 - Motor',arquivo:'/static/erros/e5.mp4'},'E6':{titulo:'E6 - Termopar',arquivo:'/static/erros/e6.mp4'},'E7':{titulo:'E7 - Termopar',arquivo:'/static/erros/e7.mp4'},'E8':{titulo:'E8 - Termopar',arquivo:'/static/erros/e8.mp4'},'E9':{titulo:'E9 - Calibração',arquivo:'/static/erros/e9.mp4'},'E10':{titulo:'E10 - Parâmetro',arquivo:'/static/erros/e10.mp4'},'E11':{titulo:'E11 - Instabilidade',arquivo:'/static/erros/e11.mp4'}};
+var videosErros={'E1':{titulo:'E1 - Sensor de Temperatura',arquivo:'/static/erros/e1/e1.mp4'},'E2':{titulo:'E2 - Resistência de Selagem',arquivo:'/static/erros/e2/e2.mp4'},'E3':{titulo:'E3 - Sensor de Filme',arquivo:'/static/erros/e3/e3.mp4'},'E4':{titulo:'E4 - Posicionamento',arquivo:'/static/erros/e4/e4.mp4'},'E5':{titulo:'E5 - Motor de Passo',arquivo:'/static/erros/e5/e5.mp4'},'E6':{titulo:'E6 - Termopar',arquivo:'/static/erros/e6/e6.mp4'},'E7':{titulo:'E7 - Termopar',arquivo:'/static/erros/e7/e7.mp4'},'E8':{titulo:'E8 - Termopar',arquivo:'/static/erros/e8/e8.mp4'},'E9':{titulo:'E9 - Calibração',arquivo:'/static/erros/e9/e9.mp4'},'E10':{titulo:'E10 - Parâmetro',arquivo:'/static/erros/e10/e10.mp4'},'E11':{titulo:'E11 - Instabilidade',arquivo:'/static/erros/e11/e11.mp4'}};
 
 function detectarTelefone(){var t=localStorage.getItem('telefone_cliente');if(t){document.getElementById('telefoneCliente').value=t;document.getElementById('telHint').innerHTML='✅ Número detectado.';document.getElementById('telHint').style.color='#28a745'}}
 function mostrarRegistro(){document.getElementById('registroModal').classList.add('active');detectarTelefone();document.getElementById('nomeCliente').focus()}
-function salvarRegistro(){var n=document.getElementById('nomeCliente').value.trim(),t=document.getElementById('telefoneCliente').value.trim();if(!n||!t){document.getElementById('registroErro').style.display='block';return}var tl=t.replace(/\D/g,'');if(tl.length<10){document.getElementById('registroErro').textContent='Telefone inválido';document.getElementById('registroErro').style.display='block';return}clienteNome=n;clienteTelefone=t;registroCompleto=true;localStorage.setItem('nome_cliente',n);localStorage.setItem('telefone_cliente',t);fetch('/registrar-contato',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:n,telefone:t,session_id:sid})});document.getElementById('registroModal').classList.remove('active');showToast('✅ Bem-vindo, '+n.split(' ')[0]+'!')}
+function salvarRegistro(){var n=document.getElementById('nomeCliente').value.trim(),t=document.getElementById('telefoneCliente').value.trim();if(!n||!t){document.getElementById('registroErro').style.display='block';return}var tl=t.replace(/\D/g,'');if(tl.length<10){document.getElementById('registroErro').textContent='Telefone inválido';document.getElementById('registroErro').style.display='block';return}clienteNome=n;clienteTelefone=t;registroCompleto=true;localStorage.setItem('nome_cliente',n);localStorage.setItem('telefone_cliente',t);fetch('/registrar-contato',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:n,telefone:t,session_id:sid})});document.getElementById('registroModal').classList.remove('active');showToast('✅ Bem-vindo, '+n.split(' ')[0]+'!');if(pendingMod&&pendingNome){iniciarChat(pendingMod,pendingNome);pendingMod='';pendingNome=''}}
 document.getElementById('telefoneCliente').addEventListener('input',function(e){var v=e.target.value.replace(/\D/g,'');if(v.length<=11){v=v.replace(/^(\d{2})(\d)/g,'($1) $2');v=v.replace(/(\d)(\d{4})$/,'$1-$2');e.target.value=v}});
 
 // GPS IMEDIATO
@@ -477,21 +546,26 @@ function enviarLocalizacao(){
         body:JSON.stringify({session_id:sid,latitude:lat,longitude:lng,nome_cliente:clienteNome,telefone_cliente:clienteTelefone})
     }).catch(function(){});
 }
+function abrirTrocaPecas(){document.getElementById('trocaPecasModal').classList.add('active')}
+function fecharTrocaPecas(){document.getElementById('trocaPecasModal').classList.remove('active')}
+function abrirVideoDirecto(src,titulo){document.getElementById('videoTitle').textContent=titulo;document.getElementById('videoSource').src=src;var p=document.getElementById('videoPlayer');p.load();document.getElementById('videoModal').classList.add('active');document.getElementById('videoError').style.display='none';p.play().catch(function(){});p.onerror=function(){document.getElementById('videoError').style.display='block'}}
 function showToast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('active');setTimeout(function(){t.classList.remove('active')},3000)}
-function criarBotoesVideo(t){return t.replace(/\[SIM_VIDEO_E(\d+)\]/gi,function(m,n){return '<div style="margin-top:10px"><button onclick="abrirVideo(\'E'+n+'\')" style="background:#0056a3;color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;margin-right:8px">📹 Ver vídeo</button><button onclick="event.target.parentElement.style.display=\'none\'" style="background:#6c757d;color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer">Não</button></div>'})}
+function criarBotoesVideo(t){return t.replace(/\[SIM_VIDEO_E(\d+)\]/gi,function(m,n){return '<div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap"><button onclick="abrirVideo(\'E'+n+'\')" style="background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff;border:none;padding:12px 20px;border-radius:10px;cursor:pointer;font-weight:600;font-size:.9em;box-shadow:0 2px 8px rgba(0,86,163,.3);display:flex;align-items:center;gap:6px"><span>📹</span> Sim, ver vídeo</button><button onclick="event.target.closest(\'div\').style.display=\'none\'" style="background:#e9ecef;color:#666;border:none;padding:12px 20px;border-radius:10px;cursor:pointer;font-weight:600;font-size:.9em">Não, obrigado</button></div>'})}
 function abrirVideo(c){var v=videosErros[c];if(!v)return;document.getElementById('videoTitle').textContent=v.titulo;document.getElementById('videoSource').src=v.arquivo;var p=document.getElementById('videoPlayer');p.load();document.getElementById('videoModal').classList.add('active');document.getElementById('videoError').style.display='none';p.play().catch(function(){});p.onerror=function(){document.getElementById('videoError').style.display='block'}}
 function fecharVideo(){document.getElementById('videoPlayer').pause();document.getElementById('videoPlayer').currentTime=0;document.getElementById('videoModal').classList.remove('active')}
 document.addEventListener('keydown',function(e){if(e.key==='Escape')fecharVideo()});
 
-function abrirCat(c){document.getElementById('telaMenu').style.display='none';document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('sub_'+c).classList.add('active');tela='sub'}
+var pendingMod='',pendingNome='';
+function cancelarRegistro(){document.getElementById('registroModal').classList.remove('active');pendingMod='';pendingNome=''}
+function abrirCat(c){document.getElementById('telaMenu').style.display='none';document.getElementById('pecasInfo').style.display='none';document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('sub_'+c).classList.add('active');tela='sub'}
 function abrirSubAirmove(id){document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('sub_'+id).classList.add('active');tela='subsub'}
 function voltarAirmove(){document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('sub_airmove').classList.add('active');tela='sub'}
-function abrirChat(mod,nome){if(!registroCompleto){mostrarRegistro();setTimeout(function(){if(registroCompleto)iniciarChat(mod,nome)},500);return}iniciarChat(mod,nome)}
-function iniciarChat(mod,nome){modAtual=mod;nomeAtual=nome;chamadoId=null;document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('telaMenu').style.display='none';document.getElementById('telaChat').classList.add('active');document.getElementById('chatInfo').textContent='💬 '+nome;tela='chat';document.getElementById('chatMsgs').innerHTML='';addMsg('bot','Olá '+(clienteNome?clienteNome.split(' ')[0]:'')+'! 👋\n\nSou o assistente técnico da Storopack para '+nome+'.\n\nComo posso te ajudar hoje?');document.getElementById('chatIn').focus()}
-function voltar(){if(tela==='chat'){if(chamadoId){document.getElementById('fbBar').classList.add('active');return}fecharChat()}else if(tela==='subsub'){voltarAirmove()}else if(tela==='sub'){document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('telaMenu').style.display='block';tela='menu'}}
-function fecharChat(){document.getElementById('telaChat').classList.remove('active');document.getElementById('fbBar').classList.remove('active');document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('telaMenu').style.display='block';tela='menu';chamadoId=null}
+function abrirChat(mod,nome){if(!registroCompleto){pendingMod=mod;pendingNome=nome;mostrarRegistro();return}iniciarChat(mod,nome)}
+function iniciarChat(mod,nome){modAtual=mod;nomeAtual=nome;chamadoId=null;document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('telaMenu').style.display='none';document.getElementById('pecasInfo').style.display='none';document.getElementById('telaChat').classList.add('active');document.getElementById('chatInfo').textContent='💬 '+nome;tela='chat';document.getElementById('chatMsgs').innerHTML='';addMsg('bot','Olá '+(clienteNome?clienteNome.split(' ')[0]:'')+'! 👋\n\nSou o assistente técnico da Storopack para '+nome+'.\n\nComo posso te ajudar hoje?');document.getElementById('chatIn').focus()}
+function voltar(){if(tela==='chat'){if(chamadoId){document.getElementById('fbBar').classList.add('active');return}fecharChat()}else if(tela==='subsub'){voltarAirmove()}else if(tela==='sub'){document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('telaMenu').style.display='block';document.getElementById('pecasInfo').style.display='block';tela='menu'}}
+function fecharChat(){document.getElementById('telaChat').classList.remove('active');document.getElementById('fbBar').classList.remove('active');document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('telaMenu').style.display='block';document.getElementById('pecasInfo').style.display='block';tela='menu';chamadoId=null}
 function addMsg(tipo,txt){var d=document.createElement('div');d.className='msg '+tipo;var h=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});var c=tipo==='bot'?criarBotoesVideo(txt):txt;d.innerHTML=c+'<span class="tm">'+h+'</span>';document.getElementById('chatMsgs').appendChild(d);document.getElementById('chatMsgs').scrollTop=99999}
-function enviar(){var inp=document.getElementById('chatIn'),m=inp.value.trim();if(!m)return;inp.value='';inp.style.height='auto';addMsg('user',m);document.getElementById('typing').classList.add('active');document.getElementById('btnSend').disabled=true;fetch('/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mensagem:m,modulo:modAtual,session_id:sid,chamado_id:chamadoId,latitude:lat,longitude:lng,nome_cliente:clienteNome,telefone_cliente:clienteTelefone})}).then(function(r){return r.json()}).then(function(d){chamadoId=d.chamado_id||chamadoId;addMsg('bot',d.resposta)}).catch(function(){addMsg('bot','⚠️ Erro de conexão.')}).finally(function(){document.getElementById('typing').classList.remove('active');document.getElementById('btnSend').disabled=false;inp.focus()})}
+function enviar(){var inp=document.getElementById('chatIn'),m=inp.value.trim();if(!m)return;inp.value='';inp.style.height='auto';addMsg('user',m);document.getElementById('typing').classList.add('active');document.getElementById('btnSend').disabled=true;fetch('/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mensagem:m,modulo:modAtual,session_id:sid,chamado_id:chamadoId,latitude:lat,longitude:lng,nome_cliente:clienteNome,telefone_cliente:clienteTelefone})}).then(function(r){return r.json()}).then(function(d){chamadoId=d.chamado_id||chamadoId;var resp=d.resposta;var videoMatch=resp.match(/\[SIM_VIDEO_E(\d+)\]/i);if(videoMatch){var textoLimpo=resp.replace(/\[SIM_VIDEO_E\d+\]/gi,'').trim();addMsg('bot',textoLimpo);setTimeout(function(){var num=videoMatch[1];addMsg('bot','📹 Temos um vídeo explicativo sobre esse erro.\nDeseja assistir?\n\n[SIM_VIDEO_E'+num+']')},800);}else{addMsg('bot',resp)}}).catch(function(){addMsg('bot','⚠️ Erro de conexão.')}).finally(function(){document.getElementById('typing').classList.remove('active');document.getElementById('btnSend').disabled=false;inp.focus()})}
 function enviarVideo(inp){var f=inp.files[0];if(!f)return;if(f.size>100*1024*1024){showToast('⚠️ Máx 100MB');return}addMsg('user','📹 Enviando vídeo...');document.getElementById('typing').classList.add('active');var fd=new FormData();fd.append('video',f);fd.append('modulo',modAtual);fd.append('chamado_id',chamadoId||'');fd.append('session_id',sid);fd.append('nome_cliente',clienteNome);fd.append('telefone_cliente',clienteTelefone);fetch('/analyze-video',{method:'POST',body:fd}).then(function(r){return r.json()}).then(function(d){chamadoId=d.chamado_id||chamadoId;addMsg('bot',d.resposta)}).catch(function(){addMsg('bot','⚠️ Erro ao enviar vídeo.')});document.getElementById('typing').classList.remove('active');inp.value=''}
 function enviarFb(ok){fetch('/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chamado_id:chamadoId,resolvido:ok,comentario:ok?'Resolvido':'Não resolvido'})});showToast(ok?'✅ Ficamos felizes!':'📞 Técnico entrará em contato!');setTimeout(fecharChat,1500)}
 function reiniciarSistema(){if(!confirm('🔄 Reiniciar?'))return;localStorage.clear();fetch('/reiniciar',{method:'POST'}).catch(function(){});setTimeout(function(){location.reload()},500)}
