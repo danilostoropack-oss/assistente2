@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Storopack - Assistente Técnico</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
@@ -155,12 +155,12 @@
             .prod-row{grid-template-columns:repeat(2,1fr);gap:8px}
             .prod-item img{height:65px}.prod-item span{font-size:.78em;padding:8px 3px}
             /* CHAT FULLSCREEN NO MOBILE */
-            .chat-box{position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;height:100vh;max-height:100vh;border-radius:0;border:none;box-shadow:none}
-            .chat-hdr{border-radius:0;padding:12px 14px}
+            .chat-box{position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;height:100dvh;max-height:100dvh;border-radius:0;border:none;box-shadow:none}
+            .chat-hdr{border-radius:0;padding:12px 14px;padding-top:max(12px,env(safe-area-inset-top))}
             .chat-hdr h3{font-size:.9em}
-            .chat-msgs{padding:12px 10px;gap:8px}
+            .chat-msgs{padding:12px 10px;gap:8px;flex:1;overflow-y:auto}
             .msg{max-width:85%;padding:10px 14px;font-size:.9em;border-radius:16px}
-            .chat-input{padding:10px;gap:6px;border-radius:0}
+            .chat-input{padding:10px;gap:6px;border-radius:0;padding-bottom:max(14px,calc(env(safe-area-inset-bottom) + 10px));background:#fff;border-top:2px solid #e0e7ef}
             .chat-input textarea{font-size:16px!important;min-height:40px;padding:10px 12px;border-radius:10px}
             .chat-input button{padding:10px 14px;min-height:40px;border-radius:10px;font-size:.88em}
             .pecas-info{padding:20px 14px;margin-top:14px}.pecas-info img{height:170px}
@@ -193,7 +193,7 @@
             .chat-box{height:calc(100vh - 200px);max-height:700px}
         }
         @supports(padding:max(0px)){@media(max-width:600px){
-            .chat-input{padding-bottom:max(10px,env(safe-area-inset-bottom))}
+            .chat-input{padding-bottom:max(14px,calc(env(safe-area-inset-bottom) + 10px))!important}
         }}
     </style>
 </head>
