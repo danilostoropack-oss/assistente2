@@ -8,93 +8,87 @@
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#f5f7fa 0%,#e8edf2 100%);color:#333;min-height:100vh}
 
-        /* HEADER MODERNO */
-        .header{background:#fff;color:#0056a3;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,.08);position:sticky;top:0;z-index:100;border-bottom:3px solid #0056a3}
-        .header-logo{display:flex;align-items:center;gap:12px}
-        .header-logo img{height:32px;object-fit:contain}
-        .header h1{font-size:1em;font-weight:600;color:#0056a3}
-        .header h1 span{font-size:.75em;opacity:.7;display:block;font-weight:400;margin-top:2px}
-        .header-btns{display:flex;gap:6px}
-        .hdr-btn{background:#f0f4f8;border:none;color:#0056a3;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:.85em;transition:all .2s;display:none;font-weight:500}
-        .hdr-btn:hover{background:#e1e8f0}
-        .hdr-btn.always{display:inline-block}
+        /* HEADER */
+        .header{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.08);position:sticky;top:0;z-index:100;border-bottom:3px solid #0056a3}
+        .header img{height:250px;object-fit:contain}
+        .hdr-btn-reset{position:fixed;top:12px;right:12px;z-index:110;background:#f0f4f8;border:none;color:#0056a3;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:.9em;font-weight:500}
+        .hdr-btn-reset:hover{background:#e1e8f0}
 
-        .container{max-width:900px;margin:0 auto;padding:16px 16px 80px}
+        .container{max-width:960px;margin:0 auto;padding:16px 16px 80px}
 
-        /* WELCOME SECTION */
-        .welcome{text-align:center;padding:28px 0 20px;background:#fff;border-radius:16px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-        .welcome h2{font-size:1.5em;color:#0056a3;margin-bottom:8px;font-weight:600}
-        .welcome p{color:#666;font-size:.95em;line-height:1.5}
+        /* WELCOME */
+        .welcome{text-align:center;padding:24px 16px 16px;background:#fff;border-radius:16px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+        .welcome h2{font-size:1.4em;color:#0056a3;margin-bottom:6px;font-weight:600}
+        .welcome p{color:#666;font-size:.92em}
 
-        /* MODAL DE REGISTRO */
-        .registro-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:300;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
-        .registro-modal.active{display:flex}
-        .registro-content{background:#fff;border-radius:16px;padding:32px;max-width:440px;width:90%;box-shadow:0 12px 48px rgba(0,0,0,.3)}
-        .registro-content h3{color:#0056a3;margin-bottom:8px;font-size:1.4em;font-weight:600;text-align:center}
-        .registro-content p{color:#666;font-size:.9em;margin-bottom:20px;text-align:center;line-height:1.5}
-        .registro-content label{display:block;color:#333;font-size:.9em;font-weight:500;margin-bottom:6px;margin-top:14px}
-        .registro-content input{width:100%;padding:12px 14px;border:2px solid #e8edf2;border-radius:10px;font-size:.95em;outline:none;transition:border-color .2s}
-        .registro-content input:focus{border-color:#0056a3}
-        .registro-content .hint{font-size:.8em;color:#999;margin-top:4px}
-        .registro-content button{background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff;border:none;padding:12px 24px;border-radius:10px;cursor:pointer;font-size:1em;font-weight:600;width:100%;margin-top:20px;transition:transform .2s}
-        .registro-content button:hover{transform:translateY(-2px)}
-        .registro-content .erro{color:#dc3545;font-size:.85em;margin-top:8px;display:none}
-
-        /* CATEGORIAS - DESIGN MODERNO */
-        .categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-top:20px}
+        .categories{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px}
         .cat-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.08);cursor:pointer;transition:all .3s ease;border:2px solid transparent;position:relative}
         .cat-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,86,163,.15);border-color:#0056a3}
         .cat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#0056a3,#0078d4);opacity:0;transition:opacity .3s}
         .cat-card:hover::before{opacity:1}
-        .cat-card img{width:100%;height:140px;object-fit:cover;background:#f8fafc}
-        .cat-card-body{padding:14px;text-align:center}
-        .cat-card-body h3{font-size:1.05em;color:#0056a3;margin-bottom:4px;font-weight:600}
-        .cat-card-body p{font-size:.8em;color:#999}
+        .cat-card img{width:100%;height:150px;object-fit:contain;background:#f8fafc;padding:8px}
+        .cat-card-body{padding:12px;text-align:center}
+        .cat-card-body h3{font-size:1em;color:#0056a3;margin-bottom:2px;font-weight:600}
+        .cat-card-body p{font-size:.78em;color:#999}
 
-        /* SUBCATEGORIAS - CLEAN DESIGN */
+        /* SUBCATEGORIAS */
         .subcats{display:none;animation:fadeIn .3s}
         .subcats.active{display:block}
-        .sub-hdr{margin-bottom:16px;padding:16px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-        .sub-hdr h3{font-size:1.2em;color:#0056a3;font-weight:600}
-        .sub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
-        .sub-card{background:#fff;border-radius:14px;padding:18px 14px;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,.06);cursor:pointer;transition:all .3s;border:2px solid transparent;position:relative}
+        .sub-hdr{margin-bottom:16px;padding:14px 16px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05);display:flex;align-items:center;justify-content:space-between}
+        .sub-hdr h3{font-size:1.15em;color:#0056a3;font-weight:600}
+        .btn-voltar{background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff;border:none;padding:10px 20px;border-radius:10px;cursor:pointer;font-size:.9em;font-weight:600;transition:all .2s;display:flex;align-items:center;gap:6px}
+        .btn-voltar:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,86,163,.3)}
+
+        /* IMAGEM DO EQUIPAMENTO (sem botão) */
+        .equip-display{background:#fff;border-radius:14px;padding:20px;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,.06);margin-bottom:16px}
+        .equip-display img{max-height:160px;object-fit:contain;margin-bottom:8px}
+        .equip-display h4{font-size:1em;color:#333;font-weight:600}
+        .equip-display p{font-size:.78em;color:#aaa}
+
+        /* GRID DE PRODUTOS (filmes) */
+        .prod-section{margin-top:4px}
+        .prod-section h4{font-size:.95em;color:#0056a3;margin-bottom:10px;font-weight:600;padding-left:4px}
+        .prod-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px}
+        .prod-item{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);cursor:pointer;transition:all .3s;border:2px solid transparent;text-align:center}
+        .prod-item:hover{border-color:#0056a3;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,86,163,.12)}
+        .prod-item img{width:100%;height:85px;object-fit:cover;background:#f8fafc}
+        .prod-item span{display:block;padding:10px 4px;font-size:.85em;font-weight:600;color:#333}
+
+        /* SUB-GRID para máquinas dentro de AIRmoves */
+        .sub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:16px}
+        .sub-card{background:#fff;border-radius:14px;padding:18px 14px;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,.06);cursor:pointer;transition:all .3s;border:2px solid transparent}
         .sub-card:hover{transform:translateY(-3px);border-color:#0056a3;box-shadow:0 6px 16px rgba(0,86,163,.12)}
-        .sub-card img{width:100%;height:80px;object-fit:contain;margin-bottom:10px;border-radius:8px}
-        .sub-card .ico{font-size:2em;margin-bottom:8px;color:#0056a3}
+        .sub-card img{width:100%;height:90px;object-fit:contain;margin-bottom:10px;border-radius:8px}
         .sub-card h4{font-size:.95em;color:#333;font-weight:600;margin-bottom:4px}
         .sub-card p{font-size:.75em;color:#aaa}
 
-        /* CHAT MODERNO E CLEAN */
+        /* CHAT */
         .chat-box{display:none;flex-direction:column;height:calc(100vh - 80px);max-height:calc(100vh - 80px)}
         .chat-box.active{display:flex}
-        .chat-info{background:linear-gradient(135deg,#0056a3,#0078d4);border-radius:12px;padding:12px 16px;margin-bottom:12px;font-size:.9em;color:#fff;font-weight:500;box-shadow:0 2px 8px rgba(0,86,163,.2);text-align:center}
+        .chat-hdr{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#0056a3,#0078d4);border-radius:12px;padding:12px 16px;margin-bottom:12px;color:#fff}
+        .chat-hdr h3{font-size:.95em;font-weight:500}
+        .chat-hdr .btn-voltar-chat{background:rgba(255,255,255,.2);color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.85em;font-weight:600}
+        .chat-hdr .btn-voltar-chat:hover{background:rgba(255,255,255,.35)}
         .chat-msgs{flex:1;overflow-y:auto;padding:12px 0;display:flex;flex-direction:column;gap:12px}
         .msg{max-width:82%;padding:12px 16px;border-radius:16px;font-size:.92em;line-height:1.6;word-wrap:break-word;white-space:pre-wrap;animation:slideIn .3s;box-shadow:0 2px 6px rgba(0,0,0,.06)}
         .msg.bot{align-self:flex-start;background:#fff;border:1px solid #e8edf2;border-bottom-left-radius:4px;color:#333}
         .msg.user{align-self:flex-end;background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff;border-bottom-right-radius:4px}
         .msg .tm{font-size:.7em;opacity:.6;margin-top:6px;display:block}
-        .typing{display:none;align-self:flex-start;padding:12px 18px;background:#fff;border-radius:16px;border:1px solid #e8edf2;color:#999;font-size:.88em;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+        .typing{display:none;align-self:flex-start;padding:12px 18px;background:#fff;border-radius:16px;border:1px solid #e8edf2;color:#999;font-size:.88em}
         .typing.active{display:block}
         .typing::after{content:'...';animation:dots 1.5s infinite}
-
-        /* INPUT MODERNO */
-        .chat-input{display:flex;gap:8px;padding:12px 0 6px;border-top:2px solid #e8edf2;align-items:flex-end;background:#fff;border-radius:12px 12px 0 0;padding:12px}
-        .chat-input textarea{flex:1;padding:12px 14px;border:2px solid #e8edf2;border-radius:12px;font-size:.93em;resize:none;min-height:44px;max-height:100px;font-family:inherit;outline:none;transition:border-color .2s}
+        .chat-input{display:flex;gap:8px;border-top:2px solid #e8edf2;align-items:flex-end;background:#fff;border-radius:12px 12px 0 0;padding:12px}
+        .chat-input textarea{flex:1;padding:12px 14px;border:2px solid #e8edf2;border-radius:12px;font-size:.93em;resize:none;min-height:44px;max-height:100px;font-family:inherit;outline:none}
         .chat-input textarea:focus{border-color:#0056a3}
         .chat-input button{border:none;border-radius:12px;padding:12px 18px;cursor:pointer;font-size:.95em;min-height:44px;transition:all .2s;font-weight:500}
-        .btn-send{background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff;box-shadow:0 2px 8px rgba(0,86,163,.2)}
-        .btn-send:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,86,163,.3)}
-        .btn-send:disabled{background:#a0bdd9;cursor:not-allowed;transform:none}
+        .btn-send{background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff}
+        .btn-send:disabled{background:#a0bdd9;cursor:not-allowed}
         .btn-att{background:#f0f4f8;color:#0056a3}
-        .btn-att:hover{background:#e1e8f0}
-
-        /* FEEDBACK BAR */
-        .fb-bar{display:none;background:#fff8e6;border:2px solid #ffc107;border-radius:12px;padding:14px;margin-top:10px;text-align:center;box-shadow:0 2px 8px rgba(255,193,7,.15)}
+        .fb-bar{display:none;background:#fff8e6;border:2px solid #ffc107;border-radius:12px;padding:14px;margin-top:10px;text-align:center}
         .fb-bar.active{display:block}
-        .fb-bar p{font-size:.9em;color:#666;margin-bottom:10px;font-weight:500}
+        .fb-bar p{font-size:.9em;color:#666;margin-bottom:10px}
         .fb-bar .btns{display:flex;gap:10px;justify-content:center}
-        .fb-bar .b{padding:9px 20px;border-radius:10px;border:none;cursor:pointer;font-size:.9em;font-weight:600;color:#fff;transition:transform .2s}
-        .fb-bar .b:hover{transform:scale(1.05)}
+        .fb-bar .b{padding:9px 20px;border-radius:10px;border:none;cursor:pointer;font-size:.9em;font-weight:600;color:#fff}
         .b-ok{background:#28a745}
         .b-no{background:#dc3545}
 
@@ -103,165 +97,104 @@
         .pecas-info img{width:100%;max-width:400px;height:250px;object-fit:cover;border-radius:12px;margin-bottom:20px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
         .pecas-info h3{color:#0056a3;margin:12px 0;font-size:1.3em;font-weight:600}
         .pecas-info p{color:#666;line-height:1.7;font-size:.95em}
+        .pecas-info a{color:#0056a3;text-decoration:none}
 
-        /* MODAL GPS */
+        /* MODAIS */
+        .registro-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:300;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
+        .registro-modal.active{display:flex}
+        .registro-content{background:#fff;border-radius:16px;padding:32px;max-width:440px;width:90%;box-shadow:0 12px 48px rgba(0,0,0,.3)}
+        .registro-content h3{color:#0056a3;margin-bottom:8px;font-size:1.4em;font-weight:600;text-align:center}
+        .registro-content p{color:#666;font-size:.9em;margin-bottom:20px;text-align:center}
+        .registro-content label{display:block;color:#333;font-size:.9em;font-weight:500;margin-bottom:6px;margin-top:14px}
+        .registro-content input{width:100%;padding:12px 14px;border:2px solid #e8edf2;border-radius:10px;font-size:.95em;outline:none}
+        .registro-content input:focus{border-color:#0056a3}
+        .registro-content .hint{font-size:.8em;color:#999;margin-top:4px}
+        .registro-content button{background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff;border:none;padding:12px 24px;border-radius:10px;cursor:pointer;font-size:1em;font-weight:600;width:100%;margin-top:20px}
+        .registro-content .erro{color:#dc3545;font-size:.85em;margin-top:8px;display:none}
         .overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
         .overlay.active{display:flex}
         .modal{background:#fff;border-radius:16px;padding:32px;max-width:420px;width:90%;text-align:center;box-shadow:0 12px 48px rgba(0,0,0,.3);animation:modalSlide .3s}
         .modal h3{color:#0056a3;margin-bottom:12px;font-size:1.3em;font-weight:600}
         .modal p{color:#666;font-size:.92em;margin-bottom:18px;line-height:1.6}
         .modal .mg{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-        .modal .btn{padding:10px 24px;border-radius:10px;border:none;cursor:pointer;font-size:.95em;font-weight:600;transition:transform .2s}
-        .modal .btn:hover{transform:scale(1.05)}
+        .modal .btn{padding:10px 24px;border-radius:10px;border:none;cursor:pointer;font-size:.95em;font-weight:600}
         .modal .bp{background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff}
         .modal .bs{background:#f0f4f8;color:#0056a3}
         @keyframes modalSlide{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
-
-        /* MODAL DE VÍDEO */
-        .video-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.95);z-index:300;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
+        .video-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.95);z-index:300;align-items:center;justify-content:center;padding:20px}
         .video-modal.active{display:flex}
-        .video-container{background:#000;border-radius:16px;overflow:hidden;max-width:900px;width:100%;max-height:90vh;position:relative;box-shadow:0 12px 60px rgba(0,0,0,.6)}
+        .video-container{background:#000;border-radius:16px;overflow:hidden;max-width:900px;width:100%;max-height:90vh}
         .video-header{background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff;padding:14px 22px;display:flex;justify-content:space-between;align-items:center}
         .video-header h3{font-size:1.15em;margin:0;font-weight:600}
-        .video-close{background:rgba(255,255,255,.2);border:none;color:#fff;width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:1.4em;line-height:1;transition:all .2s}
-        .video-close:hover{background:rgba(255,255,255,.35);transform:scale(1.1)}
+        .video-close{background:rgba(255,255,255,.2);border:none;color:#fff;width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:1.4em}
         .video-wrapper{position:relative;width:100%;padding-top:56.25%;background:#000}
-        .video-wrapper video{position:absolute;top:0;left:0;width:100%;height:100%;outline:none}
-        .video-error{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;text-align:center;padding:20px}
-        .video-error p{font-size:1.1em;margin-bottom:10px}
-
-        /* TOAST */
+        .video-wrapper video{position:absolute;top:0;left:0;width:100%;height:100%}
+        .video-error{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;text-align:center;display:none}
         .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:12px 24px;border-radius:12px;font-size:.9em;z-index:300;display:none;box-shadow:0 4px 16px rgba(0,0,0,.3);font-weight:500}
         .toast.active{display:block;animation:slideUp .3s}
-
-        /* ANIMAÇÕES */
         @keyframes fadeIn{from{opacity:0}to{opacity:1}}
         @keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
         @keyframes slideUp{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
         @keyframes dots{0%,20%{content:''}40%{content:'.'}60%{content:'..'}80%,100%{content:'...'}}
 
-        /* MOBILE RESPONSIVO - MELHORADO */
+        /* MOBILE */
         @media(max-width:600px){
-            .container{padding:12px 12px 70px}
+            body{font-size:14px}
+            .container{padding:10px 10px 90px}
             .header{padding:10px 14px}
-            .header-logo img{height:24px}
-            .header h1{font-size:.85em}
-            .header h1 span{font-size:.7em}
-            .hdr-btn{padding:6px 10px;font-size:.8em}
-            
-            /* Welcome menor */
-            .welcome{padding:18px 14px;margin-bottom:14px}
-            .welcome h2{font-size:1.2em}
-            .welcome p{font-size:.88em}
-            
-            /* Categorias - 2 colunas */
+            .header img{height:44px}
+            .welcome{padding:14px 12px;margin-bottom:12px}.welcome h2{font-size:1.15em}
             .categories{grid-template-columns:repeat(2,1fr);gap:10px}
-            .cat-card img{height:100px}
-            .cat-card-body{padding:10px}
-            .cat-card-body h3{font-size:.9em}
-            .cat-card-body p{font-size:.75em}
-            
-            /* Subcategorias - 2 colunas */
+            .cat-card img{height:110px;padding:6px}
+            .cat-card-body{padding:10px 8px}.cat-card-body h3{font-size:.88em}.cat-card-body p{font-size:.72em}
+            .sub-hdr{padding:10px 12px;flex-wrap:wrap;gap:8px}.sub-hdr h3{font-size:.98em}
+            .btn-voltar{padding:8px 14px;font-size:.82em}
+            .equip-display{padding:14px}.equip-display img{max-height:120px}
             .sub-grid{grid-template-columns:repeat(2,1fr);gap:10px}
-            .sub-card{padding:14px 10px}
-            .sub-card img{height:70px}
-            .sub-card .ico{font-size:1.8em}
-            .sub-card h4{font-size:.85em}
-            
-            /* Chat */
-            .chat-info{padding:10px 14px;font-size:.85em}
-            .chat-msgs{padding:10px 0;gap:10px}
-            .msg{max-width:85%;padding:10px 12px;font-size:.88em}
-            .msg .tm{font-size:.68em}
-            
-            /* Input */
-            .chat-input{padding:10px;gap:6px}
-            .chat-input textarea{padding:10px 12px;font-size:16px;min-height:42px}
-            .chat-input button{padding:10px 14px;font-size:.9em;min-height:42px}
-            
-            /* Feedback */
-            .fb-bar{padding:12px;margin-top:8px}
-            .fb-bar p{font-size:.85em;margin-bottom:8px}
-            .fb-bar .b{padding:8px 16px;font-size:.85em}
-            
-            /* Modal */
-            .registro-content{padding:24px 18px;width:95%}
-            .registro-content h3{font-size:1.2em}
-            .registro-content p{font-size:.86em}
-            .registro-content input{padding:11px 12px;font-size:16px}
-            .registro-content button{padding:11px 20px}
-            
-            /* Vídeo modal */
-            .video-container{max-height:85vh}
-            .video-header{padding:12px 16px}
-            .video-header h3{font-size:1em}
-            
-            /* Peças */
-            .pecas-info{padding:22px 14px;margin-top:16px}
-            .pecas-info img{max-width:100%;height:180px}
-            .pecas-info h3{font-size:1.2em}
-            .pecas-info p{font-size:.88em}
-            
-            /* Modal GPS */
-            .modal{padding:26px 20px;width:95%}
-            .modal h3{font-size:1.2em;margin-bottom:10px}
-            .modal p{font-size:.88em;margin-bottom:16px}
-            .modal .btn{padding:9px 20px;font-size:.9em}
+            .sub-card{padding:12px 8px}.sub-card img{height:70px}.sub-card h4{font-size:.84em}
+            .prod-row{grid-template-columns:repeat(2,1fr);gap:8px}
+            .prod-item img{height:65px}.prod-item span{font-size:.78em;padding:8px 3px}
+            .chat-box{position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;background:#f5f7fa;height:100vh;max-height:100vh}
+            .chat-input{padding:9px;gap:6px}
+            .chat-input textarea{font-size:16px!important;min-height:40px}
+            .chat-input button{padding:9px 13px;min-height:40px}
+            .pecas-info{padding:20px 14px}.pecas-info img{height:170px}
+            .registro-content{padding:22px 16px;width:92%}
+            .registro-content input{font-size:16px!important}
+            .modal{padding:24px 18px;width:92%}
+            .toast{bottom:70px}
+            .cat-card:hover{transform:none}
+            input[type="text"],input[type="tel"],textarea{font-size:16px!important}
         }
-        
-        /* MUITO PEQUENO */
-        @media(max-width:360px){
-            .header h1{font-size:.8em}
-            .header-logo img{height:22px}
-            .categories{gap:8px}
-            .cat-card img{height:90px}
-            .sub-grid{gap:8px}
-        }
-        
-        /* TELA CHEIA PARA CHAT EM MOBILE */
-        @media(max-width:600px){
-            .chat-box{position:fixed;top:0;left:0;right:0;bottom:0;z-index:150;background:#f5f7fa;height:100vh;max-height:100vh}
-            .chat-box .chat-msgs{padding:12px}
-            .chat-box .chat-input{position:sticky;bottom:0}
-        }
-        
-        /* INPUT PREVENTIVO ZOOM IOS */
-        input[type="text"],input[type="tel"],textarea{font-size:16px!important}
+        @media(max-width:360px){body{font-size:13px}.header img{height:38px}.cat-card img{height:95px}}
+        @media(min-width:601px) and (max-width:900px){.categories{grid-template-columns:repeat(2,1fr)}.prod-row{grid-template-columns:repeat(4,1fr)}}
+        @media(min-width:901px){.categories{grid-template-columns:repeat(4,1fr)}.prod-row{grid-template-columns:repeat(4,1fr)}}
+        @supports(padding:max(0px)){@media(max-width:600px){.chat-input{padding-bottom:max(9px,env(safe-area-inset-bottom))}}}
     </style>
 </head>
 <body>
 
 <div class="header">
-    <div class="header-logo">
-        <img src="https://www.storopack.com.br/fileadmin/_processed_/7/d/csm_Storopack_Logo_RGB_3c3cc237a9.jpg" alt="Storopack">
-        <h1>Assistente Técnico<span>Suporte especializado</span></h1>
-    </div>
-    <div class="header-btns">
-        <button class="hdr-btn" id="btnVoltar" onclick="voltar()">&#8592; Voltar</button>
-        <button class="hdr-btn always" onclick="reiniciarSistema()" title="Reiniciar o sistema">&#8635;</button>
-    </div>
+    <img src="/static/logo/logo1.jpg" alt="Storopack - Perfect Protective Packaging">
 </div>
+<button class="hdr-btn-reset" onclick="reiniciarSistema()" title="Reiniciar">&#8635;</button>
 
-<!-- MODAL DE REGISTRO -->
+<!-- REGISTRO -->
 <div id="registroModal" class="registro-modal">
     <div class="registro-content">
         <h3>📋 Registro de Contato</h3>
-        <p>Para melhor atendê-lo, precisamos de algumas informações. Em caso de não resolvermos o problema, um técnico entrará em contato.</p>
-        
+        <p>Para melhor atendê-lo, precisamos de algumas informações.</p>
         <label for="nomeCliente">Nome completo</label>
         <input type="text" id="nomeCliente" placeholder="Digite seu nome">
-        
         <label for="telefoneCliente">Telefone com DDD</label>
         <input type="tel" id="telefoneCliente" placeholder="(11) 99999-9999">
         <div class="hint" id="telHint"></div>
-        
         <button onclick="salvarRegistro()">Continuar</button>
         <p class="erro" id="registroErro">Por favor, preencha todos os campos</p>
     </div>
 </div>
 
 <div class="container">
-
     <!-- MENU PRINCIPAL -->
     <div id="telaMenu">
         <div class="welcome">
@@ -269,130 +202,161 @@
             <p>Selecione a linha de equipamento para suporte técnico especializado</p>
         </div>
         <div class="categories">
-            <div class="cat-card" onclick="abrirCat('airplus')">
-                <img src="https://www.bonustrading.co.uk/pub/media/catalog/product/cache/dc51ad1cee65ef039961365aac012b96/a/i/airplus-mini-machine-blue-film-600_1.jpg" alt="AIRplus">
-                <div class="cat-card-body"><h3>AIRplus</h3><p>Travesseiros de ar</p></div>
-            </div>
-            <div class="cat-card" onclick="abrirCat('airmove')">
-                <img src="https://www.storopack.com.br/fileadmin/_processed_/7/e/csm_PP_AP_AIRmove___machine_front_motive2_cushion_film_low_res_300dpi_061fd19c2b.jpg" alt="AIRmoves">
-                <div class="cat-card-body"><h3>AIRmoves</h3><p>Linha compacta de ar</p></div>
-            </div>
-            <div class="cat-card" onclick="abrirCat('foamplus')">
-                <img src="https://img.directindustry.com/pt/images_di/photo-g/34409-12098488.jpg" alt="FOAMplus">
-                <div class="cat-card-body"><h3>FOAMplus</h3><p>Espuma expandida</p></div>
-            </div>
-            <div class="cat-card" onclick="abrirCat('paperplus')">
-                <img src="https://www.storopack.com.br/fileadmin/_processed_/5/9/csm_PP_PP_Shooter_machine_tablestand_motive_1_1280x580px_c97e386ad4.png" alt="PAPERplus">
-                <div class="cat-card-body"><h3>PAPERplus</h3><p>Papel amassado</p></div>
-            </div>
+                <div class="cat-card" onclick="abrirCat('airplus')">
+                    <img src="https://www.bonustrading.co.uk/pub/media/catalog/product/cache/dc51ad1cee65ef039961365aac012b96/a/i/airplus-mini-machine-blue-film-600_1.jpg" alt="AIRplus">
+                    <div class="cat-card-body"><h3>AIRplus</h3><p>Travesseiros de ar</p></div>
+                </div>
+                <div class="cat-card" onclick="abrirCat('airmove')">
+                    <img src="https://www.storopack.com.br/fileadmin/_processed_/7/e/csm_PP_AP_AIRmove___machine_front_motive2_cushion_film_low_res_300dpi_061fd19c2b.jpg" alt="AIRmoves">
+                    <div class="cat-card-body"><h3>AIRmoves</h3><p>Linha compacta de ar</p></div>
+                </div>
+                <div class="cat-card" onclick="abrirCat('foamplus')">
+                    <img src="https://img.directindustry.com/pt/images_di/photo-g/34409-12098488.jpg" alt="FOAMplus">
+                    <div class="cat-card-body"><h3>FOAMplus</h3><p>Espuma Expansiva</p></div>
+                </div>
+                <div class="cat-card" onclick="abrirCat('paperplus')">
+                    <img src="https://www.storopack.com.br/fileadmin/_processed_/5/9/csm_PP_PP_Shooter_machine_tablestand_motive_1_1280x580px_c97e386ad4.png" alt="PAPERplus">
+                    <div class="cat-card-body"><h3>PAPERplus</h3><p>Papel amassado</p></div>
+                </div>
+        </div>
+        <!-- PEÇAS -->
+        <div class="pecas-info" id="pecasInfo">
+            <img src="https://www.storopack.com/fileadmin/_processed_/f/3/csm_PI_Packaging_Technical_Service_6584_640x590px_a4449a471c.jpg" alt="Técnico Storopack">
+            <h3>📞 Precisa de peças?</h3>
+            <p>Entre em contato com nossa equipe técnica para solicitar peças de reposição originais Storopack.</p>
+            <p style="margin-top:12px;color:#0056a3;font-weight:600">
+                ☎️ (11) 5677-4699<br>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#25D366" style="vertical-align:middle;margin-right:3px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.612.638l4.716-1.234A11.947 11.947 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.37 0-4.567-.82-6.29-2.19l-.438-.362-3.21.84.855-3.122-.396-.463A9.96 9.96 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+                (11) 98765-4321<br>
+                ✉️ <a href="mailto:packaging.br@storopack.com">packaging.br@storopack.com</a>
+            </p>
         </div>
     </div>
 
     <!-- SUB: AIRplus -->
     <div id="sub_airplus" class="subcats">
-        <div class="sub-hdr"><h3>🌀 AIRplus - Selecione o modelo</h3></div>
-        <div class="sub-grid">
-            <div class="sub-card" onclick="abrirChat('airplus_mini','AIRplus Mini')">
-                <img src="https://www.bonustrading.co.uk/pub/media/catalog/product/cache/dc51ad1cee65ef039961365aac012b96/a/i/airplus-mini-machine-blue-film-600_1.jpg" alt="AIRplus Mini">
-                <h4>AIRplus Mini</h4>
-                <p>Compacto</p>
-            </div>
-            <div class="sub-card" onclick="abrirChat('airplus_ergofeed','AIRplus Ergofeed')">
-                <img src="https://www.storopack.com.br/fileadmin/_processed_/5/d/csm_PI_News_AP_Dispenser_Ergofeed_650x295px_7968352d06.png" alt="Ergofeed">
-                <h4>Ergofeed</h4>
-                <p>Dispenser ergonômico</p>
+        <div class="sub-hdr">
+            <h3>🌀 AIRplus - Selecione o modelo</h3>
+            <button class="btn-voltar" onclick="voltar()">&#8592; Voltar</button>
+        </div>
+        <div class="equip-display">
+            <img src="https://www.bonustrading.co.uk/pub/media/catalog/product/cache/dc51ad1cee65ef039961365aac012b96/a/i/airplus-mini-machine-blue-film-600_1.jpg" alt="AIRplus Mini">
+            <h4>AIRplus Mini</h4>
+            <p>Compacto</p>
+        </div>
+        <div class="prod-section">
+            <h4>📦 Qual modelo está utilizando?</h4>
+            <div class="prod-row">
+                <div class="prod-item" onclick="abrirChat('airplus_void','AIRplus Void')"><img src="https://www.storopack.com.br/fileadmin/_processed_/0/9/csm_AIRplus_Repositioning_dcf3a635a8.jpg" alt="Void"><span>Void</span></div>
+                <div class="prod-item" onclick="abrirChat('airplus_cushion','AIRplus Cushion')"><img src="https://networkpack.co.uk/wp-content/uploads/2018/04/Storopack-AirPlus-Cushion.jpg" alt="Cushion"><span>Cushion</span></div>
+                <div class="prod-item" onclick="abrirChat('airplus_bubble','AIRplus Bubble')"><img src="https://img.directindustry.com/images_di/photo-g/34409-12098185.webp" alt="Bubble"><span>Bubble</span></div>
+                <div class="prod-item" onclick="abrirChat('airplus_wrap','AIRplus Wrap 140d')"><img src="https://img.directindustry.com/images_di/photo-g/34409-12098203.jpg" alt="Wrap"><span>Wrap 140d</span></div>
             </div>
         </div>
     </div>
 
     <!-- SUB: AIRmoves -->
     <div id="sub_airmove" class="subcats">
-        <div class="sub-hdr"><h3>🌀 AIRmoves - Selecione o modelo</h3></div>
+        <div class="sub-hdr">
+            <h3>🌀 AIRmoves - Selecione o modelo</h3>
+            <button class="btn-voltar" onclick="voltar()">&#8592; Voltar</button>
+        </div>
         <div class="sub-grid">
-            <div class="sub-card" onclick="abrirChat('airmove_1','AIRmove 1')">
+            <div class="sub-card" onclick="abrirSubAirmove('airmove1')">
                 <img src="https://www.storopack.com.br/fileadmin/_processed_/8/b/csm_PP_AP_AIRmove_machine_side_motive4_with_void_film_1280x580px_569007f63e.jpg" alt="AIRmove 1">
                 <h4>AIRmove 1</h4>
-                <p>Modelo lateral</p>
             </div>
-            <div class="sub-card" onclick="abrirChat('airmove_2','AIRmove 2')">
+            <div class="sub-card" onclick="abrirSubAirmove('airmove2')">
                 <img src="https://www.storopack.com.br/fileadmin/_processed_/7/e/csm_PP_AP_AIRmove___machine_front_motive2_cushion_film_low_res_300dpi_061fd19c2b.jpg" alt="AIRmove 2">
                 <h4>AIRmove 2</h4>
-                <p>Modelo frontal</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUB-SUB: AIRmove 1 materiais -->
+    <div id="sub_airmove1" class="subcats">
+        <div class="sub-hdr">
+            <h3>🌀 AIRmove 1 - Qual modelo está utilizando?</h3>
+            <button class="btn-voltar" onclick="voltarAirmove()">&#8592; Voltar</button>
+        </div>
+        <div class="equip-display">
+            <img src="https://www.storopack.com.br/fileadmin/_processed_/8/b/csm_PP_AP_AIRmove_machine_side_motive4_with_void_film_1280x580px_569007f63e.jpg" alt="AIRmove 1">
+            <h4>AIRmove 1</h4>
+        </div>
+        <div class="prod-section">
+            <div class="prod-row">
+                <div class="prod-item" onclick="abrirChat('airmove1_void','AIRmove 1 Void')"><img src="https://www.storopack.com.br/fileadmin/_processed_/0/9/csm_AIRplus_Repositioning_dcf3a635a8.jpg" alt="Void"><span>Void</span></div>
+                <div class="prod-item" onclick="abrirChat('airmove1_cushion','AIRmove 1 Cushion')"><img src="https://networkpack.co.uk/wp-content/uploads/2018/04/Storopack-AirPlus-Cushion.jpg" alt="Cushion"><span>Cushion</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUB-SUB: AIRmove 2 materiais -->
+    <div id="sub_airmove2" class="subcats">
+        <div class="sub-hdr">
+            <h3>🌀 AIRmove 2 - Qual modelo está utilizando?</h3>
+            <button class="btn-voltar" onclick="voltarAirmove()">&#8592; Voltar</button>
+        </div>
+        <div class="equip-display">
+            <img src="https://www.storopack.com.br/fileadmin/_processed_/7/e/csm_PP_AP_AIRmove___machine_front_motive2_cushion_film_low_res_300dpi_061fd19c2b.jpg" alt="AIRmove 2">
+            <h4>AIRmove 2</h4>
+        </div>
+        <div class="prod-section">
+            <div class="prod-row">
+                <div class="prod-item" onclick="abrirChat('airmove2_void','AIRmove 2 Void')"><img src="https://www.storopack.com.br/fileadmin/_processed_/0/9/csm_AIRplus_Repositioning_dcf3a635a8.jpg" alt="Void"><span>Void</span></div>
+                <div class="prod-item" onclick="abrirChat('airmove2_cushion','AIRmove 2 Cushion')"><img src="https://networkpack.co.uk/wp-content/uploads/2018/04/Storopack-AirPlus-Cushion.jpg" alt="Cushion"><span>Cushion</span></div>
+                <div class="prod-item" onclick="abrirChat('airmove2_bubble','AIRmove 2 Bubble')"><img src="https://img.directindustry.com/images_di/photo-g/34409-12098185.webp" alt="Bubble"><span>Bubble</span></div>
+                <div class="prod-item" onclick="abrirChat('airmove2_wrap','AIRmove 2 Wrap 140d')"><img src="https://img.directindustry.com/images_di/photo-g/34409-12098203.jpg" alt="Wrap"><span>Wrap 140d</span></div>
             </div>
         </div>
     </div>
 
     <!-- SUB: FOAMplus -->
     <div id="sub_foamplus" class="subcats">
-        <div class="sub-hdr"><h3>💨 FOAMplus - Selecione o modelo</h3></div>
+        <div class="sub-hdr">
+            <h3>💨 FOAMplus - Selecione o modelo</h3>
+            <button class="btn-voltar" onclick="voltar()">&#8592; Voltar</button>
+        </div>
         <div class="sub-grid">
             <div class="sub-card" onclick="abrirChat('foam_bagpacker','FOAMplus Bag Packer')">
                 <img src="https://img.directindustry.com/pt/images_di/photo-g/34409-12098488.jpg" alt="Bag Packer">
-                <h4>Bag Packer</h4>
-                <p>Sacos de espuma</p>
+                <h4>Bag Packer</h4><p>Sacos de espuma</p>
             </div>
             <div class="sub-card" onclick="abrirChat('foam_handpacker','FOAMplus Hand Packer')">
                 <img src="https://5.imimg.com/data5/HS/KC/MW/SELLER-8794370/foamplus-hand-packer-2-machine.jpg" alt="Hand Packer">
-                <h4>Hand Packer</h4>
-                <p>Manual</p>
+                <h4>Hand Packer</h4><p>Manual</p>
             </div>
         </div>
     </div>
 
     <!-- SUB: PAPERplus -->
     <div id="sub_paperplus" class="subcats">
-        <div class="sub-hdr"><h3>📄 PAPERplus - Selecione o modelo</h3></div>
-        <div class="sub-grid">
-            <div class="sub-card" onclick="abrirChat('paper_shooter','PAPERplus Shooter')">
-                <img src="https://www.storopack.com.br/fileadmin/_processed_/5/9/csm_PP_PP_Shooter_machine_tablestand_motive_1_1280x580px_c97e386ad4.png" alt="Shooter">
-                <h4>Shooter</h4>
-                <p>Mesa</p>
-            </div>
-            <div class="sub-card" onclick="abrirChat('paper_papillon','PAPERplus Papillon')">
-                <img src="https://files.lbcdn.info/i/o/aHR0cHM6Ly93d3cuZ3JlZW5vc3VwcGx5LmNvbS9JbWFnZXMvR3JlZW5vdWdoJTIwUGljcy9QQVBFUnBsdXMlQzIlQUUlMjBQYXBpbGxvbiUyMFBhcGVyJTIwUGFja2FnaW5nJTIwU3lzdGVtLmpwZw2.jpg" alt="Papillon">
-                <h4>Papillon</h4>
-                <p>Sistema</p>
-            </div>
-            <div class="sub-card" onclick="abrirChat('paper_classic','PAPERplus Classic')">
-                <img src="https://packair.ru/files/PACKAIR/photo/STOROPACK/PAPERplus/paperplus_classic.jpg" alt="Classic">
-                <h4>Classic</h4>
-                <p>Clássico</p>
-            </div>
-            <div class="sub-card" onclick="abrirChat('paper_cx','PAPERplus CX')">
-                <img src="https://www.storopack.com.br/fileadmin/_processed_/1/e/csm_PP_PP_Classic_CX_machine_0539_1280x580px_EUROPEAN_STAND_756b4e2466.png" alt="CX">
-                <h4>CX</h4>
-                <p>Versão CX</p>
-            </div>
-            <div class="sub-card" onclick="abrirChat('paper_track','PAPERplus Track')">
-                <img src="https://bvs-verpacken.com/wp-content/uploads/2025/01/papierpolster-system-track-03.png" alt="Track">
-                <h4>Track</h4>
-                <p>Sistema Track</p>
-            </div>
-            <div class="sub-card" onclick="abrirChat('paper_chevron','PAPERplus Chevron')">
-                <img src="https://www.storopack.com.br/fileadmin/_processed_/b/c/csm_PP_PP_Chevron___machine_floorstand_with_conveyor_motive2_1280x580px_900e25faea.png" alt="Chevron">
-                <h4>Chevron</h4>
-                <p>Com esteira</p>
-            </div>
+        <div class="sub-hdr">
+            <h3>📄 PAPERplus - Selecione o modelo</h3>
+            <button class="btn-voltar" onclick="voltar()">&#8592; Voltar</button>
         </div>
-    </div>
-
-    <!-- PEÇAS INFO -->
-    <div class="pecas-info" id="pecasInfo">
-        <img src="https://www.storopack.com/fileadmin/_processed_/f/3/csm_PI_Packaging_Technical_Service_6584_640x590px_a4449a471c.jpg" alt="Técnico Storopack">
-        <h3>📞 Precisa de peças?</h3>
-        <p>Entre em contato com nossa equipe técnica para solicitar peças de reposição originais Storopack. Nossa equipe está pronta para atender você com agilidade e qualidade.</p>
-        <p style="margin-top:12px;color:#0056a3;font-weight:600">☎️ (11) 5677-4699 | ✉️ <a href="/cdn-cgi/l/email-protection#3a4a5b59515b5d53545d1458487a494e5548554a5b595114595557"><span class="__cf_email__" data-cfemail="d2a2b3b1b9b3b5bbbcb5fcb0a092a1a6bda0bda2b3b1b9fcb1bdbf">[email&#160;protected]</span></a></p>
+        <div class="sub-grid">
+            <div class="sub-card" onclick="abrirChat('paper_shooter','PAPERplus Shooter')"><img src="https://www.storopack.com.br/fileadmin/_processed_/5/9/csm_PP_PP_Shooter_machine_tablestand_motive_1_1280x580px_c97e386ad4.png" alt="Shooter"><h4>Shooter</h4><p>Mesa</p></div>
+            <div class="sub-card" onclick="abrirChat('paper_papillon','PAPERplus Papillon')"><img src="https://files.lbcdn.info/i/o/aHR0cHM6Ly93d3cuZ3JlZW5vc3VwcGx5LmNvbS9JbWFnZXMvR3JlZW5vdWdoJTIwUGljcy9QQVBFUnBsdXMlQzIlQUUlMjBQYXBpbGxvbiUyMFBhcGVyJTIwUGFja2FnaW5nJTIwU3lzdGVtLmpwZw2.jpg" alt="Papillon"><h4>Papillon</h4><p>Sistema</p></div>
+            <div class="sub-card" onclick="abrirChat('paper_classic','PAPERplus Classic')"><img src="https://packair.ru/files/PACKAIR/photo/STOROPACK/PAPERplus/paperplus_classic.jpg" alt="Classic"><h4>Classic</h4><p>Clássico</p></div>
+            <div class="sub-card" onclick="abrirChat('paper_cx','PAPERplus CX')"><img src="https://www.storopack.com.br/fileadmin/_processed_/1/e/csm_PP_PP_Classic_CX_machine_0539_1280x580px_EUROPEAN_STAND_756b4e2466.png" alt="CX"><h4>CX</h4><p>Versão CX</p></div>
+            <div class="sub-card" onclick="abrirChat('paper_track','PAPERplus Track')"><img src="https://bvs-verpacken.com/wp-content/uploads/2025/01/papierpolster-system-track-03.png" alt="Track"><h4>Track</h4><p>Sistema Track</p></div>
+            <div class="sub-card" onclick="abrirChat('paper_chevron','PAPERplus Chevron')"><img src="https://www.storopack.com.br/fileadmin/_processed_/b/c/csm_PP_PP_Chevron___machine_floorstand_with_conveyor_motive2_1280x580px_900e25faea.png" alt="Chevron"><h4>Chevron</h4><p>Com esteira</p></div>
+        </div>
     </div>
 
     <!-- CHAT -->
     <div id="telaChat" class="chat-box">
-        <div id="chatInfo" class="chat-info"></div>
+        <div class="chat-hdr">
+            <button class="btn-voltar-chat" onclick="voltar()">&#8592; Voltar</button>
+            <h3 id="chatInfo"></h3>
+        </div>
         <div id="chatMsgs" class="chat-msgs"></div>
         <div id="typing" class="typing">Técnico digitando</div>
         <div class="chat-input">
             <textarea id="chatIn" placeholder="Digite sua dúvida ou problema..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();enviar()}" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
             <input type="file" id="videoInput" accept="video/*" style="display:none" onchange="enviarVideo(this)">
-            <button class="btn-att" onclick="document.getElementById('videoInput').click()" title="Enviar vídeo">📹</button>
+            <button class="btn-att" onclick="document.getElementById('videoInput').click()">📹</button>
             <button id="btnSend" class="btn-send" onclick="enviar()">Enviar</button>
         </div>
         <div id="fbBar" class="fb-bar">
@@ -403,397 +367,67 @@
             </div>
         </div>
     </div>
-
 </div>
 
-<!-- MODAL GPS -->
-<div id="gpsOverlay" class="overlay">
+<!-- GPS -->
+<div id="gpsOverlay" class="overlay active">
     <div class="modal">
-        <h3>📍 Localização necessária</h3>
-        <p>Para oferecer um atendimento mais rápido e eficiente, precisamos da sua localização para enviar um técnico caso seja necessário.</p>
-        <div class="mg">
-            <button class="btn bp" onclick="permitirGPS()">Permitir</button>
-            <button class="btn bs" onclick="negarGPS()">Agora não</button>
+        <h3>📍 Permitir localização</h3>
+        <p>Para enviar um técnico se necessário, precisamos da sua localização.</p>
+        <div id="gpsLoading" style="display:none;text-align:center;padding:12px 0;color:#0056a3;font-weight:600">⏳ Obtendo localização...</div>
+        <div id="gpsBtns" class="mg">
+            <button class="btn bp" onclick="permitirGPS()">✅ Permitir</button>
+            <button class="btn bs" onclick="negarGPS()">Continuar sem GPS</button>
         </div>
     </div>
 </div>
 
-<!-- MODAL VÍDEO -->
+<!-- VIDEO -->
 <div id="videoModal" class="video-modal">
     <div class="video-container">
-        <div class="video-header">
-            <h3 id="videoTitle">Solução do problema</h3>
-            <button class="video-close" onclick="fecharVideo()">×</button>
-        </div>
+        <div class="video-header"><h3 id="videoTitle">Solução</h3><button class="video-close" onclick="fecharVideo()">×</button></div>
         <div class="video-wrapper">
-            <video id="videoPlayer" controls>
-                <source id="videoSource" src="" type="video/mp4">
-                Seu navegador não suporta vídeo.
-            </video>
-            <div id="videoError" class="video-error" style="display:none">
-                <p>⚠️ Não foi possível carregar o vídeo</p>
-                <p style="font-size:.9em">Verifique sua conexão</p>
-            </div>
+            <video id="videoPlayer" controls><source id="videoSource" src="" type="video/mp4"></video>
+            <div id="videoError" class="video-error"><p>⚠️ Erro ao carregar vídeo</p></div>
         </div>
     </div>
 </div>
 
 <div id="toast" class="toast"></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-var sid='sess_'+Math.random().toString(36).substr(2,9);
-var modAtual='',nomeAtual='',chamadoId=null,tela='menu';
-var lat=null,lng=null;
-var clienteNome='',clienteTelefone='';
-var registroCompleto=false;
+<script>
+var sid='sess_'+Math.random().toString(36).substr(2,9),modAtual='',nomeAtual='',chamadoId=null,tela='menu';
+var lat=null,lng=null,clienteNome='',clienteTelefone='',registroCompleto=false;
+var videosErros={'E1':{titulo:'E1 - Sensor Temp',arquivo:'/static/erros/e1.mp4'},'E2':{titulo:'E2 - Resistência',arquivo:'/static/erros/e2.mp4'},'E3':{titulo:'E3 - Sensor Filme',arquivo:'/static/erros/e3.mp4'},'E4':{titulo:'E4 - Posicionamento',arquivo:'/static/erros/e4.mp4'},'E5':{titulo:'E5 - Motor',arquivo:'/static/erros/e5.mp4'},'E6':{titulo:'E6 - Termopar',arquivo:'/static/erros/e6.mp4'},'E7':{titulo:'E7 - Termopar',arquivo:'/static/erros/e7.mp4'},'E8':{titulo:'E8 - Termopar',arquivo:'/static/erros/e8.mp4'},'E9':{titulo:'E9 - Calibração',arquivo:'/static/erros/e9.mp4'},'E10':{titulo:'E10 - Parâmetro',arquivo:'/static/erros/e10.mp4'},'E11':{titulo:'E11 - Instabilidade',arquivo:'/static/erros/e11.mp4'}};
 
-// VÍDEOS DE SOLUÇÃO DE ERROS
-var videosErros={
-    'E1':{titulo:'Erro E1 - Sensor de Temperatura',arquivo:'/static/erros/e1.mp4'},
-    'E2':{titulo:'Erro E2 - Resistência de Selagem',arquivo:'/static/erros/e2.mp4'},
-    'E3':{titulo:'Erro E3 - Sensor de Filme',arquivo:'/static/erros/e3.mp4'},
-    'E4':{titulo:'Erro E4 - Posicionamento Inicial',arquivo:'/static/erros/e4.mp4'},
-    'E5':{titulo:'Erro E5 - Motor de Passo',arquivo:'/static/erros/e5.mp4'},
-    'E6':{titulo:'Erro E6 - Termopar',arquivo:'/static/erros/e6.mp4'},
-    'E7':{titulo:'Erro E7 - Termopar',arquivo:'/static/erros/e7.mp4'},
-    'E8':{titulo:'Erro E8 - Termopar',arquivo:'/static/erros/e8.mp4'},
-    'E9':{titulo:'Erro E9 - Calibração Fora do Limite',arquivo:'/static/erros/e9.mp4'},
-    'E10':{titulo:'Erro E10 - Parâmetro Extremo',arquivo:'/static/erros/e10.mp4'},
-    'E11':{titulo:'Erro E11 - Instabilidade na Selagem',arquivo:'/static/erros/e11.mp4'}
-};
+function detectarTelefone(){var t=localStorage.getItem('telefone_cliente');if(t){document.getElementById('telefoneCliente').value=t;document.getElementById('telHint').innerHTML='✅ Número detectado.';document.getElementById('telHint').style.color='#28a745'}}
+function mostrarRegistro(){document.getElementById('registroModal').classList.add('active');detectarTelefone();document.getElementById('nomeCliente').focus()}
+function salvarRegistro(){var n=document.getElementById('nomeCliente').value.trim(),t=document.getElementById('telefoneCliente').value.trim();if(!n||!t){document.getElementById('registroErro').style.display='block';return}var tl=t.replace(/\D/g,'');if(tl.length<10){document.getElementById('registroErro').textContent='Telefone inválido';document.getElementById('registroErro').style.display='block';return}clienteNome=n;clienteTelefone=t;registroCompleto=true;localStorage.setItem('nome_cliente',n);localStorage.setItem('telefone_cliente',t);fetch('/registrar-contato',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:n,telefone:t,session_id:sid})});document.getElementById('registroModal').classList.remove('active');showToast('✅ Bem-vindo, '+n.split(' ')[0]+'!')}
+document.getElementById('telefoneCliente').addEventListener('input',function(e){var v=e.target.value.replace(/\D/g,'');if(v.length<=11){v=v.replace(/^(\d{2})(\d)/g,'($1) $2');v=v.replace(/(\d)(\d{4})$/,'$1-$2');e.target.value=v}});
 
-// DETECTAR TELEFONE AUTOMATICAMENTE
-function detectarTelefone(){
-    var tel=localStorage.getItem('telefone_cliente');
-    if(tel){
-        document.getElementById('telefoneCliente').value=tel;
-        document.getElementById('telHint').innerHTML='✅ Número detectado automaticamente. Pode alterar se necessário.';
-        document.getElementById('telHint').style.color='#28a745';
-    }
-}
+// GPS IMEDIATO
+(function(){if(localStorage.getItem('gps_ok')==='true'){document.getElementById('gpsOverlay').classList.remove('active');if(navigator.geolocation)navigator.geolocation.getCurrentPosition(function(p){lat=p.coords.latitude;lng=p.coords.longitude},function(){},{timeout:5000})}})();
+function permitirGPS(){document.getElementById('gpsBtns').style.display='none';document.getElementById('gpsLoading').style.display='block';if(navigator.geolocation){navigator.geolocation.getCurrentPosition(function(p){lat=p.coords.latitude;lng=p.coords.longitude;localStorage.setItem('gps_ok','true');document.getElementById('gpsOverlay').classList.remove('active');showToast('✅ Localização obtida!')},function(){localStorage.setItem('gps_ok','true');document.getElementById('gpsOverlay').classList.remove('active');showToast('⚠️ Não foi possível obter localização')},{timeout:10000,enableHighAccuracy:false})}else{document.getElementById('gpsOverlay').classList.remove('active');showToast('⚠️ GPS não suportado')}}
+function negarGPS(){localStorage.setItem('gps_ok','true');document.getElementById('gpsOverlay').classList.remove('active');showToast('ℹ️ Localização pode ser ativada depois')}
+function showToast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('active');setTimeout(function(){t.classList.remove('active')},3000)}
+function criarBotoesVideo(t){return t.replace(/\[SIM_VIDEO_E(\d+)\]/gi,function(m,n){return '<div style="margin-top:10px"><button onclick="abrirVideo(\'E'+n+'\')" style="background:#0056a3;color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;margin-right:8px">📹 Ver vídeo</button><button onclick="event.target.parentElement.style.display=\'none\'" style="background:#6c757d;color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer">Não</button></div>'})}
+function abrirVideo(c){var v=videosErros[c];if(!v)return;document.getElementById('videoTitle').textContent=v.titulo;document.getElementById('videoSource').src=v.arquivo;var p=document.getElementById('videoPlayer');p.load();document.getElementById('videoModal').classList.add('active');document.getElementById('videoError').style.display='none';p.play().catch(function(){});p.onerror=function(){document.getElementById('videoError').style.display='block'}}
+function fecharVideo(){document.getElementById('videoPlayer').pause();document.getElementById('videoPlayer').currentTime=0;document.getElementById('videoModal').classList.remove('active')}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')fecharVideo()});
 
-// MOSTRAR MODAL DE REGISTRO
-function mostrarRegistro(){
-    document.getElementById('registroModal').classList.add('active');
-    detectarTelefone();
-    document.getElementById('nomeCliente').focus();
-}
-
-// SALVAR REGISTRO
-function salvarRegistro(){
-    var nome=document.getElementById('nomeCliente').value.trim();
-    var tel=document.getElementById('telefoneCliente').value.trim();
-    
-    if(!nome || !tel){
-        document.getElementById('registroErro').style.display='block';
-        return;
-    }
-    
-    // Validar telefone básico
-    var telLimpo=tel.replace(/\D/g,'');
-    if(telLimpo.length<10){
-        document.getElementById('registroErro').textContent='Telefone inválido. Use (11) 99999-9999';
-        document.getElementById('registroErro').style.display='block';
-        return;
-    }
-    
-    clienteNome=nome;
-    clienteTelefone=tel;
-    registroCompleto=true;
-    
-    // Salvar no localStorage
-    localStorage.setItem('nome_cliente',nome);
-    localStorage.setItem('telefone_cliente',tel);
-    
-    // Enviar ao backend
-    fetch('/registrar-contato',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({nome:nome,telefone:tel,session_id:sid})
-    });
-    
-    document.getElementById('registroModal').classList.remove('active');
-    showToast('✅ Registro salvo! Bem-vindo, '+nome.split(' ')[0]+'!');
-}
-
-// FORMATAÇÃO AUTOMÁTICA DE TELEFONE
-document.getElementById('telefoneCliente').addEventListener('input',function(e){
-    var v=e.target.value.replace(/\D/g,'');
-    if(v.length<=11){
-        v=v.replace(/^(\d{2})(\d)/g,'($1) $2');
-        v=v.replace(/(\d)(\d{4})$/,'$1-$2');
-        e.target.value=v;
-    }
-});
-
-// GPS - Solicitar mas não bloquear a interface
-setTimeout(function(){
-    if(!lat && !lng && tela==='menu'){
-        document.getElementById('gpsOverlay').classList.add('active');
-    }
-},2000); // Reduzido de 3s para 2s
-
-function permitirGPS(){
-    if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(function(p){
-            lat=p.coords.latitude;lng=p.coords.longitude;
-            document.getElementById('gpsOverlay').classList.remove('active');
-            showToast('✅ Localização obtida com sucesso!');
-            
-            // Calcular distância da Storopack
-            var dist=calcularDistancia(lat,lng,-23.645,-46.654);
-            console.log('Distância da Storopack:',dist.toFixed(2),'km');
-            
-            // Mostrar seção de peças após obter localização
-            setTimeout(function(){
-                if(tela==='menu'){
-                    document.getElementById('pecasInfo').style.display='block';
-                }
-            },1000);
-        },function(){
-            document.getElementById('gpsOverlay').classList.remove('active');
-            showToast('⚠️ Não foi possível obter localização');
-        });
-    }else{
-        document.getElementById('gpsOverlay').classList.remove('active');
-        showToast('⚠️ Navegador não suporta geolocalização');
-    }
-}
-
-function negarGPS(){
-    document.getElementById('gpsOverlay').classList.remove('active');
-    showToast('ℹ️ Você pode permitir depois nas configurações do navegador');
-}
-
-// CALCULAR DISTÂNCIA (HAVERSINE)
-function calcularDistancia(lat1,lon1,lat2,lon2){
-    var R=6371;
-    var dLat=(lat2-lat1)*Math.PI/180;
-    var dLon=(lon2-lon1)*Math.PI/180;
-    var a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
-    var c=2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-    return R*c;
-}
-
-function showToast(msg){
-    var t=document.getElementById('toast');
-    t.textContent=msg;t.classList.add('active');
-    setTimeout(function(){t.classList.remove('active')},3000);
-}
-
-// DETECTAR CÓDIGO DE ERRO E BOTÕES DE VÍDEO
-function detectarErro(msg){
-    var m=msg.toUpperCase();
-    // Detectar padrão [SIM_VIDEO_EX]
-    var matchBotao=m.match(/\[SIM_VIDEO_E(\d+)\]/);
-    if(matchBotao){
-        var numErro=matchBotao[1];
-        return 'E'+numErro;
-    }
-    // Detectar erros E1-E11
-    for(var i=1;i<=11;i++){
-        var codigo='E'+i;
-        if(m.includes(codigo))return codigo;
-    }
-    return null;
-}
-
-function criarBotoesVideo(texto){
-    // Procurar padrão [SIM_VIDEO_EX] e substituir por botões
-    return texto.replace(/\[SIM_VIDEO_E(\d+)\]/gi,function(match,num){
-        var codigo='E'+num;
-        return '<div style="margin-top:10px"><button onclick="abrirVideo(\''+codigo+'\')" style="background:#0056a3;color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;margin-right:8px">📹 Sim, ver vídeo</button><button onclick="event.target.parentElement.style.display=\'none\'" style="background:#6c757d;color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer">Não</button></div>';
-    });
-}
-
-function abrirVideo(codigoErro){
-    var video=videosErros[codigoErro];
-    if(!video)return;
-    var modal=document.getElementById('videoModal');
-    var player=document.getElementById('videoPlayer');
-    var source=document.getElementById('videoSource');
-    var titulo=document.getElementById('videoTitle');
-    var erro=document.getElementById('videoError');
-    titulo.textContent=video.titulo;
-    source.src=video.arquivo;
-    player.load();
-    modal.classList.add('active');
-    erro.style.display='none';
-    player.play().catch(function(e){console.error('Erro ao reproduzir:',e)});
-    player.onerror=function(){erro.style.display='block'};
-}
-
-function fecharVideo(){
-    var modal=document.getElementById('videoModal');
-    var player=document.getElementById('videoPlayer');
-    player.pause();
-    player.currentTime=0;
-    modal.classList.remove('active');
-}
-
-document.addEventListener('keydown',function(e){
-    if(e.key==='Escape')fecharVideo();
-});
-
-// NAV
-function abrirCat(c){
-    document.getElementById('telaMenu').style.display='none';
-    document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});
-    document.getElementById('sub_'+c).classList.add('active');
-    document.getElementById('btnVoltar').style.display='inline-block';
-    tela='sub';
-}
-
-function abrirChat(mod,nome){
-    // Verificar registro antes de abrir chat
-    if(!registroCompleto){
-        mostrarRegistro();
-        // Aguardar registro e tentar novamente
-        setTimeout(function(){
-            if(registroCompleto){
-                iniciarChat(mod,nome);
-            }
-        },500);
-        return;
-    }
-    iniciarChat(mod,nome);
-}
-
-function iniciarChat(mod,nome){
-    modAtual=mod;nomeAtual=nome;chamadoId=null;
-    document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});
-    document.getElementById('telaMenu').style.display='none';
-    document.getElementById('telaChat').classList.add('active');
-    document.getElementById('chatInfo').textContent='💬 '+nome;
-    document.getElementById('btnVoltar').style.display='inline-block';
-    tela='chat';
-    document.getElementById('chatMsgs').innerHTML='';
-    addMsg('bot','Olá '+clienteNome.split(' ')[0]+'! 👋\n\nSou o assistente técnico da Storopack para '+nome+'.\n\nComo posso te ajudar hoje?');
-    document.getElementById('chatIn').focus();
-}
-
-function voltar(){
-    if(tela==='chat'){
-        if(chamadoId){document.getElementById('fbBar').classList.add('active');return}
-        fecharChat();
-    }else if(tela==='sub'){
-        document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});
-        document.getElementById('telaMenu').style.display='block';
-        document.getElementById('btnVoltar').style.display='none';
-        tela='menu';
-    }
-}
-
-function fecharChat(){
-    document.getElementById('telaChat').classList.remove('active');
-    document.getElementById('fbBar').classList.remove('active');
-    document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});
-    document.getElementById('telaMenu').style.display='block';
-    document.getElementById('btnVoltar').style.display='none';
-    tela='menu';chamadoId=null;
-}
-
-// CHAT
-function addMsg(tipo,txt){
-    var d=document.createElement('div');
-    d.className='msg '+tipo;
-    var h=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-    
-    // Processar botões de vídeo se for mensagem do bot
-    var conteudo=txt;
-    if(tipo==='bot'){
-        conteudo=criarBotoesVideo(txt);
-    }
-    
-    d.innerHTML=conteudo+'<span class="tm">'+h+'</span>';
-    document.getElementById('chatMsgs').appendChild(d);
-    document.getElementById('chatMsgs').scrollTop=99999;
-}
-
-function enviar(){
-    var inp=document.getElementById('chatIn');
-    var m=inp.value.trim();
-    if(!m)return;
-    inp.value='';inp.style.height='auto';
-    addMsg('user',m);
-    document.getElementById('typing').classList.add('active');
-    document.getElementById('btnSend').disabled=true;
-    
-    fetch('/chat',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-            mensagem:m,
-            modulo:modAtual,
-            session_id:sid,
-            chamado_id:chamadoId,
-            latitude:lat,
-            longitude:lng,
-            nome_cliente:clienteNome,
-            telefone_cliente:clienteTelefone
-        })
-    })
-    .then(function(r){return r.json()})
-    .then(function(d){
-        chamadoId=d.chamado_id||chamadoId;
-        addMsg('bot',d.resposta);
-    })
-    .catch(function(){addMsg('bot','⚠️ Erro de conexão. Tente novamente.')})
-    .finally(function(){
-        document.getElementById('typing').classList.remove('active');
-        document.getElementById('btnSend').disabled=false;
-        inp.focus();
-    });
-}
-
-function enviarVideo(inp){
-    var f=inp.files[0];if(!f)return;
-    if(f.size>100*1024*1024){showToast('⚠️ Vídeo muito grande (máx 100MB)');return}
-    addMsg('user','📹 Enviando vídeo para análise...');
-    document.getElementById('typing').classList.add('active');
-    var fd=new FormData();
-    fd.append('video',f);
-    fd.append('modulo',modAtual);
-    fd.append('chamado_id',chamadoId||'');
-    fd.append('session_id',sid);
-    fd.append('nome_cliente',clienteNome);
-    fd.append('telefone_cliente',clienteTelefone);
-    
-    fetch('/analyze-video',{method:'POST',body:fd})
-    .then(function(r){return r.json()})
-    .then(function(d){
-        chamadoId=d.chamado_id||chamadoId;
-        addMsg('bot',d.resposta);
-    })
-    .catch(function(){addMsg('bot','⚠️ Erro ao enviar vídeo.')});
-    
-    document.getElementById('typing').classList.remove('active');
-    inp.value='';
-}
-
-function enviarFb(ok){
-    fetch('/feedback',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-            chamado_id:chamadoId,
-            resolvido:ok,
-            comentario:ok?'Resolvido':'Não resolvido'
-        })
-    });
-    showToast(ok?'✅ Que bom! Ficamos felizes em ajudar!':'📞 Nosso técnico entrará em contato em breve!');
-    setTimeout(fecharChat,1500);
-}
-
-// REINICIAR
-function reiniciarSistema(){
-    if(!confirm('🔄 Reiniciar o sistema? O app será recarregado.'))return;
-    showToast('🔄 Reiniciando...');
-    localStorage.clear();
-    fetch('/reiniciar',{method:'POST'}).catch(function(){});
-    setTimeout(function(){location.reload()},1000);
-}
-
-// CARREGAR DADOS SALVOS
-window.onload=function(){
-    var nomeSalvo=lo
+function abrirCat(c){document.getElementById('telaMenu').style.display='none';document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('sub_'+c).classList.add('active');tela='sub'}
+function abrirSubAirmove(id){document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('sub_'+id).classList.add('active');tela='subsub'}
+function voltarAirmove(){document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('sub_airmove').classList.add('active');tela='sub'}
+function abrirChat(mod,nome){if(!registroCompleto){mostrarRegistro();setTimeout(function(){if(registroCompleto)iniciarChat(mod,nome)},500);return}iniciarChat(mod,nome)}
+function iniciarChat(mod,nome){modAtual=mod;nomeAtual=nome;chamadoId=null;document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('telaMenu').style.display='none';document.getElementById('telaChat').classList.add('active');document.getElementById('chatInfo').textContent='💬 '+nome;tela='chat';document.getElementById('chatMsgs').innerHTML='';addMsg('bot','Olá '+(clienteNome?clienteNome.split(' ')[0]:'')+'! 👋\n\nSou o assistente técnico da Storopack para '+nome+'.\n\nComo posso te ajudar hoje?');document.getElementById('chatIn').focus()}
+function voltar(){if(tela==='chat'){if(chamadoId){document.getElementById('fbBar').classList.add('active');return}fecharChat()}else if(tela==='subsub'){voltarAirmove()}else if(tela==='sub'){document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('telaMenu').style.display='block';tela='menu'}}
+function fecharChat(){document.getElementById('telaChat').classList.remove('active');document.getElementById('fbBar').classList.remove('active');document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('telaMenu').style.display='block';tela='menu';chamadoId=null}
+function addMsg(tipo,txt){var d=document.createElement('div');d.className='msg '+tipo;var h=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});var c=tipo==='bot'?criarBotoesVideo(txt):txt;d.innerHTML=c+'<span class="tm">'+h+'</span>';document.getElementById('chatMsgs').appendChild(d);document.getElementById('chatMsgs').scrollTop=99999}
+function enviar(){var inp=document.getElementById('chatIn'),m=inp.value.trim();if(!m)return;inp.value='';inp.style.height='auto';addMsg('user',m);document.getElementById('typing').classList.add('active');document.getElementById('btnSend').disabled=true;fetch('/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mensagem:m,modulo:modAtual,session_id:sid,chamado_id:chamadoId,latitude:lat,longitude:lng,nome_cliente:clienteNome,telefone_cliente:clienteTelefone})}).then(function(r){return r.json()}).then(function(d){chamadoId=d.chamado_id||chamadoId;addMsg('bot',d.resposta)}).catch(function(){addMsg('bot','⚠️ Erro de conexão.')}).finally(function(){document.getElementById('typing').classList.remove('active');document.getElementById('btnSend').disabled=false;inp.focus()})}
+function enviarVideo(inp){var f=inp.files[0];if(!f)return;if(f.size>100*1024*1024){showToast('⚠️ Máx 100MB');return}addMsg('user','📹 Enviando vídeo...');document.getElementById('typing').classList.add('active');var fd=new FormData();fd.append('video',f);fd.append('modulo',modAtual);fd.append('chamado_id',chamadoId||'');fd.append('session_id',sid);fd.append('nome_cliente',clienteNome);fd.append('telefone_cliente',clienteTelefone);fetch('/analyze-video',{method:'POST',body:fd}).then(function(r){return r.json()}).then(function(d){chamadoId=d.chamado_id||chamadoId;addMsg('bot',d.resposta)}).catch(function(){addMsg('bot','⚠️ Erro ao enviar vídeo.')});document.getElementById('typing').classList.remove('active');inp.value=''}
+function enviarFb(ok){fetch('/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chamado_id:chamadoId,resolvido:ok,comentario:ok?'Resolvido':'Não resolvido'})});showToast(ok?'✅ Ficamos felizes!':'📞 Técnico entrará em contato!');setTimeout(fecharChat,1500)}
+function reiniciarSistema(){if(!confirm('🔄 Reiniciar?'))return;localStorage.clear();fetch('/reiniciar',{method:'POST'}).catch(function(){});setTimeout(function(){location.reload()},500)}
+window.onload=function(){var n=localStorage.getItem('nome_cliente'),t=localStorage.getItem('telefone_cliente');if(n&&t){clienteNome=n;clienteTelefone=t;registroCompleto=true;document.getElementById('nomeCliente').value=n;document.getElementById('telefoneCliente').value=t}setTimeout(function(){if(tela==='menu')document.getElementById('pecasInfo').style.display='block'},2000)};
+</script>
+</body>
+</html>
