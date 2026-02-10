@@ -10,7 +10,7 @@
 
         /* HEADER - RESPONSIVO */
         .header{background:#fff;padding:16px 20px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.08);position:sticky;top:0;z-index:100;border-bottom:3px solid #0056a3}
-        .header img{height:120px;object-fit:contain;max-width:80%}
+        .header img{height:250px;object-fit:contain;max-width:80%}
         .hdr-btn-reset{position:fixed;top:12px;right:12px;z-index:110;background:#f0f4f8;border:none;color:#0056a3;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:.9em;font-weight:500}
         .hdr-btn-reset:hover{background:#e1e8f0}
 
@@ -142,7 +142,7 @@
             body{font-size:14px}
             .container{padding:10px 10px 90px}
             .header{padding:10px 14px}
-            .header img{height:60px}
+            .header img{height:120px}
             .welcome{padding:14px 12px;margin-bottom:12px}.welcome h2{font-size:1.15em}
             .categories{grid-template-columns:repeat(2,1fr);gap:10px}
             .cat-card img{height:110px;padding:6px}
@@ -174,20 +174,20 @@
         }
         @media(max-width:360px){
             body{font-size:13px}
-            .header img{height:50px}
+            .header img{height:80px}
             .cat-card img{height:95px}
             .msg{max-width:88%;font-size:.87em}
         }
         /* TABLET */
         @media(min-width:601px) and (max-width:900px){
-            .header img{height:90px}
+            .header img{height:120px}
             .categories{grid-template-columns:repeat(2,1fr)}
             .prod-row{grid-template-columns:repeat(4,1fr)}
             .chat-box{height:calc(100vh - 180px);max-height:650px}
         }
         /* DESKTOP */
         @media(min-width:901px){
-            .header img{height:120px}
+            .header img{height:250px}
             .categories{grid-template-columns:repeat(4,1fr)}
             .prod-row{grid-template-columns:repeat(4,1fr)}
             .chat-box{height:calc(100vh - 200px);max-height:700px}
