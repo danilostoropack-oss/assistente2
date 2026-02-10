@@ -140,23 +140,93 @@
         @keyframes slideUp{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
         @keyframes dots{0%,20%{content:''}40%{content:'.'}60%{content:'..'}80%,100%{content:'...'}}
 
-        /* MOBILE RESPONSIVO */
+        /* MOBILE RESPONSIVO - MELHORADO */
         @media(max-width:600px){
             .container{padding:12px 12px 70px}
-            .header{padding:12px 16px}
-            .header-logo img{height:28px}
-            .header h1{font-size:.9em}
-            .categories{grid-template-columns:repeat(2,1fr);gap:12px}
-            .cat-card img{height:110px}
-            .sub-grid{grid-template-columns:repeat(2,1fr);gap:12px}
-            .msg{max-width:88%}
+            .header{padding:10px 14px}
+            .header-logo img{height:24px}
+            .header h1{font-size:.85em}
+            .header h1 span{font-size:.7em}
+            .hdr-btn{padding:6px 10px;font-size:.8em}
+            
+            /* Welcome menor */
+            .welcome{padding:18px 14px;margin-bottom:14px}
+            .welcome h2{font-size:1.2em}
+            .welcome p{font-size:.88em}
+            
+            /* Categorias - 2 colunas */
+            .categories{grid-template-columns:repeat(2,1fr);gap:10px}
+            .cat-card img{height:100px}
+            .cat-card-body{padding:10px}
+            .cat-card-body h3{font-size:.9em}
+            .cat-card-body p{font-size:.75em}
+            
+            /* Subcategorias - 2 colunas */
+            .sub-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+            .sub-card{padding:14px 10px}
+            .sub-card img{height:70px}
+            .sub-card .ico{font-size:1.8em}
+            .sub-card h4{font-size:.85em}
+            
+            /* Chat */
+            .chat-info{padding:10px 14px;font-size:.85em}
+            .chat-msgs{padding:10px 0;gap:10px}
+            .msg{max-width:85%;padding:10px 12px;font-size:.88em}
+            .msg .tm{font-size:.68em}
+            
+            /* Input */
+            .chat-input{padding:10px;gap:6px}
+            .chat-input textarea{padding:10px 12px;font-size:16px;min-height:42px}
+            .chat-input button{padding:10px 14px;font-size:.9em;min-height:42px}
+            
+            /* Feedback */
+            .fb-bar{padding:12px;margin-top:8px}
+            .fb-bar p{font-size:.85em;margin-bottom:8px}
+            .fb-bar .b{padding:8px 16px;font-size:.85em}
+            
+            /* Modal */
+            .registro-content{padding:24px 18px;width:95%}
+            .registro-content h3{font-size:1.2em}
+            .registro-content p{font-size:.86em}
+            .registro-content input{padding:11px 12px;font-size:16px}
+            .registro-content button{padding:11px 20px}
+            
+            /* Vídeo modal */
             .video-container{max-height:85vh}
-            .welcome{padding:20px 16px;margin-bottom:16px}
-            .welcome h2{font-size:1.3em}
-            .pecas-info{padding:24px 16px}
-            .pecas-info img{max-width:100%;height:200px}
-            .registro-content{padding:24px 20px}
+            .video-header{padding:12px 16px}
+            .video-header h3{font-size:1em}
+            
+            /* Peças */
+            .pecas-info{padding:22px 14px;margin-top:16px}
+            .pecas-info img{max-width:100%;height:180px}
+            .pecas-info h3{font-size:1.2em}
+            .pecas-info p{font-size:.88em}
+            
+            /* Modal GPS */
+            .modal{padding:26px 20px;width:95%}
+            .modal h3{font-size:1.2em;margin-bottom:10px}
+            .modal p{font-size:.88em;margin-bottom:16px}
+            .modal .btn{padding:9px 20px;font-size:.9em}
         }
+        
+        /* MUITO PEQUENO */
+        @media(max-width:360px){
+            .header h1{font-size:.8em}
+            .header-logo img{height:22px}
+            .categories{gap:8px}
+            .cat-card img{height:90px}
+            .sub-grid{gap:8px}
+        }
+        
+        /* TELA CHEIA PARA CHAT EM MOBILE */
+        @media(max-width:600px){
+            .chat-box{position:fixed;top:0;left:0;right:0;bottom:0;z-index:150;background:#f5f7fa;height:100vh;max-height:100vh}
+            .chat-box .chat-msgs{padding:12px}
+            .chat-box .chat-input{position:sticky;bottom:0}
+        }
+        
+        /* INPUT PREVENTIVO ZOOM IOS */
+        input[type="text"],input[type="tel"],textarea{font-size:16px!important}
     </style>
 </head>
 <body>
@@ -311,7 +381,7 @@
         <img src="https://www.storopack.com/fileadmin/_processed_/f/3/csm_PI_Packaging_Technical_Service_6584_640x590px_a4449a471c.jpg" alt="Técnico Storopack">
         <h3>📞 Precisa de peças?</h3>
         <p>Entre em contato com nossa equipe técnica para solicitar peças de reposição originais Storopack. Nossa equipe está pronta para atender você com agilidade e qualidade.</p>
-        <p style="margin-top:12px;color:#0056a3;font-weight:600">☎️ (11) 5677-4699 | ✉️ <a href="mailto:packaging.br@storopack.com">packaging.br@storopack.com</a></p>
+        <p style="margin-top:12px;color:#0056a3;font-weight:600">☎️ (11) 5677-4699 | ✉️ <a href="/cdn-cgi/l/email-protection#3a4a5b59515b5d53545d1458487a494e5548554a5b595114595557"><span class="__cf_email__" data-cfemail="d2a2b3b1b9b3b5bbbcb5fcb0a092a1a6bda0bda2b3b1b9fcb1bdbf">[email&#160;protected]</span></a></p>
     </div>
 
     <!-- CHAT -->
@@ -370,7 +440,7 @@
 
 <div id="toast" class="toast"></div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 var sid='sess_'+Math.random().toString(36).substr(2,9);
 var modAtual='',nomeAtual='',chamadoId=null,tela='menu';
 var lat=null,lng=null;
@@ -726,14 +796,4 @@ function reiniciarSistema(){
 
 // CARREGAR DADOS SALVOS
 window.onload=function(){
-    var nomeSalvo=localStorage.getItem('nome_cliente');
-    var telSalvo=localStorage.getItem('telefone_cliente');
-    if(nomeSalvo && telSalvo){
-        clienteNome=nomeSalvo;
-        clienteTelefone=telSalvo;
-        registroCompleto=true;
-    }
-};
-</script>
-</body>
-</html>
+    var nomeSalvo=lo
