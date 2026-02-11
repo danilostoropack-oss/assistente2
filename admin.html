@@ -3,476 +3,756 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Storopack - Assistente Técnico</title>
+    <title>Storopack - Admin</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#f5f7fa 0%,#e8edf2 100%);color:#333;min-height:100vh}
-
-        /* HEADER */
-        .header{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.08);position:sticky;top:0;z-index:100;border-bottom:3px solid #0056a3}
-        .header img{height:250px;object-fit:contain}
-        .hdr-btn-reset{position:fixed;top:12px;right:12px;z-index:110;background:#f0f4f8;border:none;color:#0056a3;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:.9em;font-weight:500}
-        .hdr-btn-reset:hover{background:#e1e8f0}
-
-        .container{max-width:960px;margin:0 auto;padding:16px 16px 80px}
-
-        /* WELCOME */
-        .welcome{text-align:center;padding:24px 16px 16px;background:#fff;border-radius:16px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-        .welcome h2{font-size:1.4em;color:#0056a3;margin-bottom:6px;font-weight:600}
-        .welcome p{color:#666;font-size:.92em}
-
-        .categories{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px}
-        .cat-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.08);cursor:pointer;transition:all .3s ease;border:2px solid transparent;position:relative}
-        .cat-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,86,163,.15);border-color:#0056a3}
-        .cat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#0056a3,#0078d4);opacity:0;transition:opacity .3s}
-        .cat-card:hover::before{opacity:1}
-        .cat-card img{width:100%;height:150px;object-fit:contain;background:#f8fafc;padding:8px}
-        .cat-card-body{padding:12px;text-align:center}
-        .cat-card-body h3{font-size:1em;color:#0056a3;margin-bottom:2px;font-weight:600}
-        .cat-card-body p{font-size:.78em;color:#999}
-
-        /* SUBCATEGORIAS */
-        .subcats{display:none;animation:fadeIn .3s}
-        .subcats.active{display:block}
-        .sub-hdr{margin-bottom:16px;padding:14px 16px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05);display:flex;align-items:center;justify-content:space-between}
-        .sub-hdr h3{font-size:1.15em;color:#0056a3;font-weight:600}
-        .btn-voltar{background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff;border:none;padding:10px 20px;border-radius:10px;cursor:pointer;font-size:.9em;font-weight:600;transition:all .2s;display:flex;align-items:center;gap:6px}
-        .btn-voltar:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,86,163,.3)}
-
-        /* IMAGEM DO EQUIPAMENTO (sem botão) */
-        .equip-display{background:#fff;border-radius:14px;padding:20px;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,.06);margin-bottom:16px}
-        .equip-display img{max-height:160px;object-fit:contain;margin-bottom:8px}
-        .equip-display h4{font-size:1em;color:#333;font-weight:600}
-        .equip-display p{font-size:.78em;color:#aaa}
-
-        /* GRID DE PRODUTOS (filmes) */
-        .prod-section{margin-top:4px}
-        .prod-section h4{font-size:.95em;color:#0056a3;margin-bottom:10px;font-weight:600;padding-left:4px}
-        .prod-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px}
-        .prod-item{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);cursor:pointer;transition:all .3s;border:2px solid transparent;text-align:center}
-        .prod-item:hover{border-color:#0056a3;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,86,163,.12)}
-        .prod-item img{width:100%;height:85px;object-fit:cover;background:#f8fafc}
-        .prod-item span{display:block;padding:10px 4px;font-size:.85em;font-weight:600;color:#333}
-
-        /* SUB-GRID para máquinas dentro de AIRmoves */
-        .sub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:16px}
-        .sub-card{background:#fff;border-radius:14px;padding:18px 14px;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,.06);cursor:pointer;transition:all .3s;border:2px solid transparent}
-        .sub-card:hover{transform:translateY(-3px);border-color:#0056a3;box-shadow:0 6px 16px rgba(0,86,163,.12)}
-        .sub-card img{width:100%;height:90px;object-fit:contain;margin-bottom:10px;border-radius:8px}
-        .sub-card h4{font-size:.95em;color:#333;font-weight:600;margin-bottom:4px}
-        .sub-card p{font-size:.75em;color:#aaa}
-
-        /* CHAT */
-        .chat-box{display:none;flex-direction:column;height:calc(100vh - 80px);max-height:calc(100vh - 80px)}
-        .chat-box.active{display:flex}
-        .chat-hdr{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#0056a3,#0078d4);border-radius:12px;padding:12px 16px;margin-bottom:12px;color:#fff}
-        .chat-hdr h3{font-size:.95em;font-weight:500}
-        .chat-hdr .btn-voltar-chat{background:rgba(255,255,255,.2);color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.85em;font-weight:600}
-        .chat-hdr .btn-voltar-chat:hover{background:rgba(255,255,255,.35)}
-        .chat-msgs{flex:1;overflow-y:auto;padding:12px 0;display:flex;flex-direction:column;gap:12px}
-        .msg{max-width:82%;padding:12px 16px;border-radius:16px;font-size:.92em;line-height:1.6;word-wrap:break-word;white-space:pre-wrap;animation:slideIn .3s;box-shadow:0 2px 6px rgba(0,0,0,.06)}
-        .msg.bot{align-self:flex-start;background:#fff;border:1px solid #e8edf2;border-bottom-left-radius:4px;color:#333}
-        .msg.user{align-self:flex-end;background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff;border-bottom-right-radius:4px}
-        .msg .tm{font-size:.7em;opacity:.6;margin-top:6px;display:block}
-        .typing{display:none;align-self:flex-start;padding:12px 18px;background:#fff;border-radius:16px;border:1px solid #e8edf2;color:#999;font-size:.88em}
-        .typing.active{display:block}
-        .typing::after{content:'...';animation:dots 1.5s infinite}
-        .chat-input{display:flex;gap:8px;border-top:2px solid #e8edf2;align-items:flex-end;background:#fff;border-radius:12px 12px 0 0;padding:12px}
-        .chat-input textarea{flex:1;padding:12px 14px;border:2px solid #e8edf2;border-radius:12px;font-size:.93em;resize:none;min-height:44px;max-height:100px;font-family:inherit;outline:none}
-        .chat-input textarea:focus{border-color:#0056a3}
-        .chat-input button{border:none;border-radius:12px;padding:12px 18px;cursor:pointer;font-size:.95em;min-height:44px;transition:all .2s;font-weight:500}
-        .btn-send{background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff}
-        .btn-send:disabled{background:#a0bdd9;cursor:not-allowed}
-        .btn-att{background:#f0f4f8;color:#0056a3}
-        .fb-bar{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:250;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
-        .fb-bar.active{display:flex}
-        .fb-bar .fb-inner{background:#fff;border-radius:20px;padding:36px 28px;max-width:420px;width:90%;text-align:center;box-shadow:0 12px 48px rgba(0,0,0,.3);animation:modalSlide .3s}
-        .fb-bar p{font-size:1.15em;color:#333;margin-bottom:20px;font-weight:600}
-        .fb-bar .btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-        .fb-bar .b{padding:14px 28px;border-radius:12px;border:none;cursor:pointer;font-size:1em;font-weight:600;color:#fff;transition:transform .2s}
-        .fb-bar .b:hover{transform:scale(1.05)}
-        .b-ok{background:#28a745}
-        .b-no{background:#dc3545}
-
-        /* PEÇAS INFO */
-        .pecas-info{background:#fff;border-radius:16px;padding:32px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.08);margin-top:20px;display:none}
-        .pecas-info img{width:100%;max-width:400px;height:250px;object-fit:cover;border-radius:12px;margin-bottom:20px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
-        .pecas-info h3{color:#0056a3;margin:12px 0;font-size:1.3em;font-weight:600}
-        .pecas-info p{color:#666;line-height:1.7;font-size:.95em}
-        .pecas-info a{color:#0056a3;text-decoration:none}
-
-        /* MODAIS */
-        .registro-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:300;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
-        .registro-modal.active{display:flex}
-        .registro-content{background:#fff;border-radius:16px;padding:32px;max-width:440px;width:90%;box-shadow:0 12px 48px rgba(0,0,0,.3)}
-        .registro-content h3{color:#0056a3;margin-bottom:8px;font-size:1.4em;font-weight:600;text-align:center}
-        .registro-content p{color:#666;font-size:.9em;margin-bottom:20px;text-align:center}
-        .registro-content label{display:block;color:#333;font-size:.9em;font-weight:500;margin-bottom:6px;margin-top:14px}
-        .registro-content input{width:100%;padding:12px 14px;border:2px solid #e8edf2;border-radius:10px;font-size:.95em;outline:none}
-        .registro-content input:focus{border-color:#0056a3}
-        .registro-content .hint{font-size:.8em;color:#999;margin-top:4px}
-        .registro-content button{background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff;border:none;padding:12px 24px;border-radius:10px;cursor:pointer;font-size:1em;font-weight:600;width:100%;margin-top:20px}
-        .registro-content .erro{color:#dc3545;font-size:.85em;margin-top:8px;display:none}
-        .overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
-        .overlay.active{display:flex}
-        .modal{background:#fff;border-radius:16px;padding:32px;max-width:420px;width:90%;text-align:center;box-shadow:0 12px 48px rgba(0,0,0,.3);animation:modalSlide .3s}
-        .modal h3{color:#0056a3;margin-bottom:12px;font-size:1.3em;font-weight:600}
-        .modal p{color:#666;font-size:.92em;margin-bottom:18px;line-height:1.6}
-        .modal .mg{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-        .modal .btn{padding:10px 24px;border-radius:10px;border:none;cursor:pointer;font-size:.95em;font-weight:600}
-        .modal .bp{background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff}
-        .modal .bs{background:#f0f4f8;color:#0056a3}
-        @keyframes modalSlide{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
-        .video-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.95);z-index:300;align-items:center;justify-content:center;padding:20px}
-        .video-modal.active{display:flex}
-        .video-container{background:#000;border-radius:16px;overflow:hidden;max-width:900px;width:100%;max-height:90vh}
-        .video-header{background:linear-gradient(135deg,#0056a3,#0078d4);color:#fff;padding:14px 22px;display:flex;justify-content:space-between;align-items:center}
-        .video-header h3{font-size:1.15em;margin:0;font-weight:600}
-        .video-close{background:rgba(255,255,255,.2);border:none;color:#fff;width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:1.4em}
-        .video-wrapper{position:relative;width:100%;padding-top:56.25%;background:#000}
-        .video-wrapper video{position:absolute;top:0;left:0;width:100%;height:100%}
-        .video-error{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;text-align:center;display:none}
-        .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:12px 24px;border-radius:12px;font-size:.9em;z-index:300;display:none;box-shadow:0 4px 16px rgba(0,0,0,.3);font-weight:500}
-        .toast.active{display:block;animation:slideUp .3s}
-        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-        @keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-        @keyframes slideUp{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
-        @keyframes dots{0%,20%{content:''}40%{content:'.'}60%{content:'..'}80%,100%{content:'...'}}
-
-        /* MOBILE */
-        @media(max-width:600px){
-            body{font-size:14px}
-            .container{padding:10px 10px 90px}
-            .header{padding:10px 14px}
-            .header img{height:44px}
-            .welcome{padding:14px 12px;margin-bottom:12px}.welcome h2{font-size:1.15em}
-            .categories{grid-template-columns:repeat(2,1fr);gap:10px}
-            .cat-card img{height:110px;padding:6px}
-            .cat-card-body{padding:10px 8px}.cat-card-body h3{font-size:.88em}.cat-card-body p{font-size:.72em}
-            .sub-hdr{padding:10px 12px;flex-wrap:wrap;gap:8px}.sub-hdr h3{font-size:.98em}
-            .btn-voltar{padding:8px 14px;font-size:.82em}
-            .equip-display{padding:14px}.equip-display img{max-height:120px}
-            .sub-grid{grid-template-columns:repeat(2,1fr);gap:10px}
-            .sub-card{padding:12px 8px}.sub-card img{height:70px}.sub-card h4{font-size:.84em}
-            .prod-row{grid-template-columns:repeat(2,1fr);gap:8px}
-            .prod-item img{height:65px}.prod-item span{font-size:.78em;padding:8px 3px}
-            .chat-box{position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;background:#f5f7fa;height:100vh;max-height:100vh}
-            .chat-input{padding:9px;gap:6px}
-            .chat-input textarea{font-size:16px!important;min-height:40px}
-            .chat-input button{padding:9px 13px;min-height:40px}
-            .pecas-info{padding:20px 14px}.pecas-info img{height:170px}
-            .registro-content{padding:22px 16px;width:92%}
-            .registro-content input{font-size:16px!important}
-            .modal{padding:24px 18px;width:92%}
-            .toast{bottom:70px}
-            .cat-card:hover{transform:none}
-            input[type="text"],input[type="tel"],textarea{font-size:16px!important}
-        }
-        @media(max-width:360px){body{font-size:13px}.header img{height:38px}.cat-card img{height:95px}}
-        @media(min-width:601px) and (max-width:900px){.categories{grid-template-columns:repeat(2,1fr)}.prod-row{grid-template-columns:repeat(4,1fr)}}
-        @media(min-width:901px){.categories{grid-template-columns:repeat(4,1fr)}.prod-row{grid-template-columns:repeat(4,1fr)}}
-        @supports(padding:max(0px)){@media(max-width:600px){.chat-input{padding-bottom:max(9px,env(safe-area-inset-bottom))}}}
+        body{font-family:'Segoe UI',sans-serif;background:#f5f7fa;color:#333}
+        .header{background:#0056a3;color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+        .header h1{font-size:1.1em}
+        .header a{color:#fff;text-decoration:none;opacity:.9;font-size:.9em;transition:opacity .2s}
+        .header a:hover{opacity:1}
+        .ct{max-width:1400px;margin:0 auto;padding:20px}
+        
+        /* LOGIN */
+        .login{max-width:380px;margin:80px auto;background:#fff;padding:28px;border-radius:14px;box-shadow:0 4px 20px rgba(0,0,0,.1);text-align:center}
+        .login h2{color:#0056a3;margin-bottom:18px}
+        .login input{width:100%;padding:11px;border:2px solid #dde3ea;border-radius:8px;font-size:1em;margin-bottom:12px}
+        .login button{background:#0056a3;color:#fff;border:none;padding:11px 28px;border-radius:8px;cursor:pointer;font-size:1em;width:100%;transition:background .2s}
+        .login button:hover{background:#003f7a}
+        .login .err{color:#dc3545;font-size:.88em;margin-top:6px;display:none}
+        
+        /* DASHBOARD */
+        .dash{display:none}
+        .tabs{display:flex;gap:8px;margin-bottom:20px;border-bottom:2px solid #e0e7ef}
+        .tab{padding:10px 20px;background:transparent;border:none;color:#666;cursor:pointer;font-size:.95em;font-weight:500;border-bottom:3px solid transparent;transition:all .2s}
+        .tab.active{color:#0056a3;border-bottom-color:#0056a3}
+        .tab:hover{color:#0056a3}
+        
+        /* STATS GRID */
+        .sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:22px}
+        .sc{background:#fff;border-radius:12px;padding:20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);transition:transform .2s}
+        .sc:hover{transform:translateY(-2px)}
+        .sc .n{font-size:2em;font-weight:700;color:#0056a3;margin-bottom:4px}
+        .sc .l{font-size:.85em;color:#888}
+        
+        /* SECTION */
+        .sec{background:#fff;border-radius:12px;padding:20px;margin-bottom:18px;box-shadow:0 2px 8px rgba(0,0,0,.05);display:none}
+        .sec.active{display:block}
+        .sec h3{color:#0056a3;margin-bottom:14px;font-size:1.1em;display:flex;align-items:center;justify-content:space-between}
+        .sec h3 button{background:#e9f2fb;border:none;color:#0056a3;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:.85em;transition:background .2s}
+        .sec h3 button:hover{background:#d0e4f5}
+        
+        /* TABLE */
+        table{width:100%;border-collapse:collapse}
+        th,td{padding:11px 12px;text-align:left;border-bottom:1px solid #eee;font-size:.88em}
+        th{background:#f5f7fa;color:#666;font-weight:600;position:sticky;top:0}
+        tr{transition:background .2s}
+        tr:hover{background:#f8fafc}
+        .bg{padding:4px 10px;border-radius:12px;font-size:.78em;font-weight:600;display:inline-block}
+        .bg-g{background:#d4edda;color:#155724}
+        .bg-r{background:#f8d7da;color:#721c24}
+        .bg-y{background:#fff3cd;color:#856404}
+        .bg-b{background:#d1ecf1;color:#0c5460}
+        .bg-p{background:#e2d9f3;color:#563d7c}
+        
+        /* ACTIONS */
+        .actions{display:flex;gap:6px}
+        .btn-sm{padding:5px 10px;border-radius:6px;border:none;cursor:pointer;font-size:.8em;transition:all .2s}
+        .btn-view{background:#0056a3;color:#fff}
+        .btn-view:hover{background:#003f7a}
+        .btn-edit{background:#ffc107;color:#333}
+        .btn-edit:hover{background:#e0a800}
+        .btn-del{background:#dc3545;color:#fff}
+        .btn-del:hover{background:#bd2130}
+        
+        /* MODAL */
+        .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+        .modal-overlay.active{display:flex}
+        .modal{background:#fff;border-radius:14px;max-width:800px;width:90%;max-height:85vh;overflow:hidden;box-shadow:0 12px 48px rgba(0,0,0,.3)}
+        .modal-header{background:#0056a3;color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+        .modal-header h3{font-size:1.1em;margin:0}
+        .modal-close{background:rgba(255,255,255,.2);border:none;color:#fff;width:32px;height:32px;border-radius:6px;cursor:pointer;font-size:1.2em;transition:background .2s}
+        .modal-close:hover{background:rgba(255,255,255,.35)}
+        .modal-body{padding:24px;overflow-y:auto;max-height:calc(85vh - 140px)}
+        .modal-footer{padding:16px 20px;border-top:1px solid #e0e7ef;display:flex;gap:10px;justify-content:flex-end}
+        
+        /* CHAT LOG */
+        .chat-log{background:#f8fafc;border-radius:10px;padding:16px;max-height:400px;overflow-y:auto;margin-bottom:16px}
+        .chat-msg{background:#fff;border-radius:12px;padding:14px 16px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,.08);position:relative;max-width:85%;animation:fadeIn 0.3s}
+        .chat-msg.user{background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);color:#fff;margin-left:auto;border-bottom-right-radius:4px}
+        .chat-msg.bot{background:#fff;border-left:4px solid #28a745;margin-right:auto;border-bottom-left-radius:4px}
+        .chat-msg .sender{font-size:.75em;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;opacity:0.9}
+        .chat-msg.user .sender{color:#fff}
+        .chat-msg.bot .sender{color:#28a745}
+        .chat-msg .time{font-size:.72em;opacity:.7;margin-bottom:6px}
+        .chat-msg .content{font-size:.92em;line-height:1.6;word-wrap:break-word}
+        .chat-msg.user .content{color:#fff}
+        .chat-msg.bot .content{color:#333}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        
+        /* INFO GRID */
+        .info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px}
+        .info-item label{display:block;font-size:.85em;color:#666;margin-bottom:4px;font-weight:500}
+        .info-item .value{font-size:.95em;color:#333;padding:8px 12px;background:#f8fafc;border-radius:6px}
+        
+        /* LOCATION */
+        .location-box{background:#e9f2fb;border-radius:10px;padding:16px;margin-top:16px}
+        .location-box h4{color:#0056a3;margin-bottom:10px;font-size:1em}
+        .location-box .dist{font-size:1.3em;font-weight:700;color:#0056a3;margin:8px 0}
+        .location-box .addr{font-size:.9em;color:#666;margin-top:8px}
+        
+        /* FILTER */
+        .filter-bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+        .filter-bar select,.filter-bar input{padding:8px 12px;border:2px solid #e0e7ef;border-radius:8px;font-size:.9em}
+        .filter-bar button{padding:8px 16px;background:#0056a3;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+        .filter-bar button:hover{background:#003f7a}
+        
+        /* EMPTY STATE */
+        .empty{text-align:center;padding:40px 20px;color:#999}
+        .empty .icon{font-size:3em;margin-bottom:10px;opacity:.5}
+        
+        /* MAP */
+        #map{height:600px;border-radius:10px;z-index:1}
+        .leaflet-popup-content{font-family:'Segoe UI',sans-serif}
     </style>
 </head>
 <body>
 
 <div class="header">
-    <img src="/static/logo/logo1.jpg" alt="Storopack - Perfect Protective Packaging">
-</div>
-<button class="hdr-btn-reset" onclick="reiniciarSistema()" title="Reiniciar">&#8635;</button>
-
-<!-- REGISTRO -->
-<div id="registroModal" class="registro-modal">
-    <div class="registro-content">
-        <h3>📋 Registro de Contato</h3>
-        <p>Para melhor atendê-lo, precisamos de algumas informações.</p>
-        <label for="nomeCliente">Nome completo</label>
-        <input type="text" id="nomeCliente" placeholder="Digite seu nome">
-        <label for="telefoneCliente">Telefone com DDD</label>
-        <input type="tel" id="telefoneCliente" placeholder="(11) 99999-9999">
-        <div class="hint" id="telHint"></div>
-        <button onclick="salvarRegistro()">Continuar</button>
-        <p class="erro" id="registroErro">Por favor, preencha todos os campos</p>
-    </div>
+    <h1>📊 Storopack - Painel Administrativo</h1>
+    <a href="/">&#8592; Voltar ao Chat</a>
 </div>
 
-<div class="container">
-    <!-- MENU PRINCIPAL -->
-    <div id="telaMenu">
-        <div class="welcome">
-            <h2>👋 Olá! Em que posso ajudar?</h2>
-            <p>Selecione a linha de equipamento para suporte técnico especializado</p>
-        </div>
-        <div class="categories">
-                <div class="cat-card" onclick="abrirCat('airplus')">
-                    <img src="https://www.bonustrading.co.uk/pub/media/catalog/product/cache/dc51ad1cee65ef039961365aac012b96/a/i/airplus-mini-machine-blue-film-600_1.jpg" alt="AIRplus">
-                    <div class="cat-card-body"><h3>AIRplus</h3><p>Travesseiros de ar</p></div>
-                </div>
-                <div class="cat-card" onclick="abrirCat('airmove')">
-                    <img src="https://www.storopack.com.br/fileadmin/_processed_/7/e/csm_PP_AP_AIRmove___machine_front_motive2_cushion_film_low_res_300dpi_061fd19c2b.jpg" alt="AIRmoves">
-                    <div class="cat-card-body"><h3>AIRmoves</h3><p>Linha compacta de ar</p></div>
-                </div>
-                <div class="cat-card" onclick="abrirCat('foamplus')">
-                    <img src="https://img.directindustry.com/pt/images_di/photo-g/34409-12098488.jpg" alt="FOAMplus">
-                    <div class="cat-card-body"><h3>FOAMplus</h3><p>Espuma Expansiva</p></div>
-                </div>
-                <div class="cat-card" onclick="abrirCat('paperplus')">
-                    <img src="https://www.storopack.com.br/fileadmin/_processed_/5/9/csm_PP_PP_Shooter_machine_tablestand_motive_1_1280x580px_c97e386ad4.png" alt="PAPERplus">
-                    <div class="cat-card-body"><h3>PAPERplus</h3><p>Papel amassado</p></div>
-                </div>
-        </div>
-        <!-- PEÇAS -->
-        <div class="pecas-info" id="pecasInfo">
-            <img src="https://www.storopack.com/fileadmin/_processed_/f/3/csm_PI_Packaging_Technical_Service_6584_640x590px_a4449a471c.jpg" alt="Técnico Storopack">
-            <h3>📞 Precisa de peças?</h3>
-            <p>Entre em contato com nossa equipe técnica para solicitar peças de reposição originais Storopack.</p>
-            <p style="margin-top:12px;color:#0056a3;font-weight:600">
-                ☎️ (11) 5677-4699<br>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#25D366" style="vertical-align:middle;margin-right:3px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.612.638l4.716-1.234A11.947 11.947 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.37 0-4.567-.82-6.29-2.19l-.438-.362-3.21.84.855-3.122-.396-.463A9.96 9.96 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
-                (11) 98765-4321<br>
-                ✉️ <a href="mailto:packaging.br@storopack.com">packaging.br@storopack.com</a>
-            </p>
-        </div>
+<div class="ct">
+    <!-- LOGIN -->
+    <div class="login" id="loginBox">
+        <h2>🔐 Acesso Admin</h2>
+        <input type="password" id="senhaIn" placeholder="Digite a senha" onkeydown="if(event.key==='Enter')login()">
+        <button onclick="login()">Entrar</button>
+        <p class="err" id="loginErr">❌ Senha incorreta</p>
     </div>
 
-    <!-- SUB: AIRplus -->
-    <div id="sub_airplus" class="subcats">
-        <div class="sub-hdr">
-            <h3>🌀 AIRplus - Selecione o modelo</h3>
-            <button class="btn-voltar" onclick="voltar()">&#8592; Voltar</button>
+    <!-- DASHBOARD -->
+    <div class="dash" id="dash">
+        
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab active" onclick="abrirTab('overview')">📈 Visão Geral</button>
+            <button class="tab" onclick="abrirTab('chamados')">📋 Todos Chamados</button>
+            <button class="tab" onclick="abrirTab('pendentes')">⏳ Pendentes</button>
+            <button class="tab" onclick="abrirTab('localizacao')">📍 Localização</button>
         </div>
-        <div class="equip-display">
-            <img src="https://www.bonustrading.co.uk/pub/media/catalog/product/cache/dc51ad1cee65ef039961365aac012b96/a/i/airplus-mini-machine-blue-film-600_1.jpg" alt="AIRplus Mini">
-            <h4>AIRplus Mini</h4>
-            <p>Compacto</p>
+        
+        <!-- STATS -->
+        <div class="sg" id="sg"></div>
+        
+        <!-- OVERVIEW -->
+        <div class="sec active" id="sec-overview">
+            <h3>📊 Resumo de Hoje <button onclick="atualizarOverview()">🔄 Atualizar</button></h3>
+            <table>
+                <thead><tr><th>ID</th><th>Cliente</th><th>Módulo</th><th>Status</th><th>Distância</th><th>Criado</th><th>Ações</th></tr></thead>
+                <tbody id="tbOverview"></tbody>
+            </table>
         </div>
-        <div class="prod-section">
-            <h4>📦 Qual modelo está utilizando?</h4>
-            <div class="prod-row">
-                <div class="prod-item" onclick="abrirChat('airplus_void','AIRplus Void')"><img src="https://www.storopack.com.br/fileadmin/_processed_/0/9/csm_AIRplus_Repositioning_dcf3a635a8.jpg" alt="Void"><span>Void</span></div>
-                <div class="prod-item" onclick="abrirChat('airplus_cushion','AIRplus Cushion')"><img src="https://networkpack.co.uk/wp-content/uploads/2018/04/Storopack-AirPlus-Cushion.jpg" alt="Cushion"><span>Cushion</span></div>
-                <div class="prod-item" onclick="abrirChat('airplus_bubble','AIRplus Bubble')"><img src="https://img.directindustry.com/images_di/photo-g/34409-12098185.webp" alt="Bubble"><span>Bubble</span></div>
-                <div class="prod-item" onclick="abrirChat('airplus_wrap','AIRplus Wrap 140d')"><img src="https://img.directindustry.com/images_di/photo-g/34409-12098203.jpg" alt="Wrap"><span>Wrap 140d</span></div>
+        
+        <!-- TODOS CHAMADOS -->
+        <div class="sec" id="sec-chamados">
+            <h3>📋 Todos os Chamados <button onclick="atualizarChamados()">🔄 Atualizar</button></h3>
+            <div class="filter-bar">
+                <select id="filtroStatus">
+                    <option value="">Todos status</option>
+                    <option value="aberto">Aberto</option>
+                    <option value="em_atendimento">Em Atendimento</option>
+                    <option value="pendente_tecnico">Pendente Técnico</option>
+                    <option value="resolvido">Resolvido</option>
+                    <option value="nao_resolvido">Não Resolvido</option>
+                </select>
+                <select id="filtroModulo">
+                    <option value="">Todos módulos</option>
+                    <option value="airplus">AIRplus</option>
+                    <option value="airmove">AIRmoves</option>
+                    <option value="foamplus">FOAMplus</option>
+                    <option value="paperplus">PAPERplus</option>
+                </select>
+                <input type="date" id="filtroData" placeholder="Data">
+                <button onclick="aplicarFiltros()">Filtrar</button>
+                <button onclick="limparFiltros()" style="background:#6c757d">Limpar</button>
             </div>
+            <table>
+                <thead><tr><th>ID</th><th>Cliente</th><th>Telefone</th><th>Módulo</th><th>Msgs</th><th>Status</th><th>Distância</th><th>Criado</th><th>Ações</th></tr></thead>
+                <tbody id="tbChamados"></tbody>
+            </table>
         </div>
-    </div>
-
-    <!-- SUB: AIRmoves -->
-    <div id="sub_airmove" class="subcats">
-        <div class="sub-hdr">
-            <h3>🌀 AIRmoves - Selecione o modelo</h3>
-            <button class="btn-voltar" onclick="voltar()">&#8592; Voltar</button>
+        
+        <!-- PENDENTES -->
+        <div class="sec" id="sec-pendentes">
+            <h3>⏳ Chamados Pendentes <button onclick="atualizarPendentes()">🔄 Atualizar</button></h3>
+            <table>
+                <thead><tr><th>ID</th><th>Cliente</th><th>Módulo</th><th>Status</th><th>Distância</th><th>Criado</th><th>Ações</th></tr></thead>
+                <tbody id="tbPendentes"></tbody>
+            </table>
         </div>
-        <div class="sub-grid">
-            <div class="sub-card" onclick="abrirSubAirmove('airmove1')">
-                <img src="https://www.storopack.com.br/fileadmin/_processed_/8/b/csm_PP_AP_AIRmove_machine_side_motive4_with_void_film_1280x580px_569007f63e.jpg" alt="AIRmove 1">
-                <h4>AIRmove 1</h4>
-            </div>
-            <div class="sub-card" onclick="abrirSubAirmove('airmove2')">
-                <img src="https://www.storopack.com.br/fileadmin/_processed_/7/e/csm_PP_AP_AIRmove___machine_front_motive2_cushion_film_low_res_300dpi_061fd19c2b.jpg" alt="AIRmove 2">
-                <h4>AIRmove 2</h4>
-            </div>
+        
+        <!-- LOCALIZAÇÃO -->
+        <div class="sec" id="sec-localizacao">
+            <h3>📍 Mapa de Chamados <button onclick="carregarMapa()">🔄 Atualizar</button></h3>
+            <div id="map"></div>
+            <div id="mapStats" style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px"></div>
         </div>
-    </div>
-
-    <!-- SUB-SUB: AIRmove 1 materiais -->
-    <div id="sub_airmove1" class="subcats">
-        <div class="sub-hdr">
-            <h3>🌀 AIRmove 1 - Qual modelo está utilizando?</h3>
-            <button class="btn-voltar" onclick="voltarAirmove()">&#8592; Voltar</button>
-        </div>
-        <div class="equip-display">
-            <img src="https://www.storopack.com.br/fileadmin/_processed_/8/b/csm_PP_AP_AIRmove_machine_side_motive4_with_void_film_1280x580px_569007f63e.jpg" alt="AIRmove 1">
-            <h4>AIRmove 1</h4>
-        </div>
-        <div class="prod-section">
-            <div class="prod-row">
-                <div class="prod-item" onclick="abrirChat('airmove1_void','AIRmove 1 Void')"><img src="https://www.storopack.com.br/fileadmin/_processed_/0/9/csm_AIRplus_Repositioning_dcf3a635a8.jpg" alt="Void"><span>Void</span></div>
-                <div class="prod-item" onclick="abrirChat('airmove1_cushion','AIRmove 1 Cushion')"><img src="https://networkpack.co.uk/wp-content/uploads/2018/04/Storopack-AirPlus-Cushion.jpg" alt="Cushion"><span>Cushion</span></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SUB-SUB: AIRmove 2 materiais -->
-    <div id="sub_airmove2" class="subcats">
-        <div class="sub-hdr">
-            <h3>🌀 AIRmove 2 - Qual modelo está utilizando?</h3>
-            <button class="btn-voltar" onclick="voltarAirmove()">&#8592; Voltar</button>
-        </div>
-        <div class="equip-display">
-            <img src="https://www.storopack.com.br/fileadmin/_processed_/7/e/csm_PP_AP_AIRmove___machine_front_motive2_cushion_film_low_res_300dpi_061fd19c2b.jpg" alt="AIRmove 2">
-            <h4>AIRmove 2</h4>
-        </div>
-        <div class="prod-section">
-            <div class="prod-row">
-                <div class="prod-item" onclick="abrirChat('airmove2_void','AIRmove 2 Void')"><img src="https://www.storopack.com.br/fileadmin/_processed_/0/9/csm_AIRplus_Repositioning_dcf3a635a8.jpg" alt="Void"><span>Void</span></div>
-                <div class="prod-item" onclick="abrirChat('airmove2_cushion','AIRmove 2 Cushion')"><img src="https://networkpack.co.uk/wp-content/uploads/2018/04/Storopack-AirPlus-Cushion.jpg" alt="Cushion"><span>Cushion</span></div>
-                <div class="prod-item" onclick="abrirChat('airmove2_bubble','AIRmove 2 Bubble')"><img src="https://img.directindustry.com/images_di/photo-g/34409-12098185.webp" alt="Bubble"><span>Bubble</span></div>
-                <div class="prod-item" onclick="abrirChat('airmove2_wrap','AIRmove 2 Wrap 140d')"><img src="https://img.directindustry.com/images_di/photo-g/34409-12098203.jpg" alt="Wrap"><span>Wrap 140d</span></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SUB: FOAMplus -->
-    <div id="sub_foamplus" class="subcats">
-        <div class="sub-hdr">
-            <h3>💨 FOAMplus - Selecione o modelo</h3>
-            <button class="btn-voltar" onclick="voltar()">&#8592; Voltar</button>
-        </div>
-        <div class="sub-grid">
-            <div class="sub-card" onclick="abrirChat('foam_bagpacker','FOAMplus Bag Packer')">
-                <img src="https://img.directindustry.com/pt/images_di/photo-g/34409-12098488.jpg" alt="Bag Packer">
-                <h4>Bag Packer</h4><p>Sacos de espuma</p>
-            </div>
-            <div class="sub-card" onclick="abrirChat('foam_handpacker','FOAMplus Hand Packer')">
-                <img src="https://5.imimg.com/data5/HS/KC/MW/SELLER-8794370/foamplus-hand-packer-2-machine.jpg" alt="Hand Packer">
-                <h4>Hand Packer</h4><p>Manual</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- SUB: PAPERplus -->
-    <div id="sub_paperplus" class="subcats">
-        <div class="sub-hdr">
-            <h3>📄 PAPERplus - Selecione o modelo</h3>
-            <button class="btn-voltar" onclick="voltar()">&#8592; Voltar</button>
-        </div>
-        <div class="sub-grid">
-            <div class="sub-card" onclick="abrirChat('paper_shooter','PAPERplus Shooter')"><img src="https://www.storopack.com.br/fileadmin/_processed_/5/9/csm_PP_PP_Shooter_machine_tablestand_motive_1_1280x580px_c97e386ad4.png" alt="Shooter"><h4>Shooter</h4><p>Mesa</p></div>
-            <div class="sub-card" onclick="abrirChat('paper_papillon','PAPERplus Papillon')"><img src="https://files.lbcdn.info/i/o/aHR0cHM6Ly93d3cuZ3JlZW5vc3VwcGx5LmNvbS9JbWFnZXMvR3JlZW5vdWdoJTIwUGljcy9QQVBFUnBsdXMlQzIlQUUlMjBQYXBpbGxvbiUyMFBhcGVyJTIwUGFja2FnaW5nJTIwU3lzdGVtLmpwZw2.jpg" alt="Papillon"><h4>Papillon</h4><p>Sistema</p></div>
-            <div class="sub-card" onclick="abrirChat('paper_classic','PAPERplus Classic')"><img src="https://packair.ru/files/PACKAIR/photo/STOROPACK/PAPERplus/paperplus_classic.jpg" alt="Classic"><h4>Classic</h4><p>Clássico</p></div>
-            <div class="sub-card" onclick="abrirChat('paper_cx','PAPERplus CX')"><img src="https://www.storopack.com.br/fileadmin/_processed_/1/e/csm_PP_PP_Classic_CX_machine_0539_1280x580px_EUROPEAN_STAND_756b4e2466.png" alt="CX"><h4>CX</h4><p>Versão CX</p></div>
-            <div class="sub-card" onclick="abrirChat('paper_track','PAPERplus Track')"><img src="https://bvs-verpacken.com/wp-content/uploads/2025/01/papierpolster-system-track-03.png" alt="Track"><h4>Track</h4><p>Sistema Track</p></div>
-            <div class="sub-card" onclick="abrirChat('paper_chevron','PAPERplus Chevron')"><img src="https://www.storopack.com.br/fileadmin/_processed_/b/c/csm_PP_PP_Chevron___machine_floorstand_with_conveyor_motive2_1280x580px_900e25faea.png" alt="Chevron"><h4>Chevron</h4><p>Com esteira</p></div>
-        </div>
-    </div>
-
-    <!-- CHAT -->
-    <div id="telaChat" class="chat-box">
-        <div class="chat-hdr">
-            <button class="btn-voltar-chat" onclick="voltar()">&#8592; Voltar</button>
-            <h3 id="chatInfo"></h3>
-        </div>
-        <div id="chatMsgs" class="chat-msgs"></div>
-        <div id="typing" class="typing">Técnico digitando</div>
-        <div class="chat-input">
-            <textarea id="chatIn" placeholder="Digite sua dúvida ou problema..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();enviar()}" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
-            <input type="file" id="videoInput" accept="video/*" style="display:none" onchange="enviarVideo(this)">
-            <button class="btn-att" onclick="document.getElementById('videoInput').click()">📹</button>
-            <button id="btnSend" class="btn-send" onclick="enviar()">Enviar</button>
-        </div>
-        <div id="fbBar" class="fb-bar">
-            <div class="fb-inner">
-                <p>✅ Conseguimos resolver seu problema?</p>
-                <div class="btns">
-                    <button class="b b-ok" onclick="enviarFb(true)">Sim, resolvido!</button>
-                    <button class="b b-no" onclick="enviarFb(false)">Não, preciso de ajuda</button>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </div>
 
-<!-- GPS -->
-<div id="gpsOverlay" class="overlay active">
+<!-- MODAL DETALHES -->
+<div class="modal-overlay" id="modalChamado" onclick="if(event.target===this)fecharModal()">
     <div class="modal">
-        <h3>📍 Permitir localização</h3>
-        <p>Para enviar um técnico se necessário, precisamos da sua localização.</p>
-        <div id="gpsLoading" style="display:none;text-align:center;padding:12px 0;color:#0056a3;font-weight:600">⏳ Obtendo localização...</div>
-        <div id="gpsBtns" class="mg">
-            <button class="btn bp" onclick="permitirGPS()">✅ Permitir</button>
-            <button class="btn bs" onclick="negarGPS()">Continuar sem GPS</button>
+        <div class="modal-header">
+            <h3>📋 Detalhes do Chamado #<span id="modalChamadoId"></span></h3>
+            <button class="modal-close" onclick="fecharModal()">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>Cliente</label>
+                    <div class="value" id="modalCliente"></div>
+                </div>
+                <div class="info-item">
+                    <label>Telefone</label>
+                    <div class="value" id="modalTelefone"></div>
+                </div>
+                <div class="info-item">
+                    <label>Módulo</label>
+                    <div class="value" id="modalModulo"></div>
+                </div>
+                <div class="info-item">
+                    <label>Status Atual</label>
+                    <div class="value" id="modalStatus"></div>
+                </div>
+                <div class="info-item">
+                    <label>Total de Mensagens</label>
+                    <div class="value" id="modalMsgs"></div>
+                </div>
+                <div class="info-item">
+                    <label>Criado em</label>
+                    <div class="value" id="modalCriado"></div>
+                </div>
+            </div>
+            
+            <div class="location-box" id="modalLocation" style="display:none">
+                <h4>📍 Localização do Cliente</h4>
+                <div class="dist"><span id="modalDist"></span> km de distância</div>
+                <div class="addr">Coordenadas: <span id="modalCoords"></span></div>
+            </div>
+            
+            <h4 style="color:#0056a3;margin:20px 0 10px;font-size:1.05em;display:flex;align-items:center;gap:8px">
+                💬 Histórico da Conversa
+                <span style="font-size:0.75em;color:#666;font-weight:normal" id="msgCount"></span>
+            </h4>
+            <div class="chat-log" id="modalChatLog"></div>
+            
+            <h4 style="color:#0056a3;margin:20px 0 10px">⚙️ Alterar Status</h4>
+            <select id="novoStatus" style="width:100%;padding:10px;border:2px solid #e0e7ef;border-radius:8px;margin-bottom:12px">
+                <option value="aberto">Aberto</option>
+                <option value="em_atendimento">Em Atendimento</option>
+                <option value="pendente_tecnico">Pendente Técnico</option>
+                <option value="resolvido">Resolvido</option>
+                <option value="nao_resolvido">Não Resolvido</option>
+            </select>
+        </div>
+        <div class="modal-footer">
+            <button style="background:#dc3545;color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer" onclick="excluirChamado()">🗑️ Excluir</button>
+            <button style="background:#6c757d;color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer" onclick="fecharModal()">Cancelar</button>
+            <button style="background:#0056a3;color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer" onclick="alterarStatus()">💾 Salvar</button>
         </div>
     </div>
 </div>
 
-<!-- VIDEO -->
-<div id="videoModal" class="video-modal">
-    <div class="video-container">
-        <div class="video-header"><h3 id="videoTitle">Solução</h3><button class="video-close" onclick="fecharVideo()">×</button></div>
-        <div class="video-wrapper">
-            <video id="videoPlayer" controls><source id="videoSource" src="" type="video/mp4"></video>
-            <div id="videoError" class="video-error"><p>⚠️ Erro ao carregar vídeo</p></div>
-        </div>
-    </div>
-</div>
-
-<div id="toast" class="toast"></div>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-var sid='sess_'+Math.random().toString(36).substr(2,9),modAtual='',nomeAtual='',chamadoId=null,tela='menu';
-var lat=null,lng=null,clienteNome='',clienteTelefone='',registroCompleto=false;
-var videosErros={'E1':{titulo:'E1 - Sensor Temp',arquivo:'/static/erros/e1.mp4'},'E2':{titulo:'E2 - Resistência',arquivo:'/static/erros/e2.mp4'},'E3':{titulo:'E3 - Sensor Filme',arquivo:'/static/erros/e3.mp4'},'E4':{titulo:'E4 - Posicionamento',arquivo:'/static/erros/e4.mp4'},'E5':{titulo:'E5 - Motor',arquivo:'/static/erros/e5.mp4'},'E6':{titulo:'E6 - Termopar',arquivo:'/static/erros/e6.mp4'},'E7':{titulo:'E7 - Termopar',arquivo:'/static/erros/e7.mp4'},'E8':{titulo:'E8 - Termopar',arquivo:'/static/erros/e8.mp4'},'E9':{titulo:'E9 - Calibração',arquivo:'/static/erros/e9.mp4'},'E10':{titulo:'E10 - Parâmetro',arquivo:'/static/erros/e10.mp4'},'E11':{titulo:'E11 - Instabilidade',arquivo:'/static/erros/e11.mp4'}};
+var chamadoAtualId = null;
+var map = null;
+var markers = [];
 
-function detectarTelefone(){var t=localStorage.getItem('telefone_cliente');if(t){document.getElementById('telefoneCliente').value=t;document.getElementById('telHint').innerHTML='✅ Número detectado.';document.getElementById('telHint').style.color='#28a745'}}
-function mostrarRegistro(){document.getElementById('registroModal').classList.add('active');detectarTelefone();document.getElementById('nomeCliente').focus()}
-function salvarRegistro(){var n=document.getElementById('nomeCliente').value.trim(),t=document.getElementById('telefoneCliente').value.trim();if(!n||!t){document.getElementById('registroErro').style.display='block';return}var tl=t.replace(/\D/g,'');if(tl.length<10){document.getElementById('registroErro').textContent='Telefone inválido';document.getElementById('registroErro').style.display='block';return}clienteNome=n;clienteTelefone=t;registroCompleto=true;localStorage.setItem('nome_cliente',n);localStorage.setItem('telefone_cliente',t);fetch('/registrar-contato',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:n,telefone:t,session_id:sid})});document.getElementById('registroModal').classList.remove('active');showToast('✅ Bem-vindo, '+n.split(' ')[0]+'!')}
-document.getElementById('telefoneCliente').addEventListener('input',function(e){var v=e.target.value.replace(/\D/g,'');if(v.length<=11){v=v.replace(/^(\d{2})(\d)/g,'($1) $2');v=v.replace(/(\d)(\d{4})$/,'$1-$2');e.target.value=v}});
+// LOGIN
+function login(){
+    var senha = document.getElementById('senhaIn').value;
+    
+    // Authenticate via API
+    fetch('/admin/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({password: senha})
+    })
+    .then(r => {
+        if(r.ok) {
+            return r.json();
+        } else {
+            throw new Error('Senha incorreta');
+        }
+    })
+    .then(d => {
+        // Login successful
+        document.getElementById('loginBox').style.display = 'none';
+        document.getElementById('dash').style.display = 'block';
+        carregarDados();
+    })
+    .catch(e => {
+        // Login failed
+        console.error('Erro no login:', e);
+        document.getElementById('loginErr').style.display = 'block';
+        setTimeout(() => document.getElementById('loginErr').style.display = 'none', 3000);
+    });
+}
 
-// GPS IMEDIATO
-// GPS IMEDIATO - sempre pedir se não tem coordenadas salvas
-(function(){
-    var latSalvo=localStorage.getItem('gps_lat');
-    var lngSalvo=localStorage.getItem('gps_lng');
-    if(latSalvo&&lngSalvo){
-        lat=parseFloat(latSalvo);lng=parseFloat(lngSalvo);
-        document.getElementById('gpsOverlay').classList.remove('active');
-        // Atualizar silenciosamente
-        if(navigator.geolocation)navigator.geolocation.getCurrentPosition(function(p){
-            lat=p.coords.latitude;lng=p.coords.longitude;
-            localStorage.setItem('gps_lat',lat);localStorage.setItem('gps_lng',lng);
-            enviarLocalizacao();
-        },function(){},{timeout:5000});
+// TABS
+function abrirTab(tab){
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.sec').forEach(s => s.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('sec-' + tab).classList.add('active');
+    
+    if(tab === 'chamados') atualizarChamados();
+    if(tab === 'pendentes') atualizarPendentes();
+    if(tab === 'localizacao') carregarMapa();
+}
+
+// CARREGAR MAPA COM LEAFLET
+function carregarMapa(){
+    fetch('/admin/chamados?per_page=500')
+    .then(r => r.json())
+    .then(d => {
+        var chamados = d.chamados || [];
+        var chamadosComLocalizacao = chamados.filter(c => c.latitude && c.longitude);
+        
+        // Inicializar mapa se ainda não existe
+        if(!map){
+            // Centro do Brasil como padrão (Brasília)
+            var center = [-15.7942, -47.8822];
+            
+            // Se houver chamados, centralizar no primeiro
+            if(chamadosComLocalizacao.length > 0){
+                center = [chamadosComLocalizacao[0].latitude, chamadosComLocalizacao[0].longitude];
+            }
+            
+            map = L.map('map').setView(center, 6);
+            
+            // Adicionar camada de tiles do OpenStreetMap
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 18
+            }).addTo(map);
+        }
+        
+        // Limpar marcadores existentes
+        markers.forEach(m => map.removeLayer(m));
+        markers = [];
+        
+        // Adicionar novos marcadores
+        if(chamadosComLocalizacao.length > 0){
+            var bounds = [];
+            
+            chamadosComLocalizacao.forEach(c => {
+                // Cor do marcador baseada no status
+                var iconColor = '#0056a3'; // azul padrão
+                if(c.status === 'resolvido') iconColor = '#28a745'; // verde
+                else if(c.status === 'nao_resolvido') iconColor = '#dc3545'; // vermelho
+                else if(c.status === 'pendente_tecnico') iconColor = '#ffc107'; // amarelo
+                
+                // Criar ícone customizado
+                var markerIcon = L.divIcon({
+                    className: 'custom-marker',
+                    html: `<div style="background:${iconColor};width:24px;height:24px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.3)"></div>`,
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 12]
+                });
+                
+                var marker = L.marker([c.latitude, c.longitude], {
+                    icon: markerIcon,
+                    title: `#${c.id} - ${c.nome_cliente || 'Cliente'}`
+                }).addTo(map);
+                
+                // Popup com detalhes
+                var popupContent = `
+                    <div style="min-width:200px">
+                        <h4 style="margin:0 0 8px;color:#0056a3;font-size:1em">Chamado #${c.id}</h4>
+                        <p style="margin:4px 0;font-size:0.9em"><strong>Cliente:</strong> ${c.nome_cliente || 'Não informado'}</p>
+                        <p style="margin:4px 0;font-size:0.9em"><strong>Módulo:</strong> ${c.modulo || '-'}</p>
+                        <p style="margin:4px 0;font-size:0.9em"><strong>Status:</strong> <span style="color:${iconColor}">${c.status || 'aberto'}</span></p>
+                        <p style="margin:4px 0;font-size:0.9em"><strong>Distância:</strong> ${c.distancia_km ? c.distancia_km.toFixed(1) + ' km' : '-'}</p>
+                        <p style="margin:4px 0;font-size:0.9em"><strong>Data:</strong> ${formatarData(c.criado_em)}</p>
+                        <button onclick="verChamado(${c.id})" style="margin-top:8px;padding:6px 12px;background:#0056a3;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.85em;width:100%">Ver Detalhes</button>
+                    </div>
+                `;
+                
+                marker.bindPopup(popupContent);
+                markers.push(marker);
+                bounds.push([c.latitude, c.longitude]);
+            });
+            
+            // Ajustar visualização para mostrar todos os marcadores
+            if(bounds.length > 0){
+                map.fitBounds(bounds, {padding: [50, 50]});
+            }
+        }
+        
+        // Estatísticas do mapa
+        var stats = calcularEstatisticasMapa(chamadosComLocalizacao);
+        document.getElementById('mapStats').innerHTML = `
+            <div style="background:#fff;padding:12px;border-radius:8px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05)">
+                <div style="font-size:1.5em;font-weight:700;color:#0056a3">${chamadosComLocalizacao.length}</div>
+                <div style="font-size:0.85em;color:#666">Chamados Mapeados</div>
+            </div>
+            <div style="background:#fff;padding:12px;border-radius:8px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05)">
+                <div style="font-size:1.5em;font-weight:700;color:#28a745">${stats.resolvidos}</div>
+                <div style="font-size:0.85em;color:#666">Resolvidos</div>
+            </div>
+            <div style="background:#fff;padding:12px;border-radius:8px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05)">
+                <div style="font-size:1.5em;font-weight:700;color:#ffc107">${stats.pendentes}</div>
+                <div style="font-size:0.85em;color:#666">Em Atendimento</div>
+            </div>
+            <div style="background:#fff;padding:12px;border-radius:8px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05)">
+                <div style="font-size:1.5em;font-weight:700;color:#0056a3">${stats.distanciaMedia} km</div>
+                <div style="font-size:0.85em;color:#666">Distância Média</div>
+            </div>
+        `;
+    })
+    .catch(e => {
+        console.error('Erro ao carregar mapa:', e);
+        alert('Erro ao carregar dados do mapa');
+    });
+}
+
+function calcularEstatisticasMapa(chamados){
+    var resolvidos = chamados.filter(c => c.status === 'resolvido').length;
+    var pendentes = chamados.filter(c => c.status === 'em_atendimento' || c.status === 'pendente_tecnico').length;
+    var distancias = chamados.filter(c => c.distancia_km).map(c => c.distancia_km);
+    var distanciaMedia = distancias.length > 0 ? (distancias.reduce((a,b) => a+b, 0) / distancias.length).toFixed(1) : '0.0';
+    
+    return {resolvidos, pendentes, distanciaMedia};
+}
+
+// CARREGAR DADOS PRINCIPAIS
+function carregarDados(){
+    fetch('/admin/stats')
+    .then(r => r.json())
+    .then(d => {
+        var stats = d || {};
+        var statsHtml = `
+            <div class="sc">
+                <div class="n">${stats.total_chamados || 0}</div>
+                <div class="l">Total de Chamados</div>
+            </div>
+            <div class="sc">
+                <div class="n">${stats.chamados_hoje || 0}</div>
+                <div class="l">Chamados Hoje</div>
+            </div>
+            <div class="sc">
+                <div class="n">${stats.pendentes || 0}</div>
+                <div class="l">Pendentes</div>
+            </div>
+            <div class="sc">
+                <div class="n">${stats.taxa_resolucao || 0}%</div>
+                <div class="l">Taxa de Resolução</div>
+            </div>
+            <div class="sc">
+                <div class="n">${stats.distancia_media ? stats.distancia_media.toFixed(1) : '0.0'} km</div>
+                <div class="l">Distância Média</div>
+            </div>
+        `;
+        document.getElementById('sg').innerHTML = statsHtml;
+        
+        // Carregar tabela overview
+        atualizarOverview();
+    })
+    .catch(e => {
+        console.error('Erro ao carregar stats:', e);
+        document.getElementById('sg').innerHTML = `
+            <div class="sc"><div class="n">0</div><div class="l">Total de Chamados</div></div>
+            <div class="sc"><div class="n">0</div><div class="l">Chamados Hoje</div></div>
+            <div class="sc"><div class="n">0</div><div class="l">Pendentes</div></div>
+            <div class="sc"><div class="n">0%</div><div class="l">Taxa de Resolução</div></div>
+            <div class="sc"><div class="n">0.0 km</div><div class="l">Distância Média</div></div>
+        `;
+    });
+}
+
+// ATUALIZAR OVERVIEW (RESUMO DE HOJE)
+function atualizarOverview(){
+    fetch('/admin/chamados?per_page=20')
+    .then(r => r.json())
+    .then(d => {
+        var hoje = new Date().toISOString().split('T')[0];
+        var chamadosHoje = (d.chamados || []).filter(c => {
+            if (!c.criado_em) return false;
+            var dataChamado = new Date(c.criado_em).toISOString().split('T')[0];
+            return dataChamado === hoje;
+        });
+        
+        var html = chamadosHoje.map(c => {
+            var bg = getStatusBadge(c.status);
+            var dist = c.distancia_km ? c.distancia_km.toFixed(1) + ' km' : '-';
+            return `<tr>
+                <td>${c.id || '-'}</td>
+                <td>${c.nome_cliente || '-'}</td>
+                <td>${c.modulo || '-'}</td>
+                <td><span class="bg ${bg}">${c.status || 'aberto'}</span></td>
+                <td>${dist}</td>
+                <td>${formatarData(c.criado_em)}</td>
+                <td><div class="actions"><button class="btn-sm btn-view" onclick="verChamado(${c.id})">Ver</button></div></td>
+            </tr>`;
+        }).join('');
+        
+        document.getElementById('tbOverview').innerHTML = html || '<tr><td colspan="7" class="empty">Nenhum chamado hoje</td></tr>';
+    })
+    .catch(e => {
+        console.error('Erro ao carregar overview:', e);
+        document.getElementById('tbOverview').innerHTML = '<tr><td colspan="7" class="empty">Erro ao carregar dados</td></tr>';
+    });
+}
+
+// ATUALIZAR CHAMADOS
+function atualizarChamados(){
+    fetch('/admin/chamados?per_page=100')
+    .then(r => r.json())
+    .then(d => {
+        var html = (d.chamados || []).map(c => {
+            var bg = getStatusBadge(c.status);
+            var dist = c.distancia_km ? c.distancia_km.toFixed(1) + ' km' : '-';
+            return `<tr>
+                <td>${c.id || '-'}</td>
+                <td>${c.nome_cliente || '-'}</td>
+                <td>${c.telefone_cliente || '-'}</td>
+                <td>${c.modulo || '-'}</td>
+                <td>${c.total_msgs || 0}</td>
+                <td><span class="bg ${bg}">${c.status || 'aberto'}</span></td>
+                <td>${dist}</td>
+                <td>${formatarData(c.criado_em)}</td>
+                <td><div class="actions">
+                    <button class="btn-sm btn-view" onclick="verChamado(${c.id})">Ver</button>
+                    <button class="btn-sm btn-edit" onclick="editarStatus(${c.id})">Status</button>
+                    <button class="btn-sm btn-del" onclick="confirmarExclusao(${c.id})">Del</button>
+                </div></td>
+            </tr>`;
+        }).join('');
+        document.getElementById('tbChamados').innerHTML = html || '<tr><td colspan="9" class="empty">Nenhum chamado encontrado</td></tr>';
+    });
+}
+
+// ATUALIZAR PENDENTES
+function atualizarPendentes(){
+    fetch('/admin/chamados?status=aberto,em_atendimento,pendente_tecnico&per_page=100')
+    .then(r => r.json())
+    .then(d => {
+        var html = (d.chamados || []).map(c => {
+            var bg = getStatusBadge(c.status);
+            var dist = c.distancia_km ? c.distancia_km.toFixed(1) + ' km' : '-';
+            return `<tr>
+                <td>${c.id || '-'}</td>
+                <td>${c.nome_cliente || '-'}</td>
+                <td>${c.modulo || '-'}</td>
+                <td><span class="bg ${bg}">${c.status || 'aberto'}</span></td>
+                <td>${dist}</td>
+                <td>${formatarData(c.criado_em)}</td>
+                <td><div class="actions"><button class="btn-sm btn-view" onclick="verChamado(${c.id})">Ver</button></div></td>
+            </tr>`;
+        }).join('');
+        document.getElementById('tbPendentes').innerHTML = html || '<tr><td colspan="7" class="empty">Nenhum chamado pendente</td></tr>';
+    });
+}
+
+// VER CHAMADO
+function verChamado(id){
+    chamadoAtualId = id;
+    fetch(`/admin/chamado/${id}`)
+    .then(r => r.json())
+    .then(c => {
+        document.getElementById('modalChamadoId').textContent = c.id || '-';
+        document.getElementById('modalCliente').textContent = c.nome_cliente || 'Não informado';
+        document.getElementById('modalTelefone').textContent = c.telefone_cliente || 'Não informado';
+        document.getElementById('modalModulo').textContent = c.modulo || '-';
+        document.getElementById('modalStatus').innerHTML = `<span class="bg ${getStatusBadge(c.status)}">${c.status || 'aberto'}</span>`;
+        document.getElementById('modalMsgs').textContent = c.total_msgs || 0;
+        document.getElementById('modalCriado').textContent = formatarData(c.criado_em);
+        document.getElementById('novoStatus').value = c.status || 'aberto';
+        
+        if(c.latitude && c.longitude){
+            document.getElementById('modalLocation').style.display = 'block';
+            document.getElementById('modalDist').textContent = c.distancia_km ? c.distancia_km.toFixed(2) : '-';
+            document.getElementById('modalCoords').textContent = `${c.latitude.toFixed(4)}, ${c.longitude.toFixed(4)}`;
+        }else{
+            document.getElementById('modalLocation').style.display = 'none';
+        }
+        
+        var chatHtml = '';
+        if(c.mensagens && c.mensagens.length > 0){
+            // Update message count
+            document.getElementById('msgCount').textContent = `(${c.mensagens.length} mensagens)`;
+            
+            chatHtml = c.mensagens.map(m => {
+                const isUser = m.tipo === 'user';
+                const sender = isUser ? '👤 Cliente' : '🤖 Assistente';
+                const senderLabel = isUser ? 'CLIENTE' : 'ASSISTENTE';
+                
+                return `
+                    <div class="chat-msg ${m.tipo}">
+                        <div class="sender">${senderLabel}</div>
+                        <div class="time">${formatarDataHora(m.criado_em)}</div>
+                        <div class="content">${m.conteudo}</div>
+                    </div>
+                `;
+            }).join('');
+        }else{
+            document.getElementById('msgCount').textContent = '';
+            chatHtml = '<div class="empty">💭 Nenhuma mensagem registrada ainda</div>';
+        }
+        document.getElementById('modalChatLog').innerHTML = chatHtml;
+        
+        // Auto-scroll para a última mensagem
+        setTimeout(() => {
+            const chatLog = document.getElementById('modalChatLog');
+            if(chatLog) chatLog.scrollTop = chatLog.scrollHeight;
+        }, 100);
+        
+        document.getElementById('modalChamado').classList.add('active');
+    });
+}
+
+function fecharModal(){
+    document.getElementById('modalChamado').classList.remove('active');
+    chamadoAtualId = null;
+}
+
+function alterarStatus(){
+    if(!chamadoAtualId) return;
+    var novoStatus = document.getElementById('novoStatus').value;
+    fetch(`/admin/chamado/${chamadoAtualId}/status`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({status: novoStatus})
+    })
+    .then(r => r.json())
+    .then(d => {
+        alert('✅ Status alterado com sucesso!');
+        fecharModal();
+        carregarDados();
+        atualizarChamados();
+    })
+    .catch(e => alert('❌ Erro ao alterar status'));
+}
+
+function excluirChamado(){
+    if(!chamadoAtualId) return;
+    if(!confirm('⚠️️ Tem certeza que deseja excluir este chamado?')) return;
+    fetch(`/admin/chamado/${chamadoAtualId}`, {method: 'DELETE'})
+    .then(r => r.json())
+    .then(d => {
+        alert('✅ Chamado excluído com sucesso!');
+        fecharModal();
+        carregarDados();
+        atualizarChamados();
+    })
+    .catch(e => alert('❌ Erro ao excluir chamado'));
+}
+
+function confirmarExclusao(id){
+    if(confirm('⚠️️ Tem certeza que deseja excluir o chamado #' + id + '?')){
+        fetch(`/admin/chamado/${id}`, {method: 'DELETE'})
+        .then(r => r.json())
+        .then(d => {
+            alert('✅ Chamado excluído!');
+            atualizarChamados();
+        });
     }
-})();
-function permitirGPS(){
-    document.getElementById('gpsBtns').style.display='none';
-    document.getElementById('gpsLoading').style.display='block';
-    if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(function(p){
-            lat=p.coords.latitude;lng=p.coords.longitude;
-            localStorage.setItem('gps_lat',lat);localStorage.setItem('gps_lng',lng);
-            document.getElementById('gpsOverlay').classList.remove('active');
-            showToast('✅ Localização obtida!');
-            enviarLocalizacao();
-        },function(){
-            document.getElementById('gpsOverlay').classList.remove('active');
-            showToast('⚠️ Não foi possível obter localização');
-        },{timeout:10000,enableHighAccuracy:true});
-    }else{
-        document.getElementById('gpsOverlay').classList.remove('active');
-        showToast('⚠️ GPS não suportado');
+}
+
+function editarStatus(id){
+    chamadoAtualId = id;
+    var novoStatus = prompt('Novo status:\n- aberto\n- em_atendimento\n- pendente_tecnico\n- resolvido\n- nao_resolvido');
+    if(novoStatus){
+        fetch(`/admin/chamado/${id}/status`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({status: novoStatus})
+        })
+        .then(r => r.json())
+        .then(d => {
+            alert('✅ Status alterado!');
+            atualizarChamados();
+        });
     }
 }
-function negarGPS(){
-    document.getElementById('gpsOverlay').classList.remove('active');
-    showToast('⚠️ Sem localização, não poderemos enviar técnico');
-}
-function enviarLocalizacao(){
-    fetch('/salvar-localizacao',{
-        method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({session_id:sid,latitude:lat,longitude:lng,nome_cliente:clienteNome,telefone_cliente:clienteTelefone})
-    }).catch(function(){});
-}
-function showToast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('active');setTimeout(function(){t.classList.remove('active')},3000)}
-function criarBotoesVideo(t){return t.replace(/\[SIM_VIDEO_E(\d+)\]/gi,function(m,n){return '<div style="margin-top:10px"><button onclick="abrirVideo(\'E'+n+'\')" style="background:#0056a3;color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;margin-right:8px">📹 Ver vídeo</button><button onclick="event.target.parentElement.style.display=\'none\'" style="background:#6c757d;color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer">Não</button></div>'})}
-function abrirVideo(c){var v=videosErros[c];if(!v)return;document.getElementById('videoTitle').textContent=v.titulo;document.getElementById('videoSource').src=v.arquivo;var p=document.getElementById('videoPlayer');p.load();document.getElementById('videoModal').classList.add('active');document.getElementById('videoError').style.display='none';p.play().catch(function(){});p.onerror=function(){document.getElementById('videoError').style.display='block'}}
-function fecharVideo(){document.getElementById('videoPlayer').pause();document.getElementById('videoPlayer').currentTime=0;document.getElementById('videoModal').classList.remove('active')}
-document.addEventListener('keydown',function(e){if(e.key==='Escape')fecharVideo()});
 
-function abrirCat(c){document.getElementById('telaMenu').style.display='none';document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('sub_'+c).classList.add('active');tela='sub'}
-function abrirSubAirmove(id){document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('sub_'+id).classList.add('active');tela='subsub'}
-function voltarAirmove(){document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('sub_airmove').classList.add('active');tela='sub'}
-function abrirChat(mod,nome){if(!registroCompleto){mostrarRegistro();setTimeout(function(){if(registroCompleto)iniciarChat(mod,nome)},500);return}iniciarChat(mod,nome)}
-function iniciarChat(mod,nome){modAtual=mod;nomeAtual=nome;chamadoId=null;document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('telaMenu').style.display='none';document.getElementById('telaChat').classList.add('active');document.getElementById('chatInfo').textContent='💬 '+nome;tela='chat';document.getElementById('chatMsgs').innerHTML='';addMsg('bot','Olá '+(clienteNome?clienteNome.split(' ')[0]:'')+'! 👋\n\nSou o assistente técnico da Storopack para '+nome+'.\n\nComo posso te ajudar hoje?');document.getElementById('chatIn').focus()}
-function voltar(){if(tela==='chat'){if(chamadoId){document.getElementById('fbBar').classList.add('active');return}fecharChat()}else if(tela==='subsub'){voltarAirmove()}else if(tela==='sub'){document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('telaMenu').style.display='block';tela='menu'}}
-function fecharChat(){document.getElementById('telaChat').classList.remove('active');document.getElementById('fbBar').classList.remove('active');document.querySelectorAll('.subcats').forEach(function(e){e.classList.remove('active')});document.getElementById('telaMenu').style.display='block';tela='menu';chamadoId=null}
-function addMsg(tipo,txt){var d=document.createElement('div');d.className='msg '+tipo;var h=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});var c=tipo==='bot'?criarBotoesVideo(txt):txt;d.innerHTML=c+'<span class="tm">'+h+'</span>';document.getElementById('chatMsgs').appendChild(d);document.getElementById('chatMsgs').scrollTop=99999}
-function enviar(){var inp=document.getElementById('chatIn'),m=inp.value.trim();if(!m)return;inp.value='';inp.style.height='auto';addMsg('user',m);document.getElementById('typing').classList.add('active');document.getElementById('btnSend').disabled=true;fetch('/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mensagem:m,modulo:modAtual,session_id:sid,chamado_id:chamadoId,latitude:lat,longitude:lng,nome_cliente:clienteNome,telefone_cliente:clienteTelefone})}).then(function(r){return r.json()}).then(function(d){chamadoId=d.chamado_id||chamadoId;addMsg('bot',d.resposta)}).catch(function(){addMsg('bot','⚠️ Erro de conexão.')}).finally(function(){document.getElementById('typing').classList.remove('active');document.getElementById('btnSend').disabled=false;inp.focus()})}
-function enviarVideo(inp){var f=inp.files[0];if(!f)return;if(f.size>100*1024*1024){showToast('⚠️ Máx 100MB');return}addMsg('user','📹 Enviando vídeo...');document.getElementById('typing').classList.add('active');var fd=new FormData();fd.append('video',f);fd.append('modulo',modAtual);fd.append('chamado_id',chamadoId||'');fd.append('session_id',sid);fd.append('nome_cliente',clienteNome);fd.append('telefone_cliente',clienteTelefone);fetch('/analyze-video',{method:'POST',body:fd}).then(function(r){return r.json()}).then(function(d){chamadoId=d.chamado_id||chamadoId;addMsg('bot',d.resposta)}).catch(function(){addMsg('bot','⚠️ Erro ao enviar vídeo.')});document.getElementById('typing').classList.remove('active');inp.value=''}
-function enviarFb(ok){fetch('/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chamado_id:chamadoId,resolvido:ok,comentario:ok?'Resolvido':'Não resolvido'})});showToast(ok?'✅ Ficamos felizes!':'📞 Técnico entrará em contato!');setTimeout(fecharChat,1500)}
-function reiniciarSistema(){if(!confirm('🔄 Reiniciar?'))return;localStorage.clear();fetch('/reiniciar',{method:'POST'}).catch(function(){});setTimeout(function(){location.reload()},500)}
-window.onload=function(){var n=localStorage.getItem('nome_cliente'),t=localStorage.getItem('telefone_cliente');if(n&&t){clienteNome=n;clienteTelefone=t;registroCompleto=true;document.getElementById('nomeCliente').value=n;document.getElementById('telefoneCliente').value=t}setTimeout(function(){if(tela==='menu')document.getElementById('pecasInfo').style.display='block'},2000)};
+function aplicarFiltros(){
+    var status = document.getElementById('filtroStatus').value;
+    var modulo = document.getElementById('filtroModulo').value;
+    var data = document.getElementById('filtroData').value;
+    var params = new URLSearchParams();
+    if(status) params.append('status', status);
+    if(modulo) params.append('modulo', modulo);
+    if(data) params.append('data', data);
+    
+    fetch('/admin/chamados?' + params.toString() + '&per_page=100')
+    .then(r => r.json())
+    .then(d => {
+        var html = (d.chamados || []).map(c => {
+            var bg = getStatusBadge(c.status);
+            var dist = c.distancia_km ? c.distancia_km.toFixed(1) + ' km' : '-';
+            return `<tr>
+                <td>${c.id || '-'}</td>
+                <td>${c.nome_cliente || '-'}</td>
+                <td>${c.telefone_cliente || '-'}</td>
+                <td>${c.modulo || '-'}</td>
+                <td>${c.total_msgs || 0}</td>
+                <td><span class="bg ${bg}">${c.status || 'aberto'}</span></td>
+                <td>${dist}</td>
+                <td>${formatarData(c.criado_em)}</td>
+                <td><div class="actions">
+                    <button class="btn-sm btn-view" onclick="verChamado(${c.id})">Ver</button>
+                    <button class="btn-sm btn-edit" onclick="editarStatus(${c.id})">Status</button>
+                    <button class="btn-sm btn-del" onclick="confirmarExclusao(${c.id})">Del</button>
+                </div></td>
+            </tr>`;
+        }).join('');
+        document.getElementById('tbChamados').innerHTML = html || '<tr><td colspan="9" class="empty">Nenhum resultado</td></tr>';
+    });
+}
+
+function limparFiltros(){
+    document.getElementById('filtroStatus').value = '';
+    document.getElementById('filtroModulo').value = '';
+    document.getElementById('filtroData').value = '';
+    atualizarChamados();
+}
+
+function getStatusBadge(status){
+    var map = {
+        'resolvido': 'bg-g',
+        'nao_resolvido': 'bg-r',
+        'pendente_tecnico': 'bg-y',
+        'em_atendimento': 'bg-b',
+        'aberto': 'bg-p'
+    };
+    return map[status] || 'bg-b';
+}
+
+function formatarData(dt){
+    if(!dt) return '-';
+    var d = new Date(dt);
+    return d.toLocaleDateString('pt-BR');
+}
+
+function formatarDataHora(dt){
+    if(!dt) return '-';
+    var d = new Date(dt);
+    return d.toLocaleString('pt-BR');
+}
 </script>
+
 </body>
 </html>

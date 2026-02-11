@@ -54,7 +54,13 @@
         .sub-card:hover{transform:translateY(-3px);border-color:#0056a3;box-shadow:0 6px 16px rgba(0,86,163,.12)}
         .sub-card img{width:100%;height:90px;object-fit:contain;margin-bottom:10px;border-radius:8px}
         .sub-card h4{font-size:.95em;color:#333;font-weight:600;margin-bottom:4px}
-        .sub-card p{font-size:.75em;color:#aaa}
+        .sub-card p{font-size:.75em;color:#888;line-height:1.4}
+
+        /* GRID 3x3 para PAPERplus */
+        .sub-grid-3{grid-template-columns:repeat(3,1fr)!important;gap:16px}
+        .sub-grid-3 .sub-card{padding:20px 14px}
+        .sub-grid-3 .sub-card img{height:130px;margin-bottom:12px}
+        .sub-grid-3 .sub-card h4{font-size:1.05em;margin-bottom:6px}
 
         /* ACTION CARDS (Troca peças, Calibração, Ajuste) */
         .action-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
@@ -173,6 +179,10 @@
             .btn-voltar{padding:8px 14px;font-size:.82em}
             .equip-display{padding:14px}.equip-display img{max-height:100px}
             .sub-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+            .sub-grid-3{grid-template-columns:repeat(2,1fr)!important;gap:10px}
+            .sub-grid-3 .sub-card img{height:90px}
+            .sub-grid-3 .sub-card h4{font-size:.9em}
+            .sub-grid-3 .sub-card p{font-size:.7em}
             .sub-card{padding:12px 8px}.sub-card img{height:70px}.sub-card h4{font-size:.84em}
             .prod-row{grid-template-columns:repeat(2,1fr);gap:8px}
             .prod-item img{height:65px}.prod-item span{font-size:.78em;padding:8px 3px}
@@ -404,13 +414,13 @@
             <h3>📄 PAPERplus - Selecione o modelo</h3>
             <button class="btn-voltar" onclick="voltar()">&#8592; Voltar</button>
         </div>
-        <div class="sub-grid">
-            <div class="sub-card" onclick="abrirChat('paper_shooter','PAPERplus Shooter')"><img src="https://www.storopack.com.br/fileadmin/_processed_/5/9/csm_PP_PP_Shooter_machine_tablestand_motive_1_1280x580px_c97e386ad4.png" alt="Shooter"><h4>Shooter</h4><p>Mesa</p></div>
-            <div class="sub-card" onclick="abrirChat('paper_papillon','PAPERplus Papillon')"><img src="https://files.lbcdn.info/i/o/aHR0cHM6Ly93d3cuZ3JlZW5vc3VwcGx5LmNvbS9JbWFnZXMvR3JlZW5vdWdoJTIwUGljcy9QQVBFUnBsdXMlQzIlQUUlMjBQYXBpbGxvbiUyMFBhcGVyJTIwUGFja2FnaW5nJTIwU3lzdGVtLmpwZw2.jpg" alt="Papillon"><h4>Papillon</h4><p>Sistema</p></div>
-            <div class="sub-card" onclick="abrirChat('paper_classic','PAPERplus Classic')"><img src="https://packair.ru/files/PACKAIR/photo/STOROPACK/PAPERplus/paperplus_classic.jpg" alt="Classic"><h4>Classic</h4><p>Clássico</p></div>
-            <div class="sub-card" onclick="abrirChat('paper_cx','PAPERplus CX')"><img src="https://www.storopack.com.br/fileadmin/_processed_/1/e/csm_PP_PP_Classic_CX_machine_0539_1280x580px_EUROPEAN_STAND_756b4e2466.png" alt="CX"><h4>CX</h4><p>Versão CX</p></div>
-            <div class="sub-card" onclick="abrirChat('paper_track','PAPERplus Track')"><img src="https://bvs-verpacken.com/wp-content/uploads/2025/01/papierpolster-system-track-03.png" alt="Track"><h4>Track</h4><p>Sistema Track</p></div>
-            <div class="sub-card" onclick="abrirChat('paper_chevron','PAPERplus Chevron')"><img src="https://www.storopack.com.br/fileadmin/_processed_/b/c/csm_PP_PP_Chevron___machine_floorstand_with_conveyor_motive2_1280x580px_900e25faea.png" alt="Chevron"><h4>Chevron</h4><p>Com esteira</p></div>
+        <div class="sub-grid sub-grid-3">
+            <div class="sub-card" onclick="abrirChat('paper_shooter','PAPERplus Shooter')"><img src="/static/images/shooter.jpg" alt="Shooter"><h4>Shooter</h4><p>Papel acolchoado na bancada para preencher vazios e travar o produto na caixa.</p></div>
+            <div class="sub-card" onclick="abrirChat('paper_papillon','PAPERplus Papillon')"><img src="/static/images/papillon.jpg" alt="Papillon"><h4>Papillon</h4><p>Papel volumoso de alta produtividade para preencher grandes espaços rapidamente.</p></div>
+            <div class="sub-card" onclick="abrirChat('paper_classic','PAPERplus Classic')"><img src="/static/images/classic.jpg" alt="Classic"><h4>Classic</h4><p>Travesseiros de papel de alta eficiência para preenchimento e proteção.</p></div>
+            <div class="sub-card" onclick="abrirChat('paper_cx','PAPERplus CX')"><img src="/static/images/cx.jpg" alt="CX"><h4>CX</h4><p>Versão mais produtiva para uso contínuo e integração em operações de maior volume.</p></div>
+            <div class="sub-card" onclick="abrirChat('paper_track','PAPERplus Track')"><img src="/static/images/track.jpg" alt="Track"><h4>Track</h4><p>Travesseiros de papel de alta eficiência para preenchimento e proteção.</p></div>
+            <div class="sub-card" onclick="abrirChat('paper_chevron','PAPERplus Chevron')"><img src="/static/images/chevron.jpg" alt="Chevron"><h4>Chevron</h4><p>Travesseiros em formato cônico, alto volume com mínimo consumo de papel.</p></div>
         </div>
     </div>
 
